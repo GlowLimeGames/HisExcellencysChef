@@ -4,32 +4,46 @@ using System.Collections;
 public class ClickHandler : MonoBehaviour {
 
     public GameObject currentCharacter = null; // The currently selected character. Use null for no selected character.
+    public GameObject pantryInventoryUI = null; // Pantry inventory object.
 
 	// Use this for initialization
-	void Start () {
+	void Start ()
+    {
         SelectCook(); // Start by selecting the Cook automatically.
     }
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
         if (Input.GetMouseButtonDown(0)) // If we left click...
         {
-            Vector2 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero);
-            if (hit) // If we clicked an object...
+            if (!pantryInventoryUI.activeSelf) // If the pantry inventory UI isn't active...
             {
-                GameObject clickedObject = hit.collider.gameObject; // Store the object that was just clicked inside clickedObject.
-                Debug.Log(clickedObject.name + " was clicked."); // Print the object name to the console.
-                if (clickedObject.tag.Equals("PlayerChar")) // If a playable character is clicked...
+                Vector2 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero);
+                if (hit) // If we clicked an object...
                 {
-                    SelectCharacter(clickedObject); // Select the character.
-                }
+                    GameObject clickedObject = hit.collider.gameObject; // Store the object that was just clicked inside clickedObject.
+                    Debug.Log(clickedObject.name + " was clicked."); // Print the object name to the console.
+                    if (clickedObject.tag.Equals("PlayerChar")) // If a playable character is clicked...
+                    {
+                        SelectCharacter(clickedObject); // Select the character.
+                    }
 
-                if ((currentCharacter != null) && clickedObject.tag.Equals("Station")) // If we have a playable character and click on a station...
-                {
-                    currentCharacter.GetComponent<CharacterMovement>().Move(hit.point); // Make the character move to that station.
-                    //DeselectCharacter(); // Deselect the character.
-                    SelectCook(); // Select the Cook, which in turn will deselect any other character.
+                    if ((currentCharacter != null) && clickedObject.tag.Equals("Station")) // If we have a playable character and click on a station...
+                    {
+                        CharacterMovement charMover = currentCharacter.GetComponent<CharacterMovement>();
+                        if (clickedObject.name == "Pantry")
+                        {
+                            InventoryUI piui = pantryInventoryUI.GetComponent<InventoryUI>();
+                            piui.Open(currentCharacter);
+                        }
+                        else
+                        {
+                            charMover.Move(hit.point); // Make the character move to that station.
+                            SelectCook(); // Select the Cook, which in turn will deselect any other character.
+                        }
+                    }
                 }
             }
         }

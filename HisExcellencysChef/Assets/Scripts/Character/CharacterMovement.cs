@@ -22,6 +22,4 @@ public class CharacterMovement : MonoBehaviour {
 		}
 		isMoving = false;
 	}
-
-	
 }
