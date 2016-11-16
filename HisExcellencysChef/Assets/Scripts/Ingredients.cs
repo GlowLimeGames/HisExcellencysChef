@@ -12,147 +12,93 @@ public class Ingredients : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		foodName = transform.name;
 	}
+
 
     public void cookSelf(string tag , GameObject character)
     {
-		Countdown ("", character);
-//        if (tag == "cut")
-//        {
-//            if (foodName == "Almond")
-//            {
-//                Countdown("newFoodName");
-//            }
-//			if (foodName == "Saffron")
-//            {
-//                
-//            }
-//			if (foodName== "")
-//            {
-//
-//            }
-//			if (foodName== "Water")
-//            {
-//
-//            }
-//        }
-//
-//        //add more functions for the various tags
-//        
-//        if (tag == "fry")
-//        {
-//			if (foodName == "Almond")
-//            {
-//                Countdown("newFoodName");
-//            }
-//			if (foodName == "Saffron")
-//            {
-//
-//            }
-//			if (foodName == "")
-//            {
-//
-//            }
-//			if (foodName == "Water")
-//            {
-//
-//            }
-//        }
-//        if (tag == "bake")
-//        {
-//			if (foodName == "Almond")
-//            {
-//                Countdown("newFoodName");
-//            }
-//			if (foodName == "Saffron")
-//            {
-//
-//            }
-//			if (foodName == "")
-//            {
-//
-//            }
-//			if (foodName == "Water")
-//            {
-//
-//            }
-//        }
-//        if (tag == "boil")
-//        {
-//			if (foodName == "Almond")
-//            {
-//                Countdown("newFoodName");
-//            }
-//			if (foodName == "Saffron")
-//            {
-//
-//            }
-//			if (foodName == "")
-//            {
-//
-//            }
-//			if (foodName == "Water")
-//            {
-//
-//            }
-//        }
-//        if (tag == "sliver")
-//        {
-//			if (foodName == "Almond")
-//            {
-//                Countdown("newFoodName");
-//            }
-//			if (foodName == "Saffron")
-//            {
-//
-//            }
-//			if (foodName == "")
-//            {
-//
-//            }
-//			if (foodName == "Water")
-//            {
-//
-//            }
-//        }
-//        if (tag == "pound")
-//        {
-//			if (foodName == "Almond")
-//            {
-//                Countdown("newFoodName");
-//            }
-//			if (foodName == "Saffron")
-//            {
-//
-//            }
-//			if (foodName == "")
-//            {
-//
-//            }
-//			if (foodName == "Water")
-//            {
-//
-//            }
-//        }
-//        if (tag == "press")
-//        {
-//			if (foodName == "Almond")
-//            {
-//                Countdown("newFoodName");
-//            }
-//			if (foodName == "Saffron")
-//            {
-//
-//            }
-//			if (foodName == "")
-//            {
-//
-//            }
-//			if (foodName == "Water")
-//            {
-//
-//            }
-//        }
+		//Countdown ("", character);
+
+		switch (tag){
+		case "Pound":
+			if (foodName == "Chicken") {
+			}
+			if (foodName == "Mustard") {
+			}
+			if (foodName == "Almonds") {
+			}
+			break;
+
+		case "Chop":
+			if (foodName == "Spinach") {
+			}
+			break;
+
+		case "Sliver":
+			if (foodName == "Chicken") {
+				
+			}
+			if (foodName == "Almonds") {
+			}
+			if (foodName == "Lamprey") {
+			}
+			break;
+
+		case "Mince":
+			if (foodName == "Spinach") {
+			}
+			if (foodName == "Chicken") {
+			}
+			break;
+
+		case "Fry":
+			if (foodName == "Spinach") {
+			}
+			if (foodName == "Chicken") {
+			}
+			if (foodName == "Eggs") {
+			}
+			if (foodName == "Mustard") {
+			}
+			if (foodName == "Lamprey") {
+			}
+			break;
+
+		case "Seethe":
+			if (foodName == "Spinach") {
+			}
+			if (foodName == "Chicken") {
+			}
+			if (foodName == "Eggs") {
+			}
+			if (foodName == "Almonds") {
+			}
+			if (foodName == "Rice") {
+			}
+			break;
+
+		case "Roast":
+			if (foodName == "Chicken") {
+			}
+			if (foodName == "Almonds") {
+			}
+			if (foodName == "Lamprey") {
+			}
+			break;
+
+		case "Bake":
+			if (foodName == "Wheat Flour") {
+			}
+			if (foodName == "Lamprey") {
+			}
+			break;
+
+		case "Boil":
+			if (foodName == "Water") {
+			}
+			break;
+		}
     }
 
     void Countdown(string newFood, GameObject character)
