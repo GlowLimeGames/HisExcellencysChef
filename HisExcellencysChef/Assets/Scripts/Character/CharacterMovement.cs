@@ -5,12 +5,21 @@ public class CharacterMovement : MonoBehaviour {
 
 	public float speed = 5f;
 
-	private bool isMoving = false;
+	public bool isMoving = false;
+	public bool isCooking = false;
 
-	public void Move(Vector2 position){
-		if (!isMoving) {
+	private bool toStation = false;
+	private GameObject atStation;
+
+	public void Move(Vector2 position, GameObject clickedStation){
+		if (!isMoving && !isCooking) {
+			position = clickedStation.transform.position;
 			StopAllCoroutines ();
 			StartCoroutine ("MoveTo", position);
+			if (clickedStation != null) {
+				toStation = true;
+				atStation = clickedStation;
+			}
 		}
 	}
 
@@ -20,6 +29,14 @@ public class CharacterMovement : MonoBehaviour {
 			transform.position = Vector2.MoveTowards (transform.position, position, speed * Time.deltaTime);
 			yield return new WaitForFixedUpdate();
 		}
-		isMoving = false;
+		if (toStation) {
+			atStation.GetComponent<Station> ().Clicked (transform.gameObject);
+			toStation = false;
+		} else {
+			isMoving = false;
+		}
+		//if clicked on station
+		//station -> attached dropdown 
+		//open dropdown.setactive
 	}
 }

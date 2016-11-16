@@ -40,8 +40,8 @@ public class ClickHandler : MonoBehaviour {
                         }
                         else
                         {
-                            charMover.Move(hit.point); // Make the character move to that station.
-                            SelectCook(); // Select the Cook, which in turn will deselect any other character.
+                            charMover.Move(hit.point, clickedObject); // Make the character move to that station.
+//                            SelectCook(); // Select the Cook, which in turn will deselect any other character.
                         }
                     }
                 }

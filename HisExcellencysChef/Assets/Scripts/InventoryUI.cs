@@ -7,6 +7,7 @@ public class InventoryUI : MonoBehaviour
 {
     public GameObject owner; // The cooking station that's connected to the inventory UI.
     public GameObject inventoryButton; // For referencing the inventory button prefab.
+	public Sprite[] foodSprites = new Sprite[4];
     public GameObject character; // The character that opened the inventory menu.
 
     void Start()
@@ -23,7 +24,12 @@ public class InventoryUI : MonoBehaviour
             btninv.itemNum = i;
             btninv.inv = inv;
             btninv.character = character;
-            btninv.GetComponentInChildren<Text>().text = "memes";
+			if (i < foodSprites.Length) {
+				btninv.GetComponent<Image> ().sprite = foodSprites [i];
+				btninv.GetComponentInChildren<Text> ().text = "";
+			} else {
+				btninv.GetComponentInChildren<Text> ().text = "memes";
+			}
         }
     }
 
