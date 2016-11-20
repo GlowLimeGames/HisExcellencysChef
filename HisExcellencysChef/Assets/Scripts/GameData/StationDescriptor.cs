@@ -16,4 +16,5 @@ public class StationDescriptor : HECData {
 	}
 }
 
+[System.Serializable]
 public class StationDescriptorList : HECDataList<StationDescriptor> {}
