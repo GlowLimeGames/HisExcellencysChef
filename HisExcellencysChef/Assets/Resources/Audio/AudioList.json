@@ -1,0 +1,30 @@
+{
+	"Files":
+     [
+		{
+			"Name":"Music concept 1",
+			"Groups":[],
+			"Events":["PlayStartMusic"],
+			"StopEvents":[],
+			"Loop":true,
+			"Type": "Music",
+			"Channel":2,
+			"Volume": 100
+		},
+		{
+			"Name":"Music concept 2",
+			"Groups":[],
+			"Events":["PlayGameMusic"],
+			"StopEvents":[],
+			"Loop":true,
+			"Type": "Music",
+			"Channel":2,
+			"Volume": 100
+		}
+     ],
+	"Groups":
+	[
+
+	]
+
+}
