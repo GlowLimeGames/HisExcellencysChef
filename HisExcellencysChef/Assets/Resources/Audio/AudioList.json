@@ -7,9 +7,9 @@
 			"Events":["PlayStartMusic"],
 			"StopEvents":[],
 			"Loop":true,
-			"Type": "Music",
-			"Channel":2,
-			"Volume": 100
+			"Type":"Music",
+			"Channel":1,
+			"Volume":100
 		},
 		{
 			"Name":"Music concept 2",
@@ -17,14 +17,187 @@
 			"Events":["PlayGameMusic"],
 			"StopEvents":[],
 			"Loop":true,
-			"Type": "Music",
+			"Type":"Music",
+			"Channel":1,
+			"Volume":100
+		},
+		{
+			"Name":"add to dry",
+			"Groups":[],
+			"Events":["AddToDry"],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
 			"Channel":2,
 			"Volume": 100
+		},
+		{
+			"Name":"add to wet 1",
+			"Groups":["AddToWet"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"add to wet 2",
+			"Groups":["AddToWet"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"slow boil loop",
+			"Groups":[],
+			"Events":["StartSlowBoil"],
+			"StopEvents":["StopSlowBoil"],
+			"Loop":true,
+			"Type":"FX",
+			"Channel":3,
+			"Volume":100
+		},
+		{
+			"Name":"fast boil loop",
+			"Groups":[],
+			"Events":["StartFastBoil"],
+			"StopEvents":["StopFastBoil"],
+			"Loop":true,
+			"Type":"FX",
+			"Channel":3,
+			"Volume":100
+		},
+		{
+			"Name":"mince 1",
+			"Groups":["Mince"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"mince 2",
+			"Groups":["Mince"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"sizzle 1",
+			"Groups":["Sizzle"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"sizzle 2",
+			"Groups":["Sizzle"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"seasoning 2",
+			"Groups":["Seasoning"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"seasoning 3",
+			"Groups":["Seasoning"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"seasoning 5",
+			"Groups":["Seasoning"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"seasoning 6",
+			"Groups":["Seasoning"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"fast chop",
+			"Groups":["FastChop"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"slow chop",
+			"Groups":["SlowChop"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
 		}
      ],
 	"Groups":
 	[
-
+		{
+			"Name":"AddToWet",
+			"Type":"Random",
+			"Events":["AddToWet"],
+			"StopEvents":[]
+		},
+		{
+			"Name":"Mince",
+			"Type":"Random",
+			"Events":["Mince"],
+			"StopEvents":[]
+		},
+		{
+			"Name":"Sizzle",
+			"Type":"Random",
+			"Events":["Sizzle"],
+			"StopEvents":[]
+		},
+		{
+			"Name":"Seasoning",
+			"Type":"Random",
+			"Events":["Seasoning"],
+			"StopEvents":[]
+		}
 	]
 
 }
