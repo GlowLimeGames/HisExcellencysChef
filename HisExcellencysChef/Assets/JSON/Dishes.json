@@ -1,0 +1,88 @@
+{
+      "Elements" : [
+       {
+         "Ingredient" : "Water",
+         "Chop" : null,
+         "Sliver" : null,
+         "Mince" : null,
+         "Pound" : null,
+         "Fry" : null,
+         "Seethe" : null,
+         "Bake" : null,
+         "Roast" : null,
+         "Boil" : "Soup"
+       },
+       {
+         "Ingredient" : "Spinach",
+         "Chop" : "Leaf Salad",
+         "Sliver" : null,
+         "Mince" : "Shaved Salad",
+         "Pound" : null,
+         "Fry" : "Beignet d'Épinard",
+         "Seethe" : "Boiled Sallet",
+         "Bake" : null,
+         "Roast" : null,
+         "Boil" : null
+       },
+       {
+         "Ingredient" : "Spinach",
+         "Chop" : null,
+         "Sliver" : "Fillet de Poulet",
+         "Mince" : "Boulette",
+         "Pound" : "Boulette",
+         "Fry" : "Escalope",
+         "Seethe" : "Poule au Pot",
+         "Bake" : null,
+         "Roast" : "Rotisserie Chicken",
+         "Boil" : null
+       },
+       {
+         "Ingredient" : "Eggs",
+         "Chop" : null,
+         "Sliver" : null,
+         "Mince" : null,
+         "Pound" : null,
+         "Fry" : "Omlette",
+         "Seethe" : "Poached Egg",
+         "Bake" : null,
+         "Roast" : null,
+         "Boil" : null
+       },
+       {
+         "Ingredient" : "Wheat Flour",
+         "Chop" : null,
+         "Sliver" : null,
+         "Mince" : null,
+         "Pound" : null,
+         "Fry" : null,
+         "Seethe" : null,
+         "Bake" : "Bread",
+         "Roast" : null,
+         "Boil" : null
+       },
+       {
+         "Ingredient" : "Rice",
+         "Chop" : null,
+         "Sliver" : null,
+         "Mince" : null,
+         "Pound" : null,
+         "Fry" : null,
+         "Seethe" : "Pilaf",
+         "Bake" : null,
+         "Roast" : null,
+         "Boil" : null
+       },
+       {
+         "Ingredient" : "Lamprey",
+         "Chop" : null,
+         "Sliver" : "Lamprey Medallions",
+         "Mince" : null,
+         "Pound" : null,
+         "Fry" : "Lamprey Frit",
+         "Seethe" : null,
+         "Bake" : "Lamprey au Four",
+         "Roast" : "Lamprey Rôti",
+         "Boil" : null
+       }
+   ]
+}
