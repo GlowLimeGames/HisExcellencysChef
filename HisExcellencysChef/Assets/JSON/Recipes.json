@@ -1,0 +1,68 @@
+{
+  "Elements" : [
+     {
+         "DishName" : "Brioche",
+         "Steps" : [
+              "Add Water to Wheat Flour OR Add Wheat Flour to Water",
+              "Pound Almonds",
+              "Seethe Almond Mixture",
+             "Add Eggs to Almond Mixture",
+             "Add almond mixture to dough",
+             "Bake Dough",
+             "Serve"]
+       },
+       {
+         "DishName" : "Mawmeny",
+         "Steps" : [
+              "Pound Almonds",
+             "Seethe Almond Mixture",
+             "Pound Chicken OR Sliver Chicken",
+             "Add Almond Mixture to Chicken",
+             "Seethe chicken mixture",
+             "Seethe Rice",
+             "Add Saffron to Rice",
+             "Add Rice to Chicken",
+             "Sliver Almonds",
+             "Fry Almond Mixture",
+             "Add Almond Mixture to Chicken Mixture",
+             "Serve"]
+       },
+       {
+         "DishName" : "Pilgrim Capon",
+         "Steps" : [
+              "Add Lamprey to Chicken",
+              "Seethe Mixture",
+              "Roast Mixture",
+              "Add Soup Mixture",
+              "Add Saffron",
+              "Serve"]
+       },
+       {
+         "DishName" : "Lamprey in adobe",
+         "Steps" : [
+             "Seethe Lamprey",
+             "Add Sage",
+             "Add Mustard",
+             "Serve"]
+       },
+       {
+         "DishName" : "Roast Milk",
+         "Steps" : [
+             "Pound Almonds",
+             "Seethe Almond Mixture",
+             "Seethe Eggs",
+             "Add Eggs to Almond Milk",
+             "Roast or Fry",
+             "Serve"]
+       },
+       {
+         "DishName" : "Ypinoches Yfried",
+         "Steps" : [
+             "Chop Spinach",
+             "Seethe Spinach",
+             "Add Any Spice",
+             "Fry",
+             "Serve"]
+       }
+  ]
+}
