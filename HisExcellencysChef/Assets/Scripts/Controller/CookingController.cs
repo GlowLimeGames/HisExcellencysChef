@@ -4,6 +4,7 @@
  */
 
 using UnityEngine;
+using System.Collections.Generic;
 
 public class CookingController : SingletonController<CookingController> {
 	[SerializeField]
@@ -12,11 +13,13 @@ public class CookingController : SingletonController<CookingController> {
 	TextAsset processesJSON;
 	[SerializeField]
 	TextAsset ingredientsJSON;
+	[SerializeField]
+	TextAsset dishesJSON;
 
 	public StationDescriptorList Stations;
 	public ProcessDescriptorList Processes;
 	public IngredientDescriptorList Ingredients;
-
+	public DishDescriptorList Dishes;
 
 	protected override void SetReferences () {
 		base.SetReferences ();
@@ -27,5 +30,6 @@ public class CookingController : SingletonController<CookingController> {
 		Stations = JsonUtility.FromJson<StationDescriptorList>(stationsJSON.text);
 		Processes = JsonUtility.FromJson<ProcessDescriptorList>(processesJSON.text);
 		Ingredients = JsonUtility.FromJson<IngredientDescriptorList>(ingredientsJSON.text);
+		Dishes = JsonUtility.FromJson<DishDescriptorList>(dishesJSON.text);
 	}
 }
