@@ -1,20 +1,72 @@
-﻿using UnityEngine;
+﻿/*
+ * Author(s): Joel Esquilin, Isaiah Mann
+ * 
+ */
+
+using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
-public class Ingredients : MonoBehaviour {
+public class Ingredients : MannBehaviour {
 	public int numI= 4; //four ingredients that we have listed so far
+	CookingController controller;
 
-    public string foodName;
+    public string primaryIngredientName;
+
+	IngredientDescriptor primaryIngredient;
+	List<IngredientDescriptor> addOnIngridents = new List<IngredientDescriptor>();
+	Dictionary<string, IngredientDescriptor> ingredientLookup;
+
 	public float cookTime;
     public Vector2 flavor;
 
     public bool isCooking;
 
 	// Use this for initialization
-	void Start () {
-		foodName = transform.name;
+	protected override void SetReferences () {
+		primaryIngredientName = transform.name;
 	}
 
+	protected override void FetchReferences () {
+		controller = CookingController.Instance;
+		ingredientLookup = controller.Ingredients;
+		setPrimaryIngredient();
+	}
+
+	void setPrimaryIngredient () {
+		IngredientDescriptor primaryIngredient;
+		if (ingredientLookup.TryGetValue(primaryIngredientName, out primaryIngredient)) {
+			this.primaryIngredient = primaryIngredient;
+		} else {
+			Debug.LogErrorFormat("Primary ingredient {0} DNE in Lookup", primaryIngredientName);
+		}
+	}
+
+	protected override void CleanupReferences () {	
+		// NOTHING
+	}
+
+	protected override void HandleNamedEvent (string eventName) {
+		// NOTHING
+	}
+
+	public bool TryAddIngredient (string ingredientName) {
+		IngredientDescriptor ingredient;
+		bool wasSuccessful;
+		if (wasSuccessful = ingredientLookup.TryGetValue(ingredientName, out ingredient)) {
+			addOnIngridents.Add(ingredient);
+			primaryIngredient.ModifyWithAddOn(ingredient);
+		}
+		return wasSuccessful;
+	}
+
+	public bool TryPerformAction (string actionName) {
+		bool wasSuccessful;
+		if (wasSuccessful = controller.SupportsAction(primaryIngredientName, actionName)) {
+			primaryIngredientName = controller.Result(primaryIngredientName, actionName);
+		}
+		return wasSuccessful;
+	}
 
     public void cookSelf(string tag , GameObject character)
     {
@@ -22,80 +74,80 @@ public class Ingredients : MonoBehaviour {
 
 		switch (tag){
 		case "Pound":
-			if (foodName == "Chicken") {
+			if (primaryIngredientName == "Chicken") {
 			}
-			if (foodName == "Mustard") {
+			if (primaryIngredientName == "Mustard") {
 			}
-			if (foodName == "Almonds") {
+			if (primaryIngredientName == "Almonds") {
 			}
 			break;
 
 		case "Chop":
-			if (foodName == "Spinach") {
+			if (primaryIngredientName == "Spinach") {
 			}
 			break;
 
 		case "Sliver":
-			if (foodName == "Chicken") {
+			if (primaryIngredientName == "Chicken") {
 				
 			}
-			if (foodName == "Almonds") {
+			if (primaryIngredientName == "Almonds") {
 			}
-			if (foodName == "Lamprey") {
+			if (primaryIngredientName == "Lamprey") {
 			}
 			break;
 
 		case "Mince":
-			if (foodName == "Spinach") {
+			if (primaryIngredientName == "Spinach") {
 			}
-			if (foodName == "Chicken") {
+			if (primaryIngredientName == "Chicken") {
 			}
 			break;
 
 		case "Fry":
-			if (foodName == "Spinach") {
+			if (primaryIngredientName == "Spinach") {
 			}
-			if (foodName == "Chicken") {
+			if (primaryIngredientName == "Chicken") {
 			}
-			if (foodName == "Eggs") {
+			if (primaryIngredientName == "Eggs") {
 			}
-			if (foodName == "Mustard") {
+			if (primaryIngredientName == "Mustard") {
 			}
-			if (foodName == "Lamprey") {
+			if (primaryIngredientName == "Lamprey") {
 			}
 			break;
 
 		case "Seethe":
-			if (foodName == "Spinach") {
+			if (primaryIngredientName == "Spinach") {
 			}
-			if (foodName == "Chicken") {
+			if (primaryIngredientName == "Chicken") {
 			}
-			if (foodName == "Eggs") {
+			if (primaryIngredientName == "Eggs") {
 			}
-			if (foodName == "Almonds") {
+			if (primaryIngredientName == "Almonds") {
 			}
-			if (foodName == "Rice") {
+			if (primaryIngredientName == "Rice") {
 			}
 			break;
 
 		case "Roast":
-			if (foodName == "Chicken") {
+			if (primaryIngredientName == "Chicken") {
 			}
-			if (foodName == "Almonds") {
+			if (primaryIngredientName == "Almonds") {
 			}
-			if (foodName == "Lamprey") {
+			if (primaryIngredientName == "Lamprey") {
 			}
 			break;
 
 		case "Bake":
-			if (foodName == "Wheat Flour") {
+			if (primaryIngredientName == "Wheat Flour") {
 			}
-			if (foodName == "Lamprey") {
+			if (primaryIngredientName == "Lamprey") {
 			}
 			break;
 
 		case "Boil":
-			if (foodName == "Water") {
+			if (primaryIngredientName == "Water") {
 			}
 			break;
 		}
