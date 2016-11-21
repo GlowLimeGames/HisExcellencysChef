@@ -1,0 +1,82 @@
+{
+   "Elements" : [
+     {
+         "Name" : "Soldier",
+         "Description" : "{0} once served as a man-at-arms, and is strong and comfortable with blades.",
+         "StatModifiers" : [
+              {
+                  "Skill" : "Cutting",
+                  "Class" : "Multipler",
+                  "Type" : "Speed",
+                  "Mod" : 0.75
+             },
+             {
+                  "Skill" : "Grinding",
+                  "Class" : "Multiplier",
+                  "Type" : "Speed",
+                  "Mod" : 0.75
+             }
+          ]
+      },
+      {
+         "Name" : "Shy",
+         "Description" : "{0} is uncomfortable around people",
+         "StatModifiers" : [
+              {
+                  "Skill" : "Movement",
+                  "Class" : "Corridor Penalty",
+                  "Type" : "Speed",
+                  "Mod" : 1.5
+             },
+             {
+                  "Skill" : "All",
+                  "Class" : "Cooridor Penalty",
+                  "Type" : "Distribution",
+                  "Mod" : 1.5
+             }
+        ]
+       },
+       {
+         "Name" : "Pyrophobic",
+         "Description" : "{0} was in an accident a number of years ago and now gets nervous around fire",
+         "StatModifiers" : [
+              {
+                   "Skill" : "Range",
+                   "Class" : "Average",
+                   "Type" : "Time",
+                   "Mod" : 0.9
+              },
+              {
+                   "Skill" : "Fire",
+                   "Class" : "Average",
+                   "Type" : "Time",
+                   "Mod" : 0.75
+              }
+         ]
+       },
+       {
+         "Name" : "Old-Timer",
+         "Description" : "{0} has been at this job for a long time",
+         "StatModifiers" : [
+              {
+                   "Skill" : "All",
+                   "Class" : "Average",
+                   "Type" : "Time",
+                   "Mod" : 0.5
+              },
+              {
+                   "Skill" : "All",
+                   "Class" : "Average",
+                   "Type" : "Distribution",
+                   "Mod" : 0.5
+              },
+              {
+                   "Skill" : "Movement",
+                   "Class" : "Multipler",
+                   "Type" : "Speed",
+                   "Mod" : 0.75
+              }
+         ]
+       }
+  ]
+}
