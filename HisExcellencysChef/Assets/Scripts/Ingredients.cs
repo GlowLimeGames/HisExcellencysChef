@@ -63,6 +63,7 @@ public class Ingredients : MannBehaviour {
 	public bool TryPerformAction (string actionName) {
 		bool wasSuccessful;
 		if (wasSuccessful = controller.SupportsAction(primaryIngredientName, actionName)) {
+			controller.TryModifyWithAction(primaryIngredient, actionName);
 			primaryIngredientName = controller.Result(primaryIngredientName, actionName);
 		}
 		return wasSuccessful;
