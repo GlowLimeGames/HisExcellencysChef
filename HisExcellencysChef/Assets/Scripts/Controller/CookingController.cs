@@ -61,16 +61,26 @@ public class CookingController : SingletonController<CookingController> {
 		}
 	}
 
-	public bool SupportsAction (string ingredient, string actionName) {
-		return dishes.SupportsAction(ingredient, actionName);
+	public bool SupportsAction (string ingredient, string processName) {
+		return dishes.SupportsAction(ingredient, processName);
 	}
 
-	public string Result (string ingredient, string actionName) {
-		return dishes.Result(ingredient, actionName);
+	public string Result (string ingredient, string processName) {
+		return dishes.Result(ingredient, processName);
 	}
 
-	public bool TryModifyWithAction (IngredientDescriptor ingredient, string actionName) {
-		return processes.TryModifyWithAction(ingredient, actionName);	
+	public bool TryModifyWithAction (IngredientDescriptor ingredient, string processName) {
+		return processes.TryModifyWithAction(ingredient, processName);	
+	}
+
+	public ProcessDescriptor GetProcess (string processName) {
+		ProcessDescriptor process;
+		if (processes.TryGetProcess(processName, out process)) {
+			return process;
+		} else {
+			Debug.LogErrorFormat("Could not find process {0}. Returning null");
+			return null;
+		}
 	}
 
 	protected override void SetReferences () {

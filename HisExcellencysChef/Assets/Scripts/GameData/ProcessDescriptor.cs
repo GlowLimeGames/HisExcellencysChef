@@ -12,9 +12,9 @@ public class ProcessDescriptor : HECData {
 	public string Station;
 	public int TasteHeat;
 	public int TasteMoisture;
-	public string[] Ingredients;
+	public string [] Ingredients;
 	public bool Active;
-	public string[] Obsoletes;
+	public string [] Obsoletes;
 	public string [] ExecutionBonuses;
 	public string [] ExecutionPenalties;
 	public int IdealTimeMin;
@@ -68,13 +68,17 @@ public class ProcessDescriptorList : HECDataList<ProcessDescriptor> {
 		}
 	}
 
-	public bool TryModifyWithAction (IngredientDescriptor ingredient, string actionName) {
+	public bool TryModifyWithAction (IngredientDescriptor ingredient, string processName) {
 		ProcessDescriptor process;
-		if (processLookup.TryGetValue(actionName, out process) && process.SupportsIngredient(ingredient)) {
+		if (processLookup.TryGetValue(processName, out process) && process.SupportsIngredient(ingredient)) {
 			process.PerformOnIngredient(ingredient);
 			return true;
 		} else {
 			return false;
 		}
+	}
+
+	public bool TryGetProcess (string processName, out ProcessDescriptor process) {
+		return processLookup.TryGetValue(processName, out process);
 	}
 }
