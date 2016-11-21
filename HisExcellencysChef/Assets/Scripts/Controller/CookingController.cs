@@ -10,13 +10,22 @@ public class CookingController : SingletonController<CookingController> {
 	TextAsset stationsJSON;
 	[SerializeField]
 	TextAsset processesJSON;
+	[SerializeField]
+	TextAsset ingredientsJSON;
 
 	public StationDescriptorList Stations;
 	public ProcessDescriptorList Processes;
+	public IngredientDescriptorList Ingredients;
+
 
 	protected override void SetReferences () {
 		base.SetReferences ();
+		parseJSON();
+	}
+
+	void parseJSON () {
 		Stations = JsonUtility.FromJson<StationDescriptorList>(stationsJSON.text);
 		Processes = JsonUtility.FromJson<ProcessDescriptorList>(processesJSON.text);
+		Ingredients = JsonUtility.FromJson<IngredientDescriptorList>(ingredientsJSON.text);
 	}
 }

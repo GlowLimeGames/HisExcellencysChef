@@ -1,0 +1,43 @@
+{
+     "Elements" :[
+       {
+         "Ingredient" : "Almonds",
+         "PantryType" : "Sundry",
+         "TasteStrength" : "Average",
+         "TasteHeat" : 2,
+         "TasteMoisture" : 2,
+         "IncomeQuantity" : "Uncommon",
+         "Spoilage" : null,
+         "Processes" : ["Pound", "Sliver", "Seethe", "Roast"],
+         "ResultsInDish" : false,
+         "PositiveExecutionModifiers" : null,
+         "NegativeExecutionModifiers" : null
+       },
+       {
+         "Ingredient" : "Rice",
+         "PantryType" : "Sundry",
+         "TasteStrength" : "Weak",
+         "TasteHeat" : -2,
+         "TasteMoisture" : 2,
+         "IncomeQuantity" : "Uncommon",
+         "Spoilage" : null,
+         "Processes" : ["Seethe"],
+         "ResultsInDish" : true,
+         "PositiveExecutionModifiers" : null,
+         "NegativeExecutionModifiers" : null
+       },
+       {
+         "Ingredient" : "Lamprey",
+         "PantryType" : "Fresh Protein",
+         "TasteStrength" : "Average",
+         "TasteHeat" : -2,
+         "TasteMoisture" : -2,
+         "IncomeQuantity" : "Rare",
+         "Spoilage" : "Fast",
+         "Processes" : ["Sliver", "Fry", "Bake", "Roast"],
+         "ResultsInDish" : true,
+         "PositiveExecutionModifiers" : ["Chance of Impressing: Not Chopped or Not Slivered"],
+         "NegativeExecutionModifiers" : ["Chance of Freaking Out: Not Chopped or Not Slivered"]
+       }
+  ]
+}
