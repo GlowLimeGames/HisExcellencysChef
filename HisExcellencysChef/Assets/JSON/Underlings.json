@@ -1,0 +1,24 @@
+{
+     "Elements" : [
+        {
+         "Name" : "Guibert",
+         "Gender" : "M",
+         "Traits" : ["Soldier", "Afraid of Fire"]
+       },
+       {
+         "Name" : "Arnaud",
+         "Gender" : "M",
+         "Traits" : ["Shy"]
+       },
+       {
+         "Name" : "Eloise",
+         "Gender" : "F",
+         "Traits" : ["Shy"]
+       },
+       {
+         "Name" : "Aemilia",
+         "Gender" : "F",
+         "Traits" : ["Old Hand"]
+       }
+     ]
+}
