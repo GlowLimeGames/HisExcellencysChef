@@ -38,6 +38,108 @@
          "ResultsInDish" : true,
          "PositiveExecutionModifiers" : ["Chance of Impressing: Not Chopped or Not Slivered"],
          "NegativeExecutionModifiers" : ["Chance of Freaking Out: Not Chopped or Not Slivered"]
+         },
+         {
+         "Ingredient" : "Saffron",
+         "PantryType" : "Sundry",
+         "TasteStrength" : "Strong",
+         "TasteHeat" : 1,
+         "TasteMoisture" : 1,
+         "IncomeQuantity" : "Rare"
+       },
+       {
+         "Ingredient" : "Sage",
+         "PantryType" : "Sundry",
+         "TasteStrength" : "Strong",
+         "TasteHeat" : 1,
+         "TasteMoisture" : 2,
+         "IncomeQuantity" : "Average"
+       },
+       {
+         "Ingredient" : "Licorice",
+         "PantryType" : "Sundry",
+         "TasteStrength" : "Strong",
+         "TasteHeat" : 0,
+         "TasteMoisture" : -2,
+         "IncomeQuantity" : "Average"
+     },
+     {
+         "Ingredient" : "Water",
+         "PantryType" : null,
+         "TasteStrength" : "Weak",
+         "TasteHeat" : -4,
+         "TasteMoisture" : -4,
+         "IncomeQuantity" : "Infinite from Pantry",
+         "Spoilage" : null,
+         "Processes" : ["Boil"],
+         "ResultsInDish" : true,
+         "PositiveExecutionModifiers" : null,
+         "NegativeExecutionModifiers" : ["If served without other ingredients"]
+       },
+       {
+         "Ingredient" : "Spinach",
+         "PantryType" : "Vegetable",
+         "TasteStrength" : "Average",
+         "TasteHeat" : -1,
+         "TasteMoisture" : -1,
+         "IncomeQuantity" : "Very Common",
+         "Spoilage" : "Average",
+         "Processes" : ["Chop", "Mince", "Seethe", "Fry"],
+         "ResultsInDish" : true,
+         "PositiveExecutionModifiers" : null,
+         "NegativeExecutionModifiers" : ["If served without hot processing", "Pounded", "Escalope", "Poule au Pot", "Rotisserie Chicken"]
+       },
+       {
+         "Ingredient" : "Chicken",
+         "PantryType" : "Fresh Protein",
+         "TasteStrength" : "Average",
+         "TasteHeat" : 2,
+         "TasteMoisture" : -2,
+         "IncomeQuantity" : "Average",
+         "Spoilage" : "Fast",
+         "Processes" : ["Pound", "Sliver", "Mince", "Fry", "Seethe", "Roast"],
+         "ResultsInDish" : true,
+         "PositiveExecutionModifiers" : null,
+         "NegativeExecutionModifiers" : null
+       },
+       {
+         "Ingredient" : "Eggs",
+         "PantryType" : "Dairy",
+         "TasteStrength" : "Weak",
+         "TasteHeat" : -2,
+         "TasteMoisture" : -1,
+         "IncomeQuantity" : "Common",
+         "Spoilage" : "Fast",
+         "Processes" : ["Fry", "Seethe"],
+         "ResultsInDish" : true,
+         "PositiveExecutionModifiers" : null,
+         "NegativeExecutionModifiers" : null
+       },
+       {
+         "Ingredient" : "Wheat Flour",
+         "PantryType" : "Sundry",
+         "TasteStrength" : "Weak",
+         "TasteHeat" : 2,
+         "TasteMoisture" : -2,
+         "IncomeQuantity" : "Very Common",
+         "Spoilage" : null,
+         "Processes" : ["Bake"],
+         "ResultsInDish" : true,
+         "PositiveExecutionModifiers" : null,
+         "NegativeExecutionModifiers" : ["If you bake it without making it into dough first"]
+       },
+       {
+         "Ingredient" : "Mustard",
+         "PantryType" : "Sundry",
+         "TasteStrength" : "Strong",
+         "TasteHeat" : 3,
+         "TasteMoisture" : 3,
+         "IncomeQuantity" : "Average",
+         "Spoilage" : null,
+         "Processes" : ["Pound", "Fry"],
+         "ResultsInDish" : false,
+         "PositiveExecutionModifiers" : null,
+         "NegativeExecutionModifiers" : null
        }
   ]
 }
