@@ -3,11 +3,13 @@
  * Description: 
  */
 
+using System.Collections.Generic;
+
 [System.Serializable]
 public class StationDescriptor : HECData {
 	public string Station;
 	public int Slots;
-	public string Processes;
+	public string[] Processes;
 	public bool LeaveDish;
 	public bool Hot;
 
@@ -17,4 +19,22 @@ public class StationDescriptor : HECData {
 }
 
 [System.Serializable]
-public class StationDescriptorList : HECDataList<StationDescriptor> {}
+public class StationDescriptorList : HECDataList<StationDescriptor> {
+	Dictionary<string, StationDescriptor> stationLookup;
+
+	public void RefreshLookup () {
+		stationLookup = new Dictionary<string, StationDescriptor>();
+		foreach (StationDescriptor station in Elements) {
+			stationLookup.Add(station.Station, station);
+		}
+	}
+
+	public bool ContainsStation (string stationName) {
+		return stationLookup.ContainsKey(stationName);
+	}
+
+	public string[] GetProcessesForStation (string stationName) {
+		return stationLookup[stationName].Processes;
+	}
+		
+}

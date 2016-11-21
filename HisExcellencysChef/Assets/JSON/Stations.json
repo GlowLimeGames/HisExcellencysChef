@@ -4,35 +4,35 @@
        {
          "Station" : "Mortar",
          "Slots" : 1,
-         "Processes" : "Pound",
+         "Processes" : ["Pound"],
          "LeaveDish" : false,
          "Hot" : false
        },
        {
          "Station" : "Table",
          "Slots" : 10,
-         "Processes" : "Chop Sliver Mince",
+         "Processes" : ["Chop", "Sliver", "Mince"],
          "LeaveDish" : true,
          "Hot" : false
        },
        {
          "Station" : "Range",
          "Slots" : 4,
-         "Processes" : "Fry Seethe",
+         "Processes" : ["Fry", "Seethe"],
          "LeaveDish" : true,
          "Hot" : true
        },
        {
          "Station" : "Oven",
          "Slots" : 5,
-         "Processes" : "Roast Bake",
+         "Processes" : ["Roast", "Bake"],
          "LeaveDish" : false,
          "Hot" : true
        },
        {
          "Station" : "Cauldron",
          "Slots" : 1,
-         "Processes" : "Boil",
+         "Processes" : ["Boil"],
          "LeaveDish" : false,
          "Hot" : true
        }

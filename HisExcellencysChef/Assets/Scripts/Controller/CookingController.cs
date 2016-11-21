@@ -7,6 +7,9 @@ using UnityEngine;
 using System.Collections.Generic;
 
 public class CookingController : SingletonController<CookingController> {
+
+	#region JSON
+
 	[SerializeField]
 	TextAsset stationsJSON;
 	[SerializeField]
@@ -22,26 +25,73 @@ public class CookingController : SingletonController<CookingController> {
 	[SerializeField]
 	TextAsset underlingsJSON;
 
-	public StationDescriptorList Stations;
-	public ProcessDescriptorList Processes;
-	public IngredientDescriptorList Ingredients;
-	public DishDescriptorList Dishes;
-	public RecipeDescriptorList Recipes;
-	public SkillDescriptorList Skills;
-	public UnderlingDescriptorList Underlings;
+	#endregion
+
+	#region Tuning Data
+
+	[SerializeField]
+	StationDescriptorList stations;
+	[SerializeField]
+	ProcessDescriptorList processes;
+	[SerializeField]
+	IngredientDescriptorList ingredients;
+	[SerializeField]
+	DishDescriptorList dishes;
+	[SerializeField]
+	RecipeDescriptorList recipes;
+	[SerializeField]
+	SkillDescriptorList skills;
+	[SerializeField]
+	UnderlingDescriptorList underlings;
+
+	#endregion
+
+	public string[] GetProcessesForStation (string stationName) {
+		if (stations.ContainsStation(stationName)) {
+			return stations.GetProcessesForStation(stationName);
+		} else {
+			Debug.LogErrorFormat("{0} is not a known station", stationName);
+			return new string[0];
+		}
+	}
+
+	public Dictionary<string, IngredientDescriptor> Ingredients {
+		get {
+			return ingredients.IngredientsByName;
+		}
+	}
+
+	public bool SupportsAction (string ingredient, string actionName) {
+		return dishes.SupportsAction(ingredient, actionName);
+	}
+
+	public string Result (string ingredient, string actionName) {
+		return dishes.Result(ingredient, actionName);
+	}
+
+	public bool TryModifyWithAction (IngredientDescriptor ingredient, string actionName) {
+		return processes.TryModifyWithAction(ingredient, actionName);	
+	}
 
 	protected override void SetReferences () {
 		base.SetReferences ();
 		parseJSON();
+		processData();
 	}
 
 	void parseJSON () {
-		Stations = JsonUtility.FromJson<StationDescriptorList>(stationsJSON.text);
-		Processes = JsonUtility.FromJson<ProcessDescriptorList>(processesJSON.text);
-		Ingredients = JsonUtility.FromJson<IngredientDescriptorList>(ingredientsJSON.text);
-		Dishes = JsonUtility.FromJson<DishDescriptorList>(dishesJSON.text);
-		Recipes = JsonUtility.FromJson<RecipeDescriptorList>(recipesJSON.text);
-		Skills = JsonUtility.FromJson<SkillDescriptorList>(skillsJSON.text);
-		Underlings = JsonUtility.FromJson<UnderlingDescriptorList>(underlingsJSON.text);
+		stations = JsonUtility.FromJson<StationDescriptorList>(stationsJSON.text);
+		processes = JsonUtility.FromJson<ProcessDescriptorList>(processesJSON.text);
+		ingredients = JsonUtility.FromJson<IngredientDescriptorList>(ingredientsJSON.text);
+		dishes = JsonUtility.FromJson<DishDescriptorList>(dishesJSON.text);
+		recipes = JsonUtility.FromJson<RecipeDescriptorList>(recipesJSON.text);
+		skills = JsonUtility.FromJson<SkillDescriptorList>(skillsJSON.text);
+		underlings = JsonUtility.FromJson<UnderlingDescriptorList>(underlingsJSON.text);
+	}
+
+	void processData () {
+		dishes.RefreshResultLookup();
+		processes.RefreshLookup();
+		stations.RefreshLookup();
 	}
 }

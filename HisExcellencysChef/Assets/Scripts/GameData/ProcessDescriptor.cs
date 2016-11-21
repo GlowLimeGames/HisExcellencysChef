@@ -3,6 +3,8 @@
  * Description: 
  */
 
+using System.Collections.Generic;
+
 [System.Serializable]
 public class ProcessDescriptor : HECData {
 	public string Process;
@@ -18,7 +20,7 @@ public class ProcessDescriptor : HECData {
 	public int IdealTimeMin;
 	public int IdealTimeMax;
 	public string ProgressBarPNG;
-
+	HashSet<string> supportedIngredients;
 
 	public override string ToString () {
 		return string.Format ("[ProcessDescriptor] " +
@@ -36,7 +38,43 @@ public class ProcessDescriptor : HECData {
 			ProgressBarPNG
 		);
 	}
+
+	public void RefreshLookup () {
+		supportedIngredients = new HashSet<string>();
+		foreach (string ingredient in Ingredients) {
+			supportedIngredients.Add(ingredient);
+		}
+	}
+
+	public bool SupportsIngredient (IngredientDescriptor ingredient) {
+		return supportedIngredients.Contains(ingredient.Ingredient);
+	}
+
+	public void PerformOnIngredient (IngredientDescriptor ingredient) {
+		ingredient.TasteHeat += this.TasteHeat;
+		ingredient.TasteMoisture += this.TasteMoisture;
+	}
 }
 
 [System.Serializable]
-public class ProcessDescriptorList : HECDataList<ProcessDescriptor> {}
+public class ProcessDescriptorList : HECDataList<ProcessDescriptor> {
+	Dictionary<string, ProcessDescriptor> processLookup;
+
+	public void RefreshLookup () {
+		processLookup = new Dictionary<string, ProcessDescriptor>();
+		foreach (ProcessDescriptor process in Elements) {
+			processLookup.Add(process.Process, process);
+			process.RefreshLookup();
+		}
+	}
+
+	public bool TryModifyWithAction (IngredientDescriptor ingredient, string actionName) {
+		ProcessDescriptor process;
+		if (processLookup.TryGetValue(actionName, out process) && process.SupportsIngredient(ingredient)) {
+			process.PerformOnIngredient(ingredient);
+			return true;
+		} else {
+			return false;
+		}
+	}
+}
