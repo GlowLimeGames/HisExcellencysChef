@@ -13,6 +13,13 @@ public class CharacterMovement : MonoBehaviour {
 
 	public void Move(Vector2 position, GameObject clickedStation){
 		if (!isMoving && !isCooking) {
+			if (clickedStation != null) {
+				if (atStation != null && clickedStation == atStation) {
+					isMoving = true;
+					atStation.GetComponent<Station> ().Clicked (transform.gameObject);
+					return;
+				}
+			}
 			position = clickedStation.transform.position;
 			StopAllCoroutines ();
 			StartCoroutine ("MoveTo", position);

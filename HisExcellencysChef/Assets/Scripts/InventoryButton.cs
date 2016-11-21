@@ -16,6 +16,7 @@ public class InventoryButton : MonoBehaviour
         CharacterProperties cp = character.GetComponent<CharacterProperties>();
 		if (cp.heldDish == null) {
 			GameObject food = (GameObject)Instantiate (foods [itemNum], cp.transform.position + new Vector3 (0, 1.5f, 0), Quaternion.identity);
+			food.GetComponent<Ingredients>().primaryIngredientName = food.name.Replace ("(Clone)", "").Trim();
 			cp.heldDish = food;
 			food.transform.parent = cp.transform;
 			transform.parent.gameObject.SetActive (false); // Disable the inventory window.

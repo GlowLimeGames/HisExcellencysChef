@@ -21,6 +21,9 @@ public class Ingredients : MannBehaviour {
     public Vector2 flavor;
 
     public bool isCooking;
+	public GameObject character;
+	public string newFood;
+
 
 	// Use this for initialization
 	protected override void SetReferences () {
@@ -37,9 +40,11 @@ public class Ingredients : MannBehaviour {
 		IngredientDescriptor primaryIngredient;
 		if (ingredientLookup.TryGetValue(primaryIngredientName, out primaryIngredient)) {
 			this.primaryIngredient = primaryIngredient;
+			RefreshFlavor ();
 		} else {
 			Debug.LogErrorFormat("Primary ingredient {0} DNE in Lookup", primaryIngredientName);
 		}
+
 	}
 
 	protected override void CleanupReferences () {	
@@ -69,119 +74,43 @@ public class Ingredients : MannBehaviour {
 		return wasSuccessful;
 	}
 
-    public void cookSelf(string tag , GameObject character)
+    public void cookSelf(string action, GameObject activeChar)
     {
-		//Countdown ("", character);
-
-		switch (tag){
-		case "Pound":
-			if (primaryIngredientName == "Chicken") {
-			}
-			if (primaryIngredientName == "Mustard") {
-			}
-			if (primaryIngredientName == "Almonds") {
-			}
-			break;
-
-		case "Chop":
-			if (primaryIngredientName == "Spinach") {
-			}
-			break;
-
-		case "Sliver":
-			if (primaryIngredientName == "Chicken") {
-				
-			}
-			if (primaryIngredientName == "Almonds") {
-			}
-			if (primaryIngredientName == "Lamprey") {
-			}
-			break;
-
-		case "Mince":
-			if (primaryIngredientName == "Spinach") {
-			}
-			if (primaryIngredientName == "Chicken") {
-			}
-			break;
-
-		case "Fry":
-			if (primaryIngredientName == "Spinach") {
-			}
-			if (primaryIngredientName == "Chicken") {
-			}
-			if (primaryIngredientName == "Eggs") {
-			}
-			if (primaryIngredientName == "Mustard") {
-			}
-			if (primaryIngredientName == "Lamprey") {
-			}
-			break;
-
-		case "Seethe":
-			if (primaryIngredientName == "Spinach") {
-			}
-			if (primaryIngredientName == "Chicken") {
-			}
-			if (primaryIngredientName == "Eggs") {
-			}
-			if (primaryIngredientName == "Almonds") {
-			}
-			if (primaryIngredientName == "Rice") {
-			}
-			break;
-
-		case "Roast":
-			if (primaryIngredientName == "Chicken") {
-			}
-			if (primaryIngredientName == "Almonds") {
-			}
-			if (primaryIngredientName == "Lamprey") {
-			}
-			break;
-
-		case "Bake":
-			if (primaryIngredientName == "Wheat Flour") {
-			}
-			if (primaryIngredientName == "Lamprey") {
-			}
-			break;
-
-		case "Boil":
-			if (primaryIngredientName == "Water") {
-			}
-			break;
-		}
+		Countdown (action, activeChar);
     }
 
-    void Countdown(string newFood, GameObject character)
+	void Countdown(string action, GameObject activeChar)
     {
         if (!isCooking)
         {
-            StartCoroutine("CookTimeStartGo", character);
+			character = activeChar;
+            StartCoroutine("CookTimeStartGo", action);
         }
     }
 
-    IEnumerator CookTimeStartGo(GameObject character)
+	void RefreshFlavor(){
+		flavor.x = primaryIngredient.TasteHeat;
+		flavor.y = primaryIngredient.TasteMoisture;
+	}
+
+    IEnumerator CookTimeStartGo(string action)
     {
 		character.GetComponent<CharacterMovement> ().isCooking = true;
 		isCooking = true;
         float percentComplete = 0f;
+		TryPerformAction (action);
         while (percentComplete <= 1)
         {
             percentComplete += Time.deltaTime / cookTime;
-
+			//Progress bar + change flavor +/- based on underling
             yield return null;
         }
-        Debug.Log("Ding");
+		Debug.Log ("Ding");
+		RefreshFlavor ();
 		character.GetComponent<CharacterMovement> ().isCooking = false;
         isCooking = false;
 		GetComponent<SpriteRenderer> ().color = new Color32 (150, 150, 150, 255);
-		//Instantiate(newFood);
-        //Destroy(thisFood)
-
+		//change icon to new one
     }
 
-    public void Update() {
-    }
 }

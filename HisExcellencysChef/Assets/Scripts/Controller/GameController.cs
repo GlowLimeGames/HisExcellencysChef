@@ -4,6 +4,7 @@
  */
 
 using UnityEngine;
+using System.Collections.Generic;
 
 public class GameController : SingletonController<GameController> {
 	[SerializeField]

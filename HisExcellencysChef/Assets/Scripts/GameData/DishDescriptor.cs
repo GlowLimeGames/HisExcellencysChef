@@ -41,7 +41,7 @@ public class DishDescriptorList : HECDataList<DishDescriptor> {
 	}
 
 	public bool SupportsAction (string ingredient, string actionName) {
-		return results.ContainsKey(actionName) && results[actionName] != null;
+		return results.ContainsKey(ingredient) && results[ingredient].ContainsKey(actionName) && results[ingredient][actionName] != null;
 	}
 
 	public string Result (string ingredient, string actionName) {

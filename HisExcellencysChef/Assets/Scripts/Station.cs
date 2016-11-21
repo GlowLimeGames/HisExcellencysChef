@@ -4,17 +4,8 @@ using System.Collections;
 
 public class Station : MonoBehaviour {
     public GameObject dish; //the dishes at the Station
-    public string stationType;
 	public GameObject dropDown;
 	public GameObject activeCharacter;
-    
-//    public void CookRoutine (GameObject ingredient) //how the dishes are cooked
-//    {
-//        if (stationType == "cut")
-//        {
-//            dish.GetComponent<Ingredients>().cookSelf(tag);
-//        }
-//    }
 
 	public void Clicked(GameObject character){
 		dropDown.SetActive (true);
@@ -22,23 +13,32 @@ public class Station : MonoBehaviour {
 	}
 
 	public void Cancel(){
-		activeCharacter = GameObject.Find ("ClickHandler").GetComponent<ClickHandler> ().currentCharacter;
-		activeCharacter.GetComponent<CharacterMovement> ().isMoving = false;
-		dropDown.SetActive (false);
-		dropDown.GetComponent<Dropdown> ().value = 0;
+		if (dropDown.GetComponent<Dropdown> ().value != 0) {
+			activeCharacter = GameObject.Find ("ClickHandler").GetComponent<ClickHandler> ().currentCharacter;
+			activeCharacter.GetComponent<CharacterMovement> ().isMoving = false;
+			dropDown.SetActive (false);
+			dropDown.GetComponent<Dropdown> ().value = 0;
+		} else {
+			activeCharacter = GameObject.Find ("ClickHandler").GetComponent<ClickHandler> ().currentCharacter;
+			activeCharacter.GetComponent<CharacterMovement> ().isMoving = false;
+			dropDown.SetActive (false);
+		}
 	}
 
     public void AddTo()
     {
+		if (activeCharacter.GetComponent<CharacterProperties> ().heldDish != null)
+		{
+			if (dish != null) {
+				dish.transform.parent = activeCharacter.transform;
+				dish.transform.position = activeCharacter.transform.position + new Vector3 (0, 1.5f, 0);
+				Vector2 flavor = activeCharacter.GetComponent<CharacterProperties> ().heldDish.GetComponent<Ingredients> ().flavor;
+				dish.GetComponent<Ingredients> ().flavor += flavor;
+				Destroy(activeCharacter.GetComponent<CharacterProperties> ().heldDish);
+			}
+		}
 
 		Cancel ();
-//		if (dish != null)
-//        {
-//            //GameObject newDish = dish.isCombinable(dish);
-//            //if (newDish != null){ }
-//            //character.getcomponent<characterProperties>().remove(dish);
-//            dish = null;
-//        } 
     }
 
     public void PickUp()
@@ -48,13 +48,10 @@ public class Station : MonoBehaviour {
 			dish.transform.position = activeCharacter.transform.position + new Vector3(0, 1.5f, 0);
 			activeCharacter.GetComponent<CharacterProperties> ().heldDish = dish;
 			dish = null;
+			dropDown.GetComponent<StationDropdown> ().ChangeOptions (false);
 		}
+
 		Cancel ();
-//        if (dish != null)
-//        {
-//            //character.getcomponent<characterProperties>().addDish(dish);
-//            dish = null;
-//        }
     }
 
     public void PutDown()
@@ -64,16 +61,17 @@ public class Station : MonoBehaviour {
 			dish = activeCharacter.transform.GetChild (0).gameObject;
 			dish.transform.parent = transform;
 			dish.transform.position = transform.position;
-
-			dish.GetComponent<Ingredients> ().cookSelf ("", activeCharacter);
+			dropDown.GetComponent<StationDropdown> ().ChangeOptions (true);
 		}
 		Cancel ();
-		//      if (range1 is full go to range 2)  
-//        if (dish == null)
-//        {
-//            //character.getcomponent<characterProperties>().remove(dish);
-//            dish = newDish;
-//        }
     }
+
+	public void Cook(string action){
+		if (activeCharacter.GetComponent<CharacterMovement> ().isCooking == false) {
+			dish.GetComponent<Ingredients> ().cookSelf (action, activeCharacter);
+		}
+
+		Cancel ();
+	}
         
 }
