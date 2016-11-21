@@ -68,7 +68,6 @@ public static class ArrayUtil {
 	// Used to convert an array to string (for debugging purposes)
 	public static string ToString<T> (T[] source) {
 		string arrayAsString = "";
-
 		for (int i = 0; i < source.Length; i++) {
 			arrayAsString += source[i] + ",\n";
 		}
