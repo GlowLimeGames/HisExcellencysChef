@@ -5,19 +5,25 @@ public class ClickHandler : MonoBehaviour {
 
     public GameObject currentCharacter = null; // The currently selected character. Use null for no selected character.
     public GameObject pantryInventoryUI = null; // Pantry inventory object.
+    public GameObject dialogueWindow = null; // Dialogue window object.
 
-	// Use this for initialization
+    private DialogueController dc; // Dialogue controller component.
+
+    void Awake()
+    {
+        dc = dialogueWindow.GetComponent<DialogueController>();
+    }
+
 	void Start ()
     {
         SelectCook(); // Start by selecting the Cook automatically.
     }
 	
-	// Update is called once per frame
 	void Update ()
     {
         if (Input.GetMouseButtonDown(0)) // If we left click...
         {
-            if (!pantryInventoryUI.activeSelf) // If the pantry inventory UI isn't active...
+            if (CanSelectCharacter()) // If we can select a character...
             {
                 Vector2 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero);
@@ -41,12 +47,18 @@ public class ClickHandler : MonoBehaviour {
                         else
                         {
                             charMover.Move(hit.point, clickedObject); // Make the character move to that station.
-//                            SelectCook(); // Select the Cook, which in turn will deselect any other character.
+                            //SelectCook(); // Select the Cook, which in turn will deselect any other character.
                         }
                     }
                 }
             }
         }
+    }
+
+    public bool CanSelectCharacter()
+    {
+        // Only return true when the pantry, dialogue window, etc isn't open.
+        return !pantryInventoryUI.activeSelf && !dc.active;
     }
 
     public void SelectCharacter(GameObject obj)
