@@ -4,6 +4,8 @@
  */
 
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 
 public class GameController : SingletonController<GameController> {
@@ -22,4 +24,51 @@ public class GameController : SingletonController<GameController> {
 	void playMusic () {
 		EventController.Event(Event.GAME_MUSIC);
 	}
+
+	public bool timer = false;
+	public float time = 480f;
+	public Text countdown;
+
+	public int course = 0;
+	public Vector2 courseFlavor;
+	public GameObject endScreen;
+	public Text score;
+
+	//something something keep track of active ingredients for UI and Reset
+
+	void Update(){
+		if (timer) {
+			time -= Time.deltaTime;
+
+			float minutes = Mathf.Floor (time / 60f);
+			float seconds = (time % 60);
+
+			countdown.text = string.Format ("{0:0}:{1:00}", minutes, seconds);
+			if (time <= 0) {
+				if (course == 0) {
+					time = 540f;
+					course += 1;
+				} else if (course == 1) {
+					time = 600f;
+					course += 1;
+				} else if (course == 2) {
+					endScreen.SetActive (true);
+					score.text = string.Format ("{0}:{0}", courseFlavor.x, courseFlavor.y);
+					timer = false;
+					if (GameObject.Find ("ClickHandler").GetComponent<ClickHandler> ().activeDropdown != null) {
+						GameObject.Find ("ClickHandler").GetComponent<ClickHandler> ().activeDropdown.GetComponent<Station> ().Cancel ();
+					}
+				}
+			}
+		}
+	}
+
+	public void EndCourse(){
+		time = 0;
+	}
+	public void Reset(){
+		SceneManager.LoadScene (0);
+		time = 480f;
+	}
+
 }

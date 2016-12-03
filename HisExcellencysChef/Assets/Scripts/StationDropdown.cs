@@ -20,6 +20,10 @@ public class StationDropdown : MonoBehaviour {
 		ChangeOptions (false);
 	}
 
+//	void OnClick(UnityEngine.EventSystems.PointerEventData event){
+//		menu.
+//	}
+
 	string recentValue;
 	public void UpdateRecentValue(){
 		recentValue = menu.options[menu.value].text;
@@ -74,6 +78,7 @@ public class StationDropdown : MonoBehaviour {
 		} else {
 			menu.AddOptions (dropDownOptions);
 		}
+		menu.RefreshShownValue ();
 	}
 
 	public void AddTo(){
@@ -101,5 +106,10 @@ public class StationDropdown : MonoBehaviour {
 		} else {
 			station.GetComponent<Station> ().Cancel ();
 		}
+	}
+
+	public void Finish(){
+		Debug.Log ("Finish");
+
 	}
 }

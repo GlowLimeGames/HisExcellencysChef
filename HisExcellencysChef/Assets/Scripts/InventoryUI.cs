@@ -7,7 +7,7 @@ public class InventoryUI : MonoBehaviour
 {
     public GameObject owner; // The cooking station that's connected to the inventory UI.
     public GameObject inventoryButton; // For referencing the inventory button prefab.
-	public Sprite[] foodSprites = new Sprite[4];
+	public GameObject[] foods;
     public GameObject character; // The character that opened the inventory menu.
 
     void Start()
@@ -16,7 +16,7 @@ public class InventoryUI : MonoBehaviour
         owner = GameObject.Find("Pantry");
         character = GameObject.Find("Cook"); // By default.
         Inventory inv = owner.GetComponent<Inventory>();
-        for (int i=0; i<inv.inventorySize; ++i) // For every inventory slot...
+		for (int i=0; i<foods.Length; ++i) // For every inventory slot...
         {
             GameObject btn = (GameObject) Instantiate(inventoryButton, transform.position, transform.rotation); // Instantiate an inventory item button.
             btn.transform.SetParent(transform, false); // Set the new button's parent to the current object.
@@ -24,12 +24,9 @@ public class InventoryUI : MonoBehaviour
             btninv.itemNum = i;
             btninv.inv = inv;
             btninv.character = character;
-			if (i < foodSprites.Length) {
-				btninv.GetComponent<Image> ().sprite = foodSprites [i];
-				btninv.GetComponentInChildren<Text> ().text = "";
-			} else {
-				btninv.GetComponentInChildren<Text> ().text = "memes";
-			}
+			btninv.GetComponent<Image> ().sprite = foods [i].GetComponent<SpriteRenderer>().sprite;
+			btninv.GetComponentInChildren<Text> ().text = "";
+			
         }
     }
 

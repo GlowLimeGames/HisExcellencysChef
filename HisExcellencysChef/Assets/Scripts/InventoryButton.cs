@@ -8,7 +8,7 @@ public class InventoryButton : MonoBehaviour
     public int itemNum;
     public Inventory inv;
     public GameObject character;
-	public GameObject[] foods = new GameObject[4];
+	public GameObject[] foods = new GameObject[43];
 
     public void ButtonClick()
     {

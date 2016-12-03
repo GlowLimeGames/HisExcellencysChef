@@ -24,7 +24,7 @@ public class DialogueController : MonoBehaviour
         // If the dialogue box isn't set as active in the scene editor, hide it.
         SetActive(active);
         // First message!
-        CharacterSpeak("sdfiuguisdh foiudhf goishdf giusdhf goiushfgoisdfuhgosid fuhgodsifughsodi fusdofihgsud foigusdhf goiuhdsfofiguhsdfiuoghsdf iousdfhgo isdufhg iodsufghsidfugh. LOL!!!!!!.");
+        CharacterSpeak(" Jessie! WE HAVE TO COOK! Ayy lmao, memes go here.");
     }
 
     // Enable or disable the dialogue box.
@@ -57,6 +57,7 @@ public class DialogueController : MonoBehaviour
     public void PressOK()
     {
         // Close the dialogue box.
+		GameController.Instance.timer = true;
         SetActive(false);
     }
 
@@ -65,7 +66,7 @@ public class DialogueController : MonoBehaviour
     IEnumerator DialogueTypeOut(string msg)
     {
         // Number of seconds the message waits between typing each letter.
-        const float LETTER_WAIT_SECONDS = 0.01f;
+        const float LETTER_WAIT_SECONDS = 0.05f;
         // This color has an alpha of 00, so it hides the text.
         const string richcolor = "<color=#00000000>";
         // Get length of string.

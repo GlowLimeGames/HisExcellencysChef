@@ -88,7 +88,7 @@ public class Ingredients : MannBehaviour {
         }
     }
 
-	void RefreshFlavor(){
+	public void RefreshFlavor(){
 		flavor.x = primaryIngredient.TasteHeat;
 		flavor.y = primaryIngredient.TasteMoisture;
 	}

@@ -16,7 +16,7 @@ public class CharacterMovement : MonoBehaviour {
 			if (clickedStation != null) {
 				if (atStation != null && clickedStation == atStation) {
 					isMoving = true;
-					atStation.GetComponent<Station> ().Clicked (transform.gameObject);
+					atStation.GetComponent<Station> ().Clicked ();
 					return;
 				}
 			}
@@ -37,7 +37,7 @@ public class CharacterMovement : MonoBehaviour {
 			yield return new WaitForFixedUpdate();
 		}
 		if (toStation) {
-			atStation.GetComponent<Station> ().Clicked (transform.gameObject);
+			atStation.GetComponent<Station> ().Clicked ();
 			toStation = false;
 		} else {
 			isMoving = false;
