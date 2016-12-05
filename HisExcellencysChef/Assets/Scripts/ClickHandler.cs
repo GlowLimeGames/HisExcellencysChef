@@ -3,9 +3,9 @@ using System.Collections;
 
 public class ClickHandler : MonoBehaviour {
 
-    public GameObject currentCharacter = null; // The currently selected character. Use null for no selected character.
-    public GameObject pantryInventoryUI = null; // Pantry inventory object.
-    public GameObject dialogueWindow = null; // Dialogue window object.
+    public GameObject currentCharacter; // The currently selected character. Use null for no selected character.
+    public GameObject pantryInventoryUI; // Pantry inventory object.
+    public GameObject dialogueWindow; // Dialogue window object.
 	public GameObject activeDropdown;
 
     private DialogueController dc; // Dialogue controller component.
@@ -65,7 +65,7 @@ public class ClickHandler : MonoBehaviour {
                         if (clickedObject.name == "Pantry")
                         {
                             InventoryUI piui = pantryInventoryUI.GetComponent<InventoryUI>();
-                            piui.Open(currentCharacter);
+                            piui.SetEnabled(true);
                         }
 						else 
                         {

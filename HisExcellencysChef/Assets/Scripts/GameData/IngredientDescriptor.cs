@@ -1,6 +1,6 @@
 ﻿/*
  * Author(s): Isaiah Mann
- * Description: 
+ * Description: Keeps track of various ingredient properties.
  */
 
 using System.Collections.Generic;

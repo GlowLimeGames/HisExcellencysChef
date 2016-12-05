@@ -24,7 +24,15 @@ public class DialogueController : MonoBehaviour
         // If the dialogue box isn't set as active in the scene editor, hide it.
         SetActive(active);
         // First message!
-        CharacterSpeak(" Jessie! WE HAVE TO COOK! Ayy lmao, memes go here.");
+        CharacterSpeak(@"Hello, young cook!
+
+To select a primary ingredient, click on a character, then click on the Pantry Door.
+
+To cook that ingredient, click a station and select ""Put Down"" in the drop down menu, then select it again and pick the cooking process you want and wait for the character to pick it up again.
+
+When you want to finish a dish, select the character carrying it and click on the < where to click >.
+
+Ingredients are Hot or Cold and Moist or Dry. Try to balance the flavors across your dishes.");
     }
 
     // Enable or disable the dialogue box.
@@ -66,7 +74,7 @@ public class DialogueController : MonoBehaviour
     IEnumerator DialogueTypeOut(string msg)
     {
         // Number of seconds the message waits between typing each letter.
-        const float LETTER_WAIT_SECONDS = 0.05f;
+        const float LETTER_WAIT_SECONDS = 0.01f;
         // This color has an alpha of 00, so it hides the text.
         const string richcolor = "<color=#00000000>";
         // Get length of string.

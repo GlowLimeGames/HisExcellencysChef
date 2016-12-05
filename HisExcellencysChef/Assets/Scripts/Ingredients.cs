@@ -1,6 +1,6 @@
 ﻿/*
- * Author(s): Joel Esquilin, Isaiah Mann
- * 
+ * Author(s): Joel Esquilin, Isaiah Mann, Paul Calande
+ * Description:
  */
 
 using UnityEngine;
@@ -25,8 +25,8 @@ public class Ingredients : MannBehaviour {
 	public string newFood;
 
 
-	// Use this for initialization
-	protected override void SetReferences () {
+    // Use this for initialization
+    protected override void SetReferences () {
 		primaryIngredientName = transform.name;
 	}
 
@@ -95,22 +95,94 @@ public class Ingredients : MannBehaviour {
 
     IEnumerator CookTimeStartGo(string action)
     {
-		character.GetComponent<CharacterMovement> ().isCooking = true;
-		isCooking = true;
+        character.GetComponent<CharacterMovement>().isCooking = true;
+        isCooking = true;
         float percentComplete = 0f;
-		TryPerformAction (action);
+        TryPerformAction(action);
         while (percentComplete <= 1)
         {
             percentComplete += Time.deltaTime / cookTime;
-			//Progress bar + change flavor +/- based on underling
+            //Progress bar + change flavor +/- based on underling
             yield return null;
         }
-		Debug.Log ("Ding");
-		RefreshFlavor ();
-		character.GetComponent<CharacterMovement> ().isCooking = false;
+        Debug.Log("Ding");
+        RefreshFlavor();
+        character.GetComponent<CharacterMovement>().isCooking = false;
         isCooking = false;
-		GetComponent<SpriteRenderer> ().color = new Color32 (150, 150, 150, 255);
-		//change icon to new one
+        GetComponent<SpriteRenderer>().color = new Color32(150, 150, 150, 255);
+        //change icon to new one
     }
 
+    public string HeatToString()
+    {
+        int swish = (int)flavor.x;
+        switch (swish)
+        {
+            case -4: return "Very Cold";
+            case -3: return "Cold";
+            case -2: return "Quite Cool";
+            case -1: return "Cool";
+            case 0: return "";
+            case 1: return "Warm";
+            case 2: return "Very Warm";
+            case 3: return "Hot";
+            case 4: return "Very Hot";
+        }
+        Debug.LogError("Ingredient has invalid heat " + swish + "; cannot convert to string.");
+        return "ERROR";
+    }
+
+    public string MoistureToString()
+    {
+        int swish = (int)flavor.y;
+        switch (swish)
+        {
+            case -4: return "Wet";
+            case -3: return "Very Moist";
+            case -2: return "Moist";
+            case -1: return "Damp";
+            case 0: return "";
+            case 1: return "Arid";
+            case 2: return "Dry";
+            case 3: return "Very Dry";
+            case 4: return "Parched";
+        }
+        Debug.LogError("Ingredient has invalid moisture " + swish + "; cannot convert to string.");
+        return "ERROR";
+    }
+
+    public string HeatAndMoistureToString()
+    {
+        int heat = (int)flavor.x;
+        int moisture = (int)flavor.y;
+        // If both heat and moisture are 0...
+        if (heat == 0 && moisture == 0)
+        {
+            return "Balanced";
+        }
+        else
+        {
+            if (heat == 0)
+            {
+                return MoistureToString();
+            }
+            else if (moisture == 0)
+            {
+                return HeatToString();
+            }
+            else
+            {
+                return HeatToString() + " and " + MoistureToString();
+            }
+        }
+    }
+
+    // For non-instantiated ingredients to get what they need.
+    // This is necessary because Awake() is not called on uninstantiated objects.
+    public void NonInstanceDoReferences()
+    {
+        SetReferences();
+        SubscribeEvents();
+        FetchReferences();
+    }
 }
