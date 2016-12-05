@@ -11,7 +11,6 @@ public class Ingredients : MannBehaviour {
 	public int numI= 4; //four ingredients that we have listed so far
 	CookingController controller;
 
-    //[System.NonSerialized]
     public string primaryIngredientName;
 
 	IngredientDescriptor primaryIngredient;
@@ -28,8 +27,6 @@ public class Ingredients : MannBehaviour {
 
     // Use this for initialization
     protected override void SetReferences () {
-        Debug.Log("Ingredients.cs: SetReferences(): Why is this function not getting called by the prefab instances in food[] in InventoryUI.cs?");
-        //Debug.Log("Ingredients.cs: "+transform.name);
 		primaryIngredientName = transform.name;
 	}
 
@@ -178,5 +175,14 @@ public class Ingredients : MannBehaviour {
                 return HeatToString() + " and " + MoistureToString();
             }
         }
+    }
+
+    // For non-instantiated ingredients to get what they need.
+    // This is necessary because Awake() is not called on uninstantiated objects.
+    public void NonInstanceDoReferences()
+    {
+        SetReferences();
+        SubscribeEvents();
+        FetchReferences();
     }
 }

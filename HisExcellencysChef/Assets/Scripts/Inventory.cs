@@ -40,7 +40,7 @@ public class Inventory : MonoBehaviour
             return;
         }
         // Get the ingredient name.
-        string name = GetIngredientName(obj);
+        string name = GetIngredientName(ingred);
         //Debug.Log("Inventory.cs: component is: " + ingred + ", and ingredient name is: " + name);
         InventoryNode val;
         // If the dictionary already contains this type of ingredient...
@@ -66,7 +66,7 @@ public class Inventory : MonoBehaviour
             Debug.LogError("Inventory.cs: Tried to access dictionary with non-ingredient GameObject!");
             return -1;
         }
-        string name = GetIngredientName(obj);
+        string name = GetIngredientName(ingred);
         InventoryNode val;
         // If the ingredient is in the dictionary...
         if (dict.TryGetValue(name, out val))
@@ -90,7 +90,7 @@ public class Inventory : MonoBehaviour
             Debug.LogError("Inventory.cs: Tried to access dictionary with non-ingredient GameObject!");
             return;
         }
-        string name = GetIngredientName(obj);
+        string name = GetIngredientName(ingred);
         InventoryNode val;
         if (dict.TryGetValue(name, out val))
         {
@@ -110,7 +110,7 @@ public class Inventory : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Inventory.cs: Tried to remove an ingredient that wasn't in the inventory!");
+            Debug.LogError("Inventory.cs: Tried to remove an ingredient that wasn't in the inventory: " + name);
         }
     }
 
@@ -120,8 +120,8 @@ public class Inventory : MonoBehaviour
         return dict.Count;
     }
 
-    private string GetIngredientName(GameObject obj)
+    private string GetIngredientName(Ingredients ingred)
     {
-        return obj.name;
+        return ingred.primaryIngredientName;
     }
 }

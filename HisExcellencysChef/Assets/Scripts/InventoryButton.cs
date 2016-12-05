@@ -11,6 +11,8 @@ using UnityEngine.UI;
 public class InventoryButton : MonoBehaviour
 {
     private GameObject item;
+    public int quantity;
+
     private InventoryUI invui;
 
     private void Start()
@@ -37,8 +39,22 @@ public class InventoryButton : MonoBehaviour
 			food.transform.parent = cp.transform;
             // Disable the inventory window.
             invui.SetEnabled (false);
-            // Remove the item from the inventory.
-            // [later]
+            // If the ingredient quantity is not infinite...
+            if (quantity != -2)
+            {
+                // Remove the item from the inventory.
+                invui.inv.RemoveOne(food);
+                --quantity;
+                // If there are no items of this type left, destroy this button.
+                if (quantity == 0)
+                {
+                    Destroy(gameObject);
+                }
+                else
+                {
+                    UpdateText();
+                }
+            }
 		}
         // If the character IS holding something...
         else
@@ -64,5 +80,19 @@ public class InventoryButton : MonoBehaviour
         string moistheat = ingred.HeatAndMoistureToString();
         // Change the text.
         txt.text = name + '\n' + moistheat;
+    }
+
+    public void UpdateText()
+    {
+        Text txt = GetComponentInChildren<Text>();
+        // If the number of an ingredient is -2, the supply of that ingredient is infinite.
+        if (quantity == -2)
+        {
+            txt.text = "Inf";
+        }
+        else
+        {
+            txt.text = quantity.ToString();
+        }
     }
 }

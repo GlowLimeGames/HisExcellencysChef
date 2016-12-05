@@ -19,6 +19,7 @@ public class InventoryUI : MonoBehaviour
     public Inventory inv;
 
     // For use in the Inspector.
+    // It's an array of elements, where each element contains a GameObject and an integer quantity.
     [SerializeField]
     private Inventory.InventoryNode[] foods;
 
@@ -33,6 +34,7 @@ public class InventoryUI : MonoBehaviour
         // Populate the inventory with the foods defined in the Inspector.
         for (int i = 0; i < foods.Length; ++i)
         {
+            foods[i].obj.GetComponent<Ingredients>().NonInstanceDoReferences();
             //Debug.Log("InventoryUI.cs: "+foods[i].obj.transform.name);
             inv.Add(foods[i].obj, foods[i].quantity);
         }
@@ -46,10 +48,11 @@ public class InventoryUI : MonoBehaviour
             btn.transform.SetParent(transform, false);
             InventoryButton btninv = btn.GetComponent<InventoryButton>();
             btninv.SetGameObject(entry.Value.obj);
+            btninv.quantity = entry.Value.quantity;
             // Set the button image to the sprite image.
             btninv.GetComponent<Image>().sprite = entry.Value.obj.GetComponent<SpriteRenderer>().sprite;
-            // Set the text child to an empty string (no text).
-            btninv.GetComponentInChildren<Text>().text = "lol";
+            // Set the text child to display the number of ingredients.
+            btninv.UpdateText();
             //Debug.Log("Key/Value Loop: "+ii++);
         }
     }
