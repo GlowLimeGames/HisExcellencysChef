@@ -30,7 +30,7 @@ To select a primary ingredient, click on a character, then click on the Pantry D
 
 To cook that ingredient, click a station and select ""Put Down"" in the drop down menu, then select it again and pick the cooking process you want and wait for the character to pick it up again.
 
-When you want to finish a dish, select the character carrying it and click on the < where to click >.
+When you want to finish a dish, select the character carrying it and click on the gray square below.
 
 Ingredients are Hot or Cold and Moist or Dry. Try to balance the flavors across your dishes.");
     }

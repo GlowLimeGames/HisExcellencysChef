@@ -64,6 +64,13 @@ public class ClickHandler : MonoBehaviour {
                         CharacterMovement charMover = currentCharacter.GetComponent<CharacterMovement>();
                         if (clickedObject.name == "Pantry")
                         {
+							if (activeDropdown != null) {
+								if (clickedObject != activeDropdown && clickedObject != activeDropdown.GetComponent<Station> ().dropDown) {
+									activeDropdown.GetComponent<Station> ().Cancel ();
+									activeDropdown.GetComponent<Station> ().dropDown.SetActive (false);
+									activeDropdown = null;
+								}
+							}
                             InventoryUI piui = pantryInventoryUI.GetComponent<InventoryUI>();
                             piui.SetEnabled(true);
                         }

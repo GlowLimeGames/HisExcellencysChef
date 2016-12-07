@@ -47,9 +47,10 @@ public class Station : MonoBehaviour {
 		if (activeCharacter.GetComponent<CharacterProperties> ().heldDish != null)
 		{
 			if (dish != null) {
-				if (dish.GetComponent<Ingredients> ().TryAddIngredient (activeCharacter.GetComponent<CharacterProperties> ().heldDish.name)) {					Vector2 flavor = activeCharacter.GetComponent<CharacterProperties> ().heldDish.GetComponent<Ingredients> ().flavor;
-					dish.GetComponent<Ingredients> ().RefreshFlavor ();
-					Destroy (activeCharacter.GetComponent<CharacterProperties> ().heldDish);
+				if (dish.GetComponent<Ingredients> ().TryAddIngredient (activeCharacter.GetComponent<CharacterProperties> ().heldDish.GetComponent<Ingredients>().primaryIngredientName)) {					Vector2 flavor = activeCharacter.GetComponent<CharacterProperties> ().heldDish.GetComponent<Ingredients> ().flavor;
+				dish.GetComponent<Ingredients> ().TryAddIngredient(activeCharacter.GetComponent<CharacterProperties> ().heldDish.name);
+				dish.GetComponent<Ingredients> ().RefreshFlavor ();
+				Destroy (activeCharacter.GetComponent<CharacterProperties> ().heldDish);
 				}
 			}
 		}

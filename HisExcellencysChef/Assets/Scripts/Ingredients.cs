@@ -59,6 +59,7 @@ public class Ingredients : MannBehaviour {
 		IngredientDescriptor ingredient;
 		bool wasSuccessful;
 		if (wasSuccessful = ingredientLookup.TryGetValue(ingredientName, out ingredient)) {
+			Debug.Log ("got here");
 			addOnIngridents.Add(ingredient);
 			primaryIngredient.ModifyWithAddOn(ingredient);
 		}

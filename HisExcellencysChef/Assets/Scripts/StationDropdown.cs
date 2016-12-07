@@ -30,6 +30,7 @@ public class StationDropdown : MonoBehaviour {
 	}
 
 	public void CheckSelectedBox(){
+		UpdateRecentValue ();
 		if (!hasDish) {
 			if (menu.value == 1) {
 				PutDown ();
