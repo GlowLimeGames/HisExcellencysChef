@@ -10,8 +10,8 @@ public class IngredientDescriptor : HECData {
 	public string Ingredient;
 	public string PantryType;
 	public string TasteStrength;
-	public int TasteHeat;
-	public int TasteMoisture;
+	public float TasteHeat;
+	public float TasteMoisture;
 	public string IncomeQuantity;
 	public string Spoilage;
 	public string[] Processes;

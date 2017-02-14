@@ -69,8 +69,8 @@ public class CookingController : SingletonController<CookingController> {
 		return dishes.Result(ingredient, processName);
 	}
 
-	public bool TryModifyWithAction (IngredientDescriptor ingredient, string processName) {
-		return processes.TryModifyWithAction(ingredient, processName);	
+	public bool TryModifyWithAction (IngredientDescriptor ingredient, string processName, float howRaw) {
+		return processes.TryModifyWithAction(ingredient, processName, howRaw);	
 	}
 
 	public ProcessDescriptor GetProcess (string processName) {

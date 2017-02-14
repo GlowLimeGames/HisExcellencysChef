@@ -13,6 +13,12 @@
          "ExecutionPenalties" : null,
          "IdealTimeMin" : 18,
          "IdealTimeMax" : 21,
+		 "RedYellow" : 11,
+		 "YellowGreen" : 15,
+		 "GreenDarkGreen" : 18,
+		 "DarkGreenGreen" : 21,
+		 "GreenYellow" : null,
+		 "YellowRed" : null,
          "ProgressBarPNG" : "Pound"
        },
        {
@@ -28,6 +34,12 @@
          "ExecutionPenalties" : null,
          "IdealTimeMin" : 7,
          "IdealTimeMax" : 8,
+		 "RedYellow" : 2,
+		 "YellowGreen" : 5,
+		 "GreenDarkGreen" : 7,
+		 "DarkGreenGreen" : 8,
+		 "GreenYellow" : 10,
+		 "YellowRed" : 13,
          "ProgressBarPNG" : "Chop"
        },
        {
@@ -43,6 +55,12 @@
          "ExecutionPenalties" : null,
          "IdealTimeMin" : 11,
          "IdealTimeMax" : 12,
+		 "RedYellow" : 6,
+		 "YellowGreen" : 9,
+		 "GreenDarkGreen" : 11,
+		 "DarkGreenGreen" : 12,
+		 "GreenYellow" : 13,
+		 "YellowRed" : 15,
          "ProgressBarPNG" : "Sliver"
        },
        {
@@ -58,6 +76,12 @@
          "ExecutionPenalties" : null,
          "IdealTimeMin" : 11,
          "IdealTimeMax" : 13,
+		 "RedYellow" : 6,
+		 "YellowGreen" : 8,
+		 "GreenDarkGreen" : 11,
+		 "DarkGreenGreen" : 13,
+		 "GreenYellow" : 15,
+		 "YellowRed" : 17,
          "ProgressBarPNG" : "Mince"
        },
        {
@@ -73,6 +97,12 @@
          "ExecutionPenalties" : null,
          "IdealTimeMin" : 37,
          "IdealTimeMax" : 42,
+		 "RedYellow" : 24,
+		 "YellowGreen" : 33,
+		 "GreenDarkGreen" : 37,
+		 "DarkGreenGreen" : 42,
+		 "GreenYellow" : 46,
+		 "YellowRed" : 50,
          "ProgressBarPNG" : "Fry"
        },
        {
@@ -88,6 +118,12 @@
          "ExecutionPenalties" : null,
          "IdealTimeMin" : 29,
          "IdealTimeMax" : 31,
+		 "RedYellow" : 17,
+		 "YellowGreen" : 24,
+		 "GreenDarkGreen" : 29,
+		 "DarkGreenGreen" : 31,
+		 "GreenYellow" : 34,
+		 "YellowRed" : 40,
          "ProgressBarPNG" : "Seethe"
        },
        {
@@ -103,6 +139,12 @@
          "ExecutionPenalties" : ["Roast after Fry"],
          "IdealTimeMin" : 87,
          "IdealTimeMax" : 93,
+		 "RedYellow" : 50,
+		 "YellowGreen" : 75,
+		 "GreenDarkGreen" : 87,
+		 "DarkGreenGreen" : 93,
+		 "GreenYellow" : 100,
+		 "YellowRed" : 112,
          "ProgressBarPNG" : "Roast"
        },
        {
@@ -118,6 +160,12 @@
          "ExecutionPenalties" : null,
          "IdealTimeMin" : 107,
          "IdealTimeMax" : 122,
+		 "RedYellow" : 65,
+		 "YellowGreen" : 100,
+		 "GreenDarkGreen" : 107,
+		 "DarkGreenGreen" : 122,
+		 "GreenYellow" : 132,
+		 "YellowRed" : 140,
          "ProgressBarPNG" : "Bake"
        },
        {
@@ -133,6 +181,12 @@
          "ExecutionPenalties" : null,
          "IdealTimeMin" : -1,
          "IdealTimeMax" : -1,
+		 "RedYellow" : 23,
+		 "YellowGreen" : 38,
+		 "GreenDarkGreen" : 53,
+		 "DarkGreenGreen" : 62,
+		 "GreenYellow" : 75,
+		 "YellowRed" : 82,
          "ProgressBarPNG" : "Boil"
        }
      ]

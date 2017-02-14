@@ -10,8 +10,8 @@ public class ProcessDescriptor : HECData {
 	public string Process;
 	public string Type;
 	public string Station;
-	public int TasteHeat;
-	public int TasteMoisture;
+	public float TasteHeat;
+	public float TasteMoisture;
 	public string [] Ingredients;
 	public bool Active;
 	public string [] Obsoletes;
@@ -19,12 +19,18 @@ public class ProcessDescriptor : HECData {
 	public string [] ExecutionPenalties;
 	public int IdealTimeMin;
 	public int IdealTimeMax;
+	public int RedYellow;
+	public int YellowGreen;
+	public int GreenDarkGreen;
+	public int DarkGreenGreen;
+	public int GreenYellow;
+	public int YellowRed;
 	public string ProgressBarPNG;
 	HashSet<string> supportedIngredients;
 
 	public override string ToString () {
 		return string.Format ("[ProcessDescriptor] " +
-			"{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}",
+			"{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11}, {12}, {13}, {14}, {15}, {16}",
 			Process,
 			Type,
 			Station,
@@ -35,6 +41,12 @@ public class ProcessDescriptor : HECData {
 			ArrayUtil.ToString(Obsoletes),
 			IdealTimeMin,
 			IdealTimeMax,
+			RedYellow,
+			YellowGreen,
+			GreenDarkGreen,
+			DarkGreenGreen,
+			GreenYellow,
+			YellowRed,
 			ProgressBarPNG
 		);
 	}
@@ -50,9 +62,9 @@ public class ProcessDescriptor : HECData {
 		return supportedIngredients.Contains(ingredient.Ingredient);
 	}
 
-	public void PerformOnIngredient (IngredientDescriptor ingredient) {
-		ingredient.TasteHeat += this.TasteHeat;
-		ingredient.TasteMoisture += this.TasteMoisture;
+	public void PerformOnIngredient (IngredientDescriptor ingredient, float howRaw) {
+		ingredient.TasteHeat += this.TasteHeat * howRaw;
+		ingredient.TasteMoisture += this.TasteMoisture * howRaw;
 	}
 }
 
@@ -68,10 +80,10 @@ public class ProcessDescriptorList : HECDataList<ProcessDescriptor> {
 		}
 	}
 
-	public bool TryModifyWithAction (IngredientDescriptor ingredient, string processName) {
+	public bool TryModifyWithAction (IngredientDescriptor ingredient, string processName, float howRaw) {
 		ProcessDescriptor process;
 		if (processLookup.TryGetValue(processName, out process) && process.SupportsIngredient(ingredient)) {
-			process.PerformOnIngredient(ingredient);
+			process.PerformOnIngredient(ingredient, howRaw);
 			return true;
 		} else {
 			return false;
