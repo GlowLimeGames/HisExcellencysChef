@@ -53,12 +53,11 @@ public class StationDropdown : MonoBehaviour {
 			} else {				
 				Debug.Log (recentValue);
 				if (recentValue != null && station.GetComponent<Station> ().dish != null) {
-					Debug.Log ("Boop");
 					if (CookingController.Instance.SupportsAction (station.GetComponent<Station> ().dish.GetComponent<Ingredients> ().primaryIngredientName, recentValue)) {
-						Debug.Log ("Bing");					
 						station.GetComponent<Station> ().Cook (menu.options [menu.value].text);
 					}
 				}
+				gameObject.SetActive (false);
 			}
 		}
 	}

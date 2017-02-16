@@ -13,7 +13,7 @@ public class Ingredients : MannBehaviour {
 
     public string primaryIngredientName;
 
-	IngredientDescriptor primaryIngredient;
+	public IngredientDescriptor primaryIngredient;
 	List<IngredientDescriptor> addOnIngridents = new List<IngredientDescriptor>();
 	Dictionary<string, IngredientDescriptor> ingredientLookup;
 
@@ -23,6 +23,8 @@ public class Ingredients : MannBehaviour {
     public bool isCooking;
 	public GameObject character;
 	public string newFood;
+
+	public string howCooked;
 
 
     // Use this for initialization
@@ -66,10 +68,10 @@ public class Ingredients : MannBehaviour {
 		return wasSuccessful;
 	}
 
-	public bool TryPerformAction (string actionName) {
+	public bool TryPerformAction (string actionName, float howRaw) {
 		bool wasSuccessful;
 		if (wasSuccessful = controller.SupportsAction(primaryIngredientName, actionName)) {
-			controller.TryModifyWithAction(primaryIngredient, actionName);
+			controller.TryModifyWithAction(primaryIngredient, actionName, howRaw);
 			primaryIngredientName = controller.Result(primaryIngredientName, actionName);
 		}
 		return wasSuccessful;
@@ -77,16 +79,20 @@ public class Ingredients : MannBehaviour {
 
     public void cookSelf(string action, GameObject activeChar)
     {
+		//Keep track of obsolete processes and check them here
 		Countdown (action, activeChar);
     }
 
 	void Countdown(string action, GameObject activeChar)
     {
-        if (!isCooking)
-        {
+		if (!isCooking) {
 			character = activeChar;
-            StartCoroutine("CookTimeStartGo", action);
-        }
+			if (activeChar.GetComponent<CharacterProperties> ().isCook) {
+				StartCoroutine ("CookTimeStartChef", action);
+			} else {
+				StartCoroutine ("CookTimeStartUnderling", action);
+			}
+		}
     }
 
 	public void RefreshFlavor(){
@@ -94,25 +100,118 @@ public class Ingredients : MannBehaviour {
 		flavor.y = primaryIngredient.TasteMoisture;
 	}
 
-    IEnumerator CookTimeStartGo(string action)
-    {
-        character.GetComponent<CharacterMovement>().isCooking = true;
-        isCooking = true;
-        float percentComplete = 0f;
-        TryPerformAction(action);
-        while (percentComplete <= 1)
-        {
-            percentComplete += Time.deltaTime / cookTime;
-            //Progress bar + change flavor +/- based on underling
-            yield return null;
-        }
-        Debug.Log("Ding");
-        RefreshFlavor();
-        character.GetComponent<CharacterMovement>().isCooking = false;
-        isCooking = false;
-        GetComponent<SpriteRenderer>().color = new Color32(150, 150, 150, 255);
-        //change icon to new one
-    }
+	public string actionDone;
+	public float howRaw = 0f;
+	public float percentCooked = 0f;
+	// Sorts color boundary and gives percent cooked changing taste accordingly
+	public void ChangeFlavor(){
+		percentCooked = PercentCooked(actionDone, howRaw); 
+		TryPerformAction(actionDone, percentCooked);
+		howCooked = SortBoundaries (actionDone, howRaw);
+
+		GameController.Instance.chefSlider.gameObject.SetActive (false);
+		GetComponent<SpriteRenderer>().color = new Color32(150, 150, 150, 255);
+		character.GetComponent<CharacterMovement>().isCooking = false;
+		RefreshFlavor ();
+		//Add Obsolete processes to ingredient
+		//Add to side panel and store information before resetting
+		//Change sprite if needed
+		//Do things after cooking here
+	}
+
+	IEnumerator CookTimeStartChef(string action)
+	{
+		isCooking = true;
+		float timeIn = 0f;
+		bool done = false;
+		bool active = controller.GetProcess (action).Active;
+		if (active) {
+			character.GetComponent<CharacterMovement>().isCooking = true;
+			GameController.Instance.EditSlider (action, this);
+		}
+		actionDone = action;
+			while (!done)
+			{
+			
+			timeIn += Time.deltaTime;
+			howRaw = timeIn; 
+			if (active) {
+				if (Input.GetMouseButtonUp (1)) {
+					done = true;
+				}
+			}
+				//Progress bar + change flavor +/- based on underling
+				yield return null;
+			}
+		ChangeFlavor ();
+		RefreshFlavor();
+		character.GetComponent<CharacterMovement>().isCooking = false;
+		isCooking = false;
+				//change icon to new one
+	}
+
+	IEnumerator CookTimeStartUnderling(string action)
+	{
+		isCooking = true;
+		float timeIn = 0f;
+		bool done = false;
+		bool active = controller.GetProcess (action).Active;
+		if (active) {
+			character.GetComponent<CharacterMovement>().isCooking = true;
+			character.GetComponent<UnderlingController> ().SetTimer (action);
+		}
+		actionDone = action;
+		while (!done)
+		{
+
+			timeIn += Time.deltaTime;
+			howRaw = timeIn; 
+//			if (active) {
+//				if (Input.GetMouseButtonUp (1)) {
+//					done = true;
+//				}
+//			}
+			//Progress bar + change flavor +/- based on underling
+			yield return null;
+		}
+		ChangeFlavor ();
+		RefreshFlavor();
+		character.GetComponent<CharacterMovement>().isCooking = false;
+		isCooking = false;
+		//change icon to new one
+	}
+
+	float PercentCooked(string action, float timeCooked){
+		ProcessDescriptor process = controller.GetProcess (action);
+
+		if (timeCooked > process.IdealTimeMax) {
+			return Mathf.Round (10f * (process.IdealTimeMax / timeCooked)) / 10f;
+		} else if (timeCooked < process.IdealTimeMin) {
+			return Mathf.Round (10f * (timeCooked / process.IdealTimeMin)) / 10f;
+		} else {
+			return 1f;
+		}
+
+	}
+	string SortBoundaries(string action, float timeCooked){
+		ProcessDescriptor process = controller.GetProcess (action);
+
+		if (timeCooked < process.RedYellow) {
+			return "Red";
+		} else if (timeCooked < process.YellowGreen) {
+			return "Yellow";
+		} else if (timeCooked < process.GreenDarkGreen) {
+			return "Green";
+		} else if (timeCooked < process.DarkGreenGreen) {
+			return "DarkGreen";
+		} else if (timeCooked < process.GreenYellow) {
+			return "Green";
+		} else if (timeCooked < process.YellowRed) {
+			return "Yellow";
+		} else {
+			return "Red";
+		}
+	}
 
     public string HeatToString()
     {

@@ -1,49 +1,56 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.AI;
 
 public class CharacterMovement : MonoBehaviour {
 
 	public float speed = 5f;
 
-	public bool isMoving = false;
 	public bool isCooking = false;
 
-	private bool toStation = false;
-	private GameObject atStation;
+	private NavMeshAgent nav;
+//	private bool toStation = false;
+	public GameObject atStation;
 
-	public void Move(Vector2 position, GameObject clickedStation){
-		if (!isMoving && !isCooking) {
-			if (clickedStation != null) {
-				if (atStation != null && clickedStation == atStation) {
-					isMoving = true;
-					atStation.GetComponent<Station> ().Clicked ();
-					return;
-				}
-			}
-			position = clickedStation.transform.position;
-			StopAllCoroutines ();
-			StartCoroutine ("MoveTo", position);
-			if (clickedStation != null) {
-				toStation = true;
-				atStation = clickedStation;
+	void Awake(){
+		nav = GetComponent<NavMeshAgent> ();
+	}
+
+	public void Move(Vector3 position, GameObject clickedObject){
+		if (!isCooking && !atStation) {
+			if ((clickedObject.tag == "Station")) {
+//				toStation = true;
+				atStation = clickedObject;
+				atStation.GetComponent<Station> ().Clicked ();
+			} 
+			if (clickedObject.tag != "PlayerChar") {
+				Cancel ();
+				nav.destination = position;
+				nav.Resume ();
 			}
 		}
 	}
 
-	IEnumerator MoveTo (Vector2 position) {
-		isMoving = true;
-		while (Vector2.Distance(transform.position, position) > 0.1f) {
-			transform.position = Vector2.MoveTowards (transform.position, position, speed * Time.deltaTime);
-			yield return new WaitForFixedUpdate();
+	public void Cancel(){
+		if (!isCooking){
+			StopAllCoroutines ();
+			nav.Stop ();
 		}
-		if (toStation) {
-			atStation.GetComponent<Station> ().Clicked ();
-			toStation = false;
-		} else {
-			isMoving = false;
-		}
+	}
+
+//	IEnumerator MoveTo (Vector3 position) {
+//		nav.destination = position;
+//		nav.Resume ();
+
+//		if (toStation) {
+//			while (Vector3.Distance(atStation.transform.position, transform.position) > nav.stoppingDistance) {
+//				yield return new WaitForFixedUpdate();
+//			}	
+//			atStation.GetComponent<Station> ().Clicked ();
+//			toStation = false;
+//		}
 		//if clicked on station
 		//station -> attached dropdown 
 		//open dropdown.setactive
-	}
+//	}
 }

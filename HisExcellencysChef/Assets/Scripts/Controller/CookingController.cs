@@ -61,6 +61,12 @@ public class CookingController : SingletonController<CookingController> {
 		}
 	}
 
+	public Dictionary<string, UnderlingDescriptor> Underlings {
+		get {
+			return underlings.UnderlingByName;
+		}
+	}
+
 	public bool SupportsAction (string ingredient, string processName) {
 		return dishes.SupportsAction(ingredient, processName);
 	}
@@ -69,8 +75,8 @@ public class CookingController : SingletonController<CookingController> {
 		return dishes.Result(ingredient, processName);
 	}
 
-	public bool TryModifyWithAction (IngredientDescriptor ingredient, string processName) {
-		return processes.TryModifyWithAction(ingredient, processName);	
+	public bool TryModifyWithAction (IngredientDescriptor ingredient, string processName, float howRaw) {
+		return processes.TryModifyWithAction(ingredient, processName, howRaw);	
 	}
 
 	public ProcessDescriptor GetProcess (string processName) {

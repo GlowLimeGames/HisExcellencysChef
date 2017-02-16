@@ -24,9 +24,9 @@ public class ClickHandler : MonoBehaviour {
 	{	
 		if (Input.GetMouseButtonDown (1)) { // If we right click.
 			if (CanSelectCharacter ()) { // If we can select a character...
-				Vector2 worldPoint = Camera.main.ScreenToWorldPoint (Input.mousePosition);
-				RaycastHit2D hit = Physics2D.Raycast (worldPoint, Vector2.zero);
-				if (hit) { // If we clicked an object...
+				Vector3 worldPoint = Camera.main.ScreenToWorldPoint (Input.mousePosition);
+				RaycastHit hit;
+				if (Physics.Raycast (worldPoint, Vector3.down, out hit)) { // If we clicked an object...
 					GameObject clickedObject = hit.collider.gameObject; // Store the object that was just clicked inside clickedObject.
 					Debug.Log (clickedObject.name + " was clicked."); // Print the object name to the console.
 					if (clickedObject.tag.Equals ("PlayerChar")) { // If a playable character is clicked...
@@ -47,9 +47,9 @@ public class ClickHandler : MonoBehaviour {
         {
             if (CanSelectCharacter()) // If we can select a character...
             {
-                Vector2 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero);
-                if (hit) // If we clicked an object...
+                Vector3 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+				RaycastHit hit;
+				if (Physics.Raycast(worldPoint, Vector3.down, out hit)) // If we clicked an object...
                 {
                     GameObject clickedObject = hit.collider.gameObject; // Store the object that was just clicked inside clickedObject.
                     Debug.Log(clickedObject.name + " was clicked."); // Print the object name to the console.
@@ -59,9 +59,15 @@ public class ClickHandler : MonoBehaviour {
                     }
 
 
-                    if ((currentCharacter != null) && clickedObject.tag.Equals("Station")) // If we have a playable character and click on a station...
+                    if ((currentCharacter != null)) // If we have a playable character and click on a station...
                     {
                         CharacterMovement charMover = currentCharacter.GetComponent<CharacterMovement>();
+						CharacterProperties cp = currentCharacter.GetComponent<CharacterProperties> ();
+						if (!cp.isCook) {
+							if (charMover.isCooking) {
+								return;
+							}
+						}
                         if (clickedObject.name == "Pantry")
                         {
 							if (activeDropdown != null) {
@@ -76,7 +82,6 @@ public class ClickHandler : MonoBehaviour {
                         }
 						else 
                         {
-							
                             charMover.Move(hit.point, clickedObject); // Make the character move to that station.
                             //SelectCook(); // Select the Cook, which in turn will deselect any other character.
                         }

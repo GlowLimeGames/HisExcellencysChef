@@ -3,22 +3,70 @@
         {
          "Name" : "Guibert",
          "Gender" : "M",
-         "Traits" : ["Soldier", "Afraid of Fire"]
+         "Traits" : ["Soldier", "Afraid of Fire"],
+		 "AvgPound" : 14, 
+		 "DistPound" : 2,
+		 "AvgChop" : 4,
+		 "DistChop" : 1,
+		 "AvgSliver" : 10,
+		 "DistSliver" : 2,
+		 "AvgMince" : 9,
+		 "DistMince" : 1.5,
+		 "AvgFry" : 31,
+		 "DistFry" : 4,
+		 "AvgRoast" : 76,
+		 "DistRoast" : 10
        },
        {
          "Name" : "Arnaud",
          "Gender" : "M",
-         "Traits" : ["Shy"]
+         "Traits" : ["Shy"],
+		 "AvgPound" : 16, 
+		 "DistPound" : 2,
+		 "AvgChop" : 5,
+		 "DistChop" : 1,
+		 "AvgSliver" : 8,
+		 "DistSliver" : 2,
+		 "AvgMince" : 8.5,
+		 "DistMince" : 2,
+		 "AvgFry" : 43,
+		 "DistFry" : 5,
+		 "AvgRoast" : 85,
+		 "DistRoast" : 6
        },
        {
          "Name" : "Eloise",
          "Gender" : "F",
-         "Traits" : ["Shy"]
+         "Traits" : ["Shy"],
+ 		 "AvgPound" : 14, 
+		 "DistPound" : 2,
+		 "AvgChop" : 9,
+		 "DistChop" : 2,
+		 "AvgSliver" : 12,
+		 "DistSliver" : 2,
+		 "AvgMince" : 13,
+		 "DistMince" : 1,
+		 "AvgFry" : 30,
+		 "DistFry" : 4,
+		 "AvgRoast" : 82,
+		 "DistRoast" : 6
        },
        {
          "Name" : "Aemilia",
          "Gender" : "F",
-         "Traits" : ["Old Hand"]
+         "Traits" : ["Old Hand"],
+		 "AvgPound" : 16.5, 
+		 "DistPound" : 2.5,
+		 "AvgChop" : 4,
+		 "DistChop" : 2,
+		 "AvgSliver" : 9,
+		 "DistSliver" : 2,
+		 "AvgMince" : 8,
+		 "DistMince" : 1.5,
+		 "AvgFry" : 33,
+		 "DistFry" : 4,
+		 "AvgRoast" : 82,
+		 "DistRoast" : 10
        }
      ]
 }

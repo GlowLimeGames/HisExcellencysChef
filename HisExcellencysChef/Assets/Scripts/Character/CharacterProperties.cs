@@ -12,7 +12,7 @@ public class CharacterProperties : MonoBehaviour {
 
     void Start()
     {
-        ol = GetComponent<Outline>(); // Get the Outline script component.
+        ol = GetComponentInChildren<Outline>(); // Get the Outline script component.
         ol.enabled = false; // Turn the outline off.
     }
 

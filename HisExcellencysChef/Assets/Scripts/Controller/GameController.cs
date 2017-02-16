@@ -19,11 +19,16 @@ public class GameController : SingletonController<GameController> {
 			playMusic();
 		}
 		cooking = CookingController.Instance;
+		chef = GameObject.Find ("Cook").GetComponent<CharacterMovement>();
+		underling1 = GameObject.Find ("Aemilia").GetComponent<CharacterMovement>();
 	}
 		
 	void playMusic () {
 		EventController.Event(Event.GAME_MUSIC);
 	}
+
+	public CharacterMovement chef;
+	public CharacterMovement underling1;
 
 	public bool timer = false;
 	public float time = 480f;
@@ -34,9 +39,37 @@ public class GameController : SingletonController<GameController> {
 	public GameObject endScreen;
 	public Text score;
 
+	public Sprite[] sliders;
+	public Slider chefSlider;
+
+	public Transform DishesPanel;
+	public Button UIDishPrefab;
+	public List<GameObject> activeDishes = new List<GameObject>();
+
 	//something something keep track of active ingredients for UI and Reset
+	public void MakeUIDish(GameObject food){
+		Button dish = (Button)Instantiate (UIDishPrefab, DishesPanel);
+		dish.transform.localScale = Vector3.one;
+		dish.GetComponent<Image> ().sprite = food.GetComponent<SpriteRenderer> ().sprite;
+	}
+
+	public Ingredients currentlyCooking;
+	public void EditSlider(string action, Ingredients ingredient){
+		currentlyCooking = ingredient;
+		chefSlider.gameObject.SetActive (true);
+		chefSlider.maxValue = cooking.GetProcess (action).YellowRed;
+		foreach (Sprite bar in sliders) {
+			if (bar.name == cooking.GetProcess (action).ProgressBarPNG) {
+				chefSlider.GetComponentInChildren<Image>().sprite = bar;
+			}
+		}
+	}
 
 	void Update(){
+		if (chef.isCooking) {
+			chefSlider.value = currentlyCooking.howRaw;
+		}
+
 		if (timer) {
 			time -= Time.deltaTime;
 

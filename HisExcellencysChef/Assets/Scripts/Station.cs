@@ -28,17 +28,14 @@ public class Station : MonoBehaviour {
 	public void Cancel(){
 		if (dropDown == null) {
 			activeCharacter = GameObject.Find ("ClickHandler").GetComponent<ClickHandler> ().currentCharacter;
-			activeCharacter.GetComponent<CharacterMovement> ().isMoving = false;
 			return;
 		}
 
 		if (dropDown.GetComponent<Dropdown> ().value != 0) {
 			activeCharacter = GameObject.Find ("ClickHandler").GetComponent<ClickHandler> ().currentCharacter;
-			activeCharacter.GetComponent<CharacterMovement> ().isMoving = false;
 			dropDown.GetComponent<Dropdown> ().value = 0;
 		} else {
 			activeCharacter = GameObject.Find ("ClickHandler").GetComponent<ClickHandler> ().currentCharacter;
-			activeCharacter.GetComponent<CharacterMovement> ().isMoving = false;
 		}
 	}
 
@@ -47,7 +44,8 @@ public class Station : MonoBehaviour {
 		if (activeCharacter.GetComponent<CharacterProperties> ().heldDish != null)
 		{
 			if (dish != null) {
-				if (dish.GetComponent<Ingredients> ().TryAddIngredient (activeCharacter.GetComponent<CharacterProperties> ().heldDish.GetComponent<Ingredients>().primaryIngredientName)) {					Vector2 flavor = activeCharacter.GetComponent<CharacterProperties> ().heldDish.GetComponent<Ingredients> ().flavor;
+				if (dish.GetComponent<Ingredients> ().TryAddIngredient (activeCharacter.GetComponent<CharacterProperties> ().heldDish.GetComponent<Ingredients>().primaryIngredientName)) {					
+//				Vector2 flavor = activeCharacter.GetComponent<CharacterProperties> ().heldDish.GetComponent<Ingredients> ().flavor;
 				dish.GetComponent<Ingredients> ().TryAddIngredient(activeCharacter.GetComponent<CharacterProperties> ().heldDish.name);
 				dish.GetComponent<Ingredients> ().RefreshFlavor ();
 				Destroy (activeCharacter.GetComponent<CharacterProperties> ().heldDish);
@@ -61,8 +59,13 @@ public class Station : MonoBehaviour {
     public void PickUp()
     {
 		if (activeCharacter.GetComponent<CharacterProperties> ().heldDish == null) {
+			if (dish.GetComponent<Ingredients> ().isCooking) {
+				dish.GetComponent<Ingredients> ().isCooking = false;
+				dish.GetComponent<Ingredients> ().ChangeFlavor();
+				dish.GetComponent<Ingredients> ().StopAllCoroutines ();
+			}
 			dish.transform.parent = activeCharacter.transform;
-			dish.transform.position = activeCharacter.transform.position + new Vector3(0, 1.5f, 0);
+			dish.transform.position = activeCharacter.transform.position + new Vector3(0, 0, 3f);
 			activeCharacter.GetComponent<CharacterProperties> ().heldDish = dish;
 			dish = null;
 			dropDown.GetComponent<StationDropdown> ().ChangeOptions (false);
@@ -75,7 +78,7 @@ public class Station : MonoBehaviour {
     {
 		if (activeCharacter.GetComponent<CharacterProperties> ().heldDish != null) {
 			activeCharacter.GetComponent<CharacterProperties> ().heldDish = null;
-			dish = activeCharacter.transform.GetChild (0).gameObject;
+			dish = activeCharacter.transform.GetChild (1).gameObject;
 			dish.transform.parent = transform;
 			dish.transform.position = transform.position;
 			dropDown.GetComponent<StationDropdown> ().ChangeOptions (true);
@@ -85,6 +88,7 @@ public class Station : MonoBehaviour {
     }
 
 	public void Cook(string action){
+		Debug.Log (action);
 		if (activeCharacter.GetComponent<CharacterMovement> ().isCooking == false) {
 			dish.GetComponent<Ingredients> ().cookSelf (action, activeCharacter);
 		}
