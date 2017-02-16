@@ -9,26 +9,24 @@ public class CharacterMovement : MonoBehaviour {
 	public bool isCooking = false;
 
 	private NavMeshAgent nav;
-	private bool toStation = false;
-	private GameObject atStation;
+//	private bool toStation = false;
+	public GameObject atStation;
 
 	void Awake(){
 		nav = GetComponent<NavMeshAgent> ();
 	}
 
 	public void Move(Vector3 position, GameObject clickedObject){
-		if (!isCooking) {
-			if (clickedObject.name != "Ground") {
-				if (atStation != null && clickedObject == atStation) {
-					atStation.GetComponent<Station> ().Clicked ();
-					return;
-				}
-			}
-			Cancel ();
-			StartCoroutine ("MoveTo", position);
-			if (clickedObject.name != "Ground") {
-				toStation = true;
+		if (!isCooking && !atStation) {
+			if ((clickedObject.tag == "Station")) {
+//				toStation = true;
 				atStation = clickedObject;
+				atStation.GetComponent<Station> ().Clicked ();
+			} 
+			if (clickedObject.tag != "PlayerChar") {
+				Cancel ();
+				nav.destination = position;
+				nav.Resume ();
 			}
 		}
 	}
@@ -40,19 +38,19 @@ public class CharacterMovement : MonoBehaviour {
 		}
 	}
 
-	IEnumerator MoveTo (Vector3 position) {
-		nav.destination = position;
-		nav.Resume ();
+//	IEnumerator MoveTo (Vector3 position) {
+//		nav.destination = position;
+//		nav.Resume ();
 
-		if (toStation) {
-			while (Vector3.Distance(atStation.transform.position, transform.position) > nav.stoppingDistance) {
-				yield return new WaitForFixedUpdate();
-			}	
-			atStation.GetComponent<Station> ().Clicked ();
-			toStation = false;
-		}
+//		if (toStation) {
+//			while (Vector3.Distance(atStation.transform.position, transform.position) > nav.stoppingDistance) {
+//				yield return new WaitForFixedUpdate();
+//			}	
+//			atStation.GetComponent<Station> ().Clicked ();
+//			toStation = false;
+//		}
 		//if clicked on station
 		//station -> attached dropdown 
 		//open dropdown.setactive
-	}
+//	}
 }

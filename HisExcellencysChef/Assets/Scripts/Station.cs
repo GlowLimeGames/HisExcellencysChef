@@ -65,7 +65,7 @@ public class Station : MonoBehaviour {
 				dish.GetComponent<Ingredients> ().StopAllCoroutines ();
 			}
 			dish.transform.parent = activeCharacter.transform;
-			dish.transform.position = activeCharacter.transform.position + new Vector3(0, 1.5f, 0);
+			dish.transform.position = activeCharacter.transform.position + new Vector3(0, 0, 3f);
 			activeCharacter.GetComponent<CharacterProperties> ().heldDish = dish;
 			dish = null;
 			dropDown.GetComponent<StationDropdown> ().ChangeOptions (false);
@@ -78,7 +78,7 @@ public class Station : MonoBehaviour {
     {
 		if (activeCharacter.GetComponent<CharacterProperties> ().heldDish != null) {
 			activeCharacter.GetComponent<CharacterProperties> ().heldDish = null;
-			dish = activeCharacter.transform.GetChild (0).gameObject;
+			dish = activeCharacter.transform.GetChild (1).gameObject;
 			dish.transform.parent = transform;
 			dish.transform.position = transform.position;
 			dropDown.GetComponent<StationDropdown> ().ChangeOptions (true);

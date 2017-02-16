@@ -61,6 +61,12 @@ public class CookingController : SingletonController<CookingController> {
 		}
 	}
 
+	public Dictionary<string, UnderlingDescriptor> Underlings {
+		get {
+			return underlings.UnderlingByName;
+		}
+	}
+
 	public bool SupportsAction (string ingredient, string processName) {
 		return dishes.SupportsAction(ingredient, processName);
 	}

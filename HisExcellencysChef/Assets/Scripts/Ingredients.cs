@@ -144,11 +144,41 @@ public class Ingredients : MannBehaviour {
 				yield return null;
 			}
 		ChangeFlavor ();
-		Debug.Log("Ding");
 		RefreshFlavor();
 		character.GetComponent<CharacterMovement>().isCooking = false;
 		isCooking = false;
 				//change icon to new one
+	}
+
+	IEnumerator CookTimeStartUnderling(string action)
+	{
+		isCooking = true;
+		float timeIn = 0f;
+		bool done = false;
+		bool active = controller.GetProcess (action).Active;
+		if (active) {
+			character.GetComponent<CharacterMovement>().isCooking = true;
+			character.GetComponent<UnderlingController> ().SetTimer (action);
+		}
+		actionDone = action;
+		while (!done)
+		{
+
+			timeIn += Time.deltaTime;
+			howRaw = timeIn; 
+//			if (active) {
+//				if (Input.GetMouseButtonUp (1)) {
+//					done = true;
+//				}
+//			}
+			//Progress bar + change flavor +/- based on underling
+			yield return null;
+		}
+		ChangeFlavor ();
+		RefreshFlavor();
+		character.GetComponent<CharacterMovement>().isCooking = false;
+		isCooking = false;
+		//change icon to new one
 	}
 
 	float PercentCooked(string action, float timeCooked){

@@ -31,7 +31,8 @@ public class InventoryButton : MonoBehaviour
 		if (cp.heldDish == null)
         {
             // Instantiate the food above the player's head.
-			GameObject food = (GameObject)Instantiate (item, cp.transform.position + new Vector3 (0, 1.5f, 0), Quaternion.identity);
+			GameObject food = (GameObject)Instantiate (item, cp.transform.position + new Vector3 (0, 0, 3f), Quaternion.identity);
+			food.transform.rotation = item.transform.rotation;
 			food.GetComponent<Ingredients>().primaryIngredientName = food.name.Replace ("(Clone)", "").Trim();
 			if (food.GetComponent<Ingredients>().primaryIngredient.ResultsInDish) {
 				GameController.Instance.MakeUIDish (food);

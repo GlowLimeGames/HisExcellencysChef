@@ -57,6 +57,7 @@ public class StationDropdown : MonoBehaviour {
 						station.GetComponent<Station> ().Cook (menu.options [menu.value].text);
 					}
 				}
+				gameObject.SetActive (false);
 			}
 		}
 	}

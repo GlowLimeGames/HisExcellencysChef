@@ -62,6 +62,12 @@ public class ClickHandler : MonoBehaviour {
                     if ((currentCharacter != null)) // If we have a playable character and click on a station...
                     {
                         CharacterMovement charMover = currentCharacter.GetComponent<CharacterMovement>();
+						CharacterProperties cp = currentCharacter.GetComponent<CharacterProperties> ();
+						if (!cp.isCook) {
+							if (charMover.isCooking) {
+								return;
+							}
+						}
                         if (clickedObject.name == "Pantry")
                         {
 							if (activeDropdown != null) {
