@@ -27,6 +27,7 @@ public class Ingredients : MannBehaviour {
 	public string howCooked;
 
 
+
     // Use this for initialization
     protected override void SetReferences () {
 		primaryIngredientName = transform.name;
@@ -111,7 +112,7 @@ public class Ingredients : MannBehaviour {
 
 		GameController.Instance.chefSlider.gameObject.SetActive (false);
 		GetComponent<SpriteRenderer>().color = new Color32(150, 150, 150, 255);
-		character.GetComponent<CharacterMovement>().isCooking = false;
+		character.GetComponent<CharacterMovement>().Cancel();
 		RefreshFlavor ();
 		//Add Obsolete processes to ingredient
 		//Add to side panel and store information before resetting

@@ -41,7 +41,7 @@ public class OutlineEffect : MonoBehaviour
     public Color lineColor0 = Color.red;
     public Color lineColor1 = Color.green;
     public Color lineColor2 = Color.blue;
-    public bool flipY = false;
+    public bool flipY = true;
     public bool additiveRendering = true;
     public float alphaCutoff = .5f;
 

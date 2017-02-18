@@ -91,6 +91,7 @@ public class Station : MonoBehaviour {
 		Debug.Log (action);
 		if (activeCharacter.GetComponent<CharacterMovement> ().isCooking == false) {
 			dish.GetComponent<Ingredients> ().cookSelf (action, activeCharacter);
+			EventController.Event (Event.FRY);
 		}
 
 		Cancel ();

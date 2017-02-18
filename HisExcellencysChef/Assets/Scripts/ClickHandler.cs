@@ -37,6 +37,7 @@ public class ClickHandler : MonoBehaviour {
 						if (clickedObject != activeDropdown && clickedObject != activeDropdown.GetComponent<Station> ().dropDown) {
 							activeDropdown.GetComponent<Station> ().Cancel ();
 							activeDropdown.GetComponent<Station> ().dropDown.SetActive (false);
+							currentCharacter.GetComponent<CharacterMovement> ().Cancel();
 							activeDropdown = null;
 						}
 					}

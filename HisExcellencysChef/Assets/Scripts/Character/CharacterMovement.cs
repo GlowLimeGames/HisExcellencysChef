@@ -12,30 +12,36 @@ public class CharacterMovement : MonoBehaviour {
 //	private bool toStation = false;
 	public GameObject atStation;
 
+	CharacterProperties cp;
+
 	void Awake(){
+		cp = GetComponent<CharacterProperties> ();
 		nav = GetComponent<NavMeshAgent> ();
 	}
 
 	public void Move(Vector3 position, GameObject clickedObject){
-		if (!isCooking && !atStation) {
+		if (!isCooking && !cp.atStation) {
+			if (clickedObject.tag != "PlayerChar") {
+				if (!cp.atStation) {
+					Cancel ();
+					nav.destination = position;
+					nav.Resume ();
+				}
+			}
 			if ((clickedObject.tag == "Station")) {
 //				toStation = true;
+				cp.atStation = true;
 				atStation = clickedObject;
 				atStation.GetComponent<Station> ().Clicked ();
 			} 
-			if (clickedObject.tag != "PlayerChar") {
-				Cancel ();
-				nav.destination = position;
-				nav.Resume ();
-			}
 		}
 	}
 
 	public void Cancel(){
-		if (!isCooking){
-			StopAllCoroutines ();
-			nav.Stop ();
-		}
+		StopAllCoroutines ();
+		nav.Stop ();
+		cp.atStation = false;
+		atStation = null;
 	}
 
 //	IEnumerator MoveTo (Vector3 position) {

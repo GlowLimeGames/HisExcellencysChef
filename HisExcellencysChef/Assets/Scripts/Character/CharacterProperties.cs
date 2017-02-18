@@ -8,9 +8,9 @@ public class CharacterProperties : MonoBehaviour {
     public bool atStation = false;
     public GameObject heldDish = null; // Use null for no dish.
 
-    private Outline ol; // A variable for the Outline script component.
+    public Outline ol; // A variable for the Outline script component.
 
-    void Start()
+    void Awake()
     {
         ol = GetComponentInChildren<Outline>(); // Get the Outline script component.
         ol.enabled = false; // Turn the outline off.
