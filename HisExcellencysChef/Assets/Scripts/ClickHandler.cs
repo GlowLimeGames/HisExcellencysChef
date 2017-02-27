@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class ClickHandler : MonoBehaviour {
@@ -7,7 +8,6 @@ public class ClickHandler : MonoBehaviour {
     public GameObject pantryInventoryUI; // Pantry inventory object.
     public GameObject dialogueWindow; // Dialogue window object.
 	public GameObject activeDropdown;
-
     private DialogueController dc; // Dialogue controller component.
 
     void Awake()
@@ -20,7 +20,7 @@ public class ClickHandler : MonoBehaviour {
         SelectCook(); // Start by selecting the Cook automatically.
     }
 	
-	void Update ()
+	void LateUpdate ()
 	{	
 		if (Input.GetMouseButtonDown (1)) { // If we right click.
 			if (CanSelectCharacter ()) { // If we can select a character...
@@ -50,44 +50,53 @@ public class ClickHandler : MonoBehaviour {
             {
                 Vector3 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 				RaycastHit hit;
-				if (Physics.Raycast(worldPoint, Vector3.down, out hit)) // If we clicked an object...
-                {
-                    GameObject clickedObject = hit.collider.gameObject; // Store the object that was just clicked inside clickedObject.
-                    Debug.Log(clickedObject.name + " was clicked."); // Print the object name to the console.
-                    if (clickedObject.tag.Equals("PlayerChar")) // If a playable character is clicked...
-                    {
-                        SelectCharacter(clickedObject); // Select the character.
-                    }
+
+				if (Physics.Raycast (worldPoint, Vector3.down, out hit)) {// If we clicked an object...
+					GameObject clickedObject = hit.collider.gameObject; // Store the object that was just clicked inside clickedObject.
+					Debug.Log (clickedObject.name + " was clicked."); // Print the object name to the console.
+					if (clickedObject.tag.Equals ("PlayerChar")) { // If a playable character is clicked...
+						SelectCharacter (clickedObject); // Select the character.
+					}
 
 
-                    if ((currentCharacter != null)) // If we have a playable character and click on a station...
-                    {
-                        CharacterMovement charMover = currentCharacter.GetComponent<CharacterMovement>();
+					if ((currentCharacter != null)) { // If we have a playable character and click on a station...
+						CharacterMovement charMover = currentCharacter.GetComponent<CharacterMovement> ();
 						CharacterProperties cp = currentCharacter.GetComponent<CharacterProperties> ();
 						if (!cp.isCook) {
 							if (charMover.isCooking) {
 								return;
 							}
 						}
-                        if (clickedObject.name == "Pantry")
-                        {
+						if (clickedObject.name == "Pantry") {
 							if (activeDropdown != null) {
 								if (clickedObject != activeDropdown && clickedObject != activeDropdown.GetComponent<Station> ().dropDown) {
 									activeDropdown.GetComponent<Station> ().Cancel ();
-									activeDropdown.GetComponent<Station> ().dropDown.SetActive (false);
-									activeDropdown = null;
 								}
 							}
-                            InventoryUI piui = pantryInventoryUI.GetComponent<InventoryUI>();
-                            piui.SetEnabled(true);
-                        }
-						else 
-                        {
-                            charMover.Move(hit.point, clickedObject); // Make the character move to that station.
-                            //SelectCook(); // Select the Cook, which in turn will deselect any other character.
-                        }
-                    }
-                }
+							InventoryUI piui = pantryInventoryUI.GetComponent<InventoryUI> ();
+							piui.SetEnabled (true);
+						} else {
+							if (activeDropdown != null) {
+								activeDropdown.GetComponent<Station> ().Cancel ();
+								activeDropdown = null;
+							}
+							if (clickedObject.name == "Ground") {
+								charMover.atStation = null;
+							} else if (clickedObject.tag == "Station") {
+								if (charMover.atStation != null) {
+									cp.atStation = false;
+									charMover.atStation = null;
+									if (activeDropdown != null) {
+										activeDropdown.GetComponent<Station> ().Cancel ();
+									}
+									return;
+								} 
+							}
+							charMover.Move (hit.point, clickedObject); // Make the character move to that station.
+							//SelectCook(); // Select the Cook, which in turn will deselect any other character.
+						}
+					}
+				}
             }
         }
     }

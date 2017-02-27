@@ -18,25 +18,16 @@ public class Station : MonoBehaviour {
 			}
 			return;
 		}
-		dropDown.SetActive (true);
+		dropDown.GetComponent<StationDropdown> ().OnClicked (this.gameObject);
 		activeCharacter = GameObject.Find ("ClickHandler").GetComponent<ClickHandler> ().currentCharacter;
-		if (GameObject.Find ("ClickHandler").GetComponent<ClickHandler> ().activeDropdown == null) {
-			GameObject.Find ("ClickHandler").GetComponent<ClickHandler> ().activeDropdown = this.gameObject;
-		}
+		GameObject.Find ("ClickHandler").GetComponent<ClickHandler> ().activeDropdown = this.gameObject;
 	}
 
 	public void Cancel(){
-		if (dropDown == null) {
-			activeCharacter = GameObject.Find ("ClickHandler").GetComponent<ClickHandler> ().currentCharacter;
-			return;
-		}
-
-		if (dropDown.GetComponent<Dropdown> ().value != 0) {
-			activeCharacter = GameObject.Find ("ClickHandler").GetComponent<ClickHandler> ().currentCharacter;
-			dropDown.GetComponent<Dropdown> ().value = 0;
-		} else {
-			activeCharacter = GameObject.Find ("ClickHandler").GetComponent<ClickHandler> ().currentCharacter;
-		}
+//		activeCharacter = GameObject.Find ("ClickHandler").GetComponent<ClickHandler> ().currentCharacter;
+		dropDown.GetComponent<StationDropdown>().Clear();
+		GameObject.Find ("ClickHandler").GetComponent<ClickHandler> ().activeDropdown = null;
+		dropDown.transform.parent.gameObject.SetActive(false);
 	}
 
     public void AddTo()
@@ -67,8 +58,8 @@ public class Station : MonoBehaviour {
 			dish.transform.parent = activeCharacter.transform;
 			dish.transform.position = activeCharacter.transform.position + new Vector3(0, 0, 3f);
 			activeCharacter.GetComponent<CharacterProperties> ().heldDish = dish;
+			activeCharacter.GetComponent<CharacterMovement> ().isCooking = false;
 			dish = null;
-			dropDown.GetComponent<StationDropdown> ().ChangeOptions (false);
 		}
 
 		Cancel ();
@@ -81,17 +72,18 @@ public class Station : MonoBehaviour {
 			dish = activeCharacter.transform.GetChild (1).gameObject;
 			dish.transform.parent = transform;
 			dish.transform.position = transform.position;
-			dropDown.GetComponent<StationDropdown> ().ChangeOptions (true);
 		}
 
 		Cancel ();
     }
 
 	public void Cook(string action){
-		Debug.Log (action);
 		if (activeCharacter.GetComponent<CharacterMovement> ().isCooking == false) {
-			dish.GetComponent<Ingredients> ().cookSelf (action, activeCharacter);
-			EventController.Event (Event.FRY);
+			if (dish == null) {
+				activeCharacter.GetComponent<CharacterProperties> ().heldDish.GetComponent<Ingredients> ().cookSelf (action, activeCharacter);
+			} else {
+				dish.GetComponent<Ingredients> ().cookSelf (action, activeCharacter);
+			}
 		}
 
 		Cancel ();

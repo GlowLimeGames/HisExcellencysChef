@@ -25,7 +25,7 @@ public class Ingredients : MannBehaviour {
 	public string newFood;
 
 	public string howCooked;
-
+	public string[] obsoletes;
 
 
     // Use this for initialization
@@ -88,6 +88,7 @@ public class Ingredients : MannBehaviour {
     {
 		if (!isCooking) {
 			character = activeChar;
+			Debug.Log ("here");
 			if (activeChar.GetComponent<CharacterProperties> ().isCook) {
 				StartCoroutine ("CookTimeStartChef", action);
 			} else {
@@ -114,6 +115,7 @@ public class Ingredients : MannBehaviour {
 		GetComponent<SpriteRenderer>().color = new Color32(150, 150, 150, 255);
 		character.GetComponent<CharacterMovement>().Cancel();
 		RefreshFlavor ();
+		obsoletes = controller.GetProcess (actionDone).Obsoletes;
 		//Add Obsolete processes to ingredient
 		//Add to side panel and store information before resetting
 		//Change sprite if needed
@@ -127,7 +129,8 @@ public class Ingredients : MannBehaviour {
 		bool done = false;
 		bool active = controller.GetProcess (action).Active;
 		if (active) {
-			character.GetComponent<CharacterMovement>().isCooking = true;
+			character.GetComponent<CharacterMovement> ().isCooking = true;
+			character.GetComponent<CharacterProperties> ().atStation = true;
 			GameController.Instance.EditSlider (action, this);
 		}
 		actionDone = action;
