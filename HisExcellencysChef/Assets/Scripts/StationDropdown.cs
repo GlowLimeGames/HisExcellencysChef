@@ -10,9 +10,17 @@ public class StationDropdown : MonoBehaviour {
 	public bool active = false;
 	List<GameObject> functionList = new List<GameObject> ();
 	string[] dropDownOptions;
+	Image selectedImage;
+	public Image pickUp;
+	public Image putDown;
+	public Image addTo;
+	public Image discard;
+	public Image taste;
+
 	// Use this for initialization
 	void Start () {
 		transform.parent.gameObject.SetActive (false);
+		selectedImage = GetComponent<Image> ();
 	}
 
 	public void OnClicked(GameObject clickedObject){
@@ -23,6 +31,7 @@ public class StationDropdown : MonoBehaviour {
 			MakePossibleFunctions (clickedObject);
 			BlockOutObsoletes (clickedObject);
 			Vector3 mousePos = Camera.main.ScreenToWorldPoint (Input.mousePosition);
+			selectedImage.sprite = clickedObject.GetComponent<SpriteRenderer> ().sprite;
 			transform.parent.position = new Vector3 (mousePos.x, 0f, mousePos.z);
 			transform.parent.gameObject.SetActive (true);
 		}
@@ -42,6 +51,7 @@ public class StationDropdown : MonoBehaviour {
 				aButton.transform.SetParent(transform);
 				aButton.transform.Rotate(Vector3.zero);
 				aButton.name = process;
+				aButton.GetComponentInChildren<Text> ().text = process;
 				functionList.Add (aButton);
 				if (station.GetComponent<Station> ().dish != null) {
 					process = "AddTo";
@@ -49,6 +59,7 @@ public class StationDropdown : MonoBehaviour {
 					aButton.transform.SetParent (transform);
 					aButton.transform.Rotate (Vector3.zero);
 					aButton.name = process;
+					aButton.GetComponentInChildren<Text> ().text = process;
 					functionList.Add (aButton);
 				}
 			} else {
@@ -58,6 +69,7 @@ public class StationDropdown : MonoBehaviour {
 					aButton.transform.SetParent (transform);
 					aButton.transform.Rotate (Vector3.zero);
 					aButton.name = process;
+					aButton.GetComponentInChildren<Text> ().text = process;
 					functionList.Add (aButton);
 				}
 			}
@@ -67,6 +79,7 @@ public class StationDropdown : MonoBehaviour {
 				aButton.transform.SetParent (transform);
 				aButton.transform.Rotate (Vector3.zero);
 				aButton.name = process;
+				aButton.GetComponentInChildren<Text> ().text = process;
 				functionList.Add (aButton);
 			}
 		}
@@ -81,6 +94,7 @@ public class StationDropdown : MonoBehaviour {
 				aButton.transform.SetParent (transform);
 				aButton.transform.Rotate (Vector3.zero);
 				aButton.name = process;
+				aButton.GetComponentInChildren<Text> ().text = process;
 				functionList.Add (aButton);
 			}
 		}
@@ -91,6 +105,7 @@ public class StationDropdown : MonoBehaviour {
 				aButton.transform.SetParent (transform);
 				aButton.transform.Rotate (Vector3.zero);
 				aButton.name = aProcess;
+				aButton.GetComponentInChildren<Text> ().text = aProcess;
 				functionList.Add (aButton);
 			}
 		} else if (station.GetComponent<Station> ().dish != null) {
@@ -99,6 +114,7 @@ public class StationDropdown : MonoBehaviour {
 				aButton.transform.SetParent (transform);
 				aButton.transform.Rotate (Vector3.zero);
 				aButton.name = aProcess;
+				aButton.GetComponentInChildren<Text> ().text = aProcess;
 				functionList.Add (aButton);
 			}
 		}

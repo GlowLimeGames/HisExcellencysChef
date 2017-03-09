@@ -51,6 +51,22 @@ public class GameController : SingletonController<GameController> {
 		Button dish = (Button)Instantiate (UIDishPrefab, DishesPanel);
 		dish.transform.localScale = Vector3.one;
 		dish.GetComponent<Image> ().sprite = food.GetComponent<SpriteRenderer> ().sprite;
+		dish.name = activeDishes.Count.ToString();
+		activeDishes.Add (food);
+		dish.onClick.AddListener (BannerOnClick);
+
+		//Make a child attached to each one to display other information and create a image update script to change image based on a target
+	}
+
+
+	void BannerOnClick()
+	{
+		GameObject thisButton = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;
+		GameObject food = activeDishes[int.Parse(thisButton.name)];
+
+		//if food was served then display this information in a text box
+		Debug.Log (food.GetComponent<Ingredients>().primaryIngredientName);
+		Debug.Log (food.GetComponent<Ingredients> ().flavor);
 	}
 
 	public Ingredients currentlyCooking;

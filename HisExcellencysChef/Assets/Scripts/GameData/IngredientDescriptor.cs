@@ -23,6 +23,23 @@ public class IngredientDescriptor : HECData {
 		this.TasteHeat += addOn.TasteHeat;
 		this.TasteMoisture += addOn.TasteMoisture;
 	}
+
+	public IngredientDescriptor Copy(){
+		IngredientDescriptor ingredient = new IngredientDescriptor ();
+		ingredient.Ingredient = this.Ingredient;
+		ingredient.PantryType = this.PantryType;
+		ingredient.TasteStrength = this.TasteStrength;
+		ingredient.TasteHeat = this.TasteHeat;
+		ingredient.TasteMoisture = this.TasteMoisture;
+		ingredient.IncomeQuantity = this.IncomeQuantity;
+		ingredient.Spoilage = this.Spoilage;
+		ingredient.Processes = this.Processes;
+		ingredient.ResultsInDish = this.ResultsInDish;
+		ingredient.PositiveExecutionModifiers = this.PositiveExecutionModifiers;
+		ingredient.NegativeExecutionModifiers = this.NegativeExecutionModifiers;
+
+		return ingredient;
+	}
 }
 
 [System.Serializable]

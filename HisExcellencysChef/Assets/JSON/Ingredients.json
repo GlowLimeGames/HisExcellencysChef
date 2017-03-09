@@ -100,7 +100,8 @@
          "Processes" : ["Pound", "Sliver", "Mince", "Fry", "Seethe", "Roast"],
          "ResultsInDish" : true,
          "PositiveExecutionModifiers" : null,
-         "NegativeExecutionModifiers" : null
+         "NegativeExecutionModifiers" : null,
+		 "Quantity" : 2
        },
        {
          "Ingredient" : "Eggs",

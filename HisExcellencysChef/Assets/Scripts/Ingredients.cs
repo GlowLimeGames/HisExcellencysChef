@@ -13,7 +13,7 @@ public class Ingredients : MannBehaviour {
 
     public string primaryIngredientName;
 
-	public IngredientDescriptor primaryIngredient;
+	public IngredientDescriptor primaryIngredient = new IngredientDescriptor();
 	List<IngredientDescriptor> addOnIngridents = new List<IngredientDescriptor>();
 	Dictionary<string, IngredientDescriptor> ingredientLookup;
 
@@ -40,9 +40,9 @@ public class Ingredients : MannBehaviour {
 	}
 
 	void setPrimaryIngredient () {
-		IngredientDescriptor primaryIngredient;
-		if (ingredientLookup.TryGetValue(primaryIngredientName, out primaryIngredient)) {
-			this.primaryIngredient = primaryIngredient;
+		IngredientDescriptor primary;
+		if (ingredientLookup.TryGetValue(primaryIngredientName, out primary)){
+			this.primaryIngredient = primary.Copy ();
 			RefreshFlavor ();
 		} else {
 			Debug.LogErrorFormat("Primary ingredient {0} DNE in Lookup", primaryIngredientName);
@@ -62,7 +62,6 @@ public class Ingredients : MannBehaviour {
 		IngredientDescriptor ingredient;
 		bool wasSuccessful;
 		if (wasSuccessful = ingredientLookup.TryGetValue(ingredientName, out ingredient)) {
-			Debug.Log ("got here");
 			addOnIngridents.Add(ingredient);
 			primaryIngredient.ModifyWithAddOn(ingredient);
 		}
@@ -88,7 +87,6 @@ public class Ingredients : MannBehaviour {
     {
 		if (!isCooking) {
 			character = activeChar;
-			Debug.Log ("here");
 			if (activeChar.GetComponent<CharacterProperties> ().isCook) {
 				StartCoroutine ("CookTimeStartChef", action);
 			} else {
@@ -111,7 +109,9 @@ public class Ingredients : MannBehaviour {
 		TryPerformAction(actionDone, percentCooked);
 		howCooked = SortBoundaries (actionDone, howRaw);
 
-		GameController.Instance.chefSlider.gameObject.SetActive (false);
+		if (character.GetComponent<CharacterProperties> ().isCook) {
+			GameController.Instance.chefSlider.gameObject.SetActive (false);
+		}
 		GetComponent<SpriteRenderer>().color = new Color32(150, 150, 150, 255);
 		character.GetComponent<CharacterMovement>().Cancel();
 		RefreshFlavor ();
