@@ -25,6 +25,7 @@ public class Ingredients : MannBehaviour {
 	public string newFood;
 
 	public string howCooked;
+	List<string> actionsDone = new List<string>();
 	public string[] obsoletes;
 
 
@@ -115,6 +116,7 @@ public class Ingredients : MannBehaviour {
 		GetComponent<SpriteRenderer>().color = new Color32(150, 150, 150, 255);
 		character.GetComponent<CharacterMovement>().Cancel();
 		RefreshFlavor ();
+		actionsDone.Add (actionDone);
 		obsoletes = controller.GetProcess (actionDone).Obsoletes;
 		//Add Obsolete processes to ingredient
 		//Add to side panel and store information before resetting

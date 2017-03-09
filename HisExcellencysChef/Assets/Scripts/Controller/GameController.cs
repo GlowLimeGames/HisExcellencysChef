@@ -42,6 +42,8 @@ public class GameController : SingletonController<GameController> {
 	public Sprite[] sliders;
 	public Slider chefSlider;
 
+	public float dialogueTime = 5f;
+	public GameObject UIDialogueBox;
 	public Transform DishesPanel;
 	public Button UIDishPrefab;
 	public List<GameObject> activeDishes = new List<GameObject>();
@@ -58,6 +60,17 @@ public class GameController : SingletonController<GameController> {
 		//Make a child attached to each one to display other information and create a image update script to change image based on a target
 	}
 
+	public void MakeDialogueBox(string whatToSay){
+		UIDialogueBox.SetActive (true);
+		UIDialogueBox.GetComponent<DialogueController> ().CharacterSpeak (whatToSay);
+
+		CancelInvoke ("CloseDialogue");
+		Invoke ("CloseDialogue", dialogueTime);
+	}
+
+	void CloseDialogue(){
+		UIDialogueBox.SetActive (false);
+	}
 
 	void BannerOnClick()
 	{

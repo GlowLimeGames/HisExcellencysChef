@@ -24,7 +24,8 @@ public class DialogueController : MonoBehaviour
         // If the dialogue box isn't set as active in the scene editor, hide it.
         SetActive(active);
         // First message!
-        CharacterSpeak(@"Hello, young cook!
+		if (active) {
+			CharacterSpeak (@"Hello, young cook!
 
 To select a primary ingredient, click on a character, then click on the Pantry Door.
 
@@ -33,6 +34,7 @@ To cook that ingredient, click a station and select ""Put Down"" in the drop dow
 When you want to finish a dish, select the character carrying it and click on the gray square below.
 
 Ingredients are Hot or Cold and Moist or Dry. Try to balance the flavors across your dishes.");
+		}
     }
 
     // Enable or disable the dialogue box.
@@ -56,7 +58,7 @@ Ingredients are Hot or Cold and Moist or Dry. Try to balance the flavors across 
     }
 
     // Make a character talk using the message box.
-    void CharacterSpeak(string msg)
+    public void CharacterSpeak(string msg)
     {
         SetActive(true);
         StartCoroutine(DialogueTypeOut(msg));

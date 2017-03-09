@@ -16,6 +16,7 @@ public class StationDropdown : MonoBehaviour {
 	public Image addTo;
 	public Image discard;
 	public Image taste;
+	public TasteTesting tasteClass; 
 
 	// Use this for initialization
 	void Start () {
@@ -162,7 +163,38 @@ public class StationDropdown : MonoBehaviour {
 	}
 
 	public void Taste(){
+		Debug.Log ("Got here");
+		string response = "Mmmmmmm that's pretty guud!";
+		Ingredients food = station.GetComponent<Station> ().dish.GetComponent<Ingredients> ();
+		// if ingredient was Red keep track of the processes that burnt it and randomly have a chance to say that instead of doing anything below
+		//"Something in this was badly overdone"
+		//"Oh no, we did not finish something in this."
 
+		if (GameController.Instance.time > 30f) {
+			ProcessDescriptor process;
+			if (food.actionDone != "") {
+				process = CookingController.Instance.GetProcess (food.actionDone);
+			} else {
+				process = CookingController.Instance.GetProcess ("Fry");
+			}
+
+			if (tasteClass == null) {
+				tasteClass = new TasteTesting (food.flavor.x, food.flavor.y, food.howCooked, process.IdealTimeMin, process.IdealTimeMax, food.howRaw);
+			} else {
+				tasteClass.updateAll (food.flavor.x, food.flavor.y, food.howCooked, process.IdealTimeMin, process.IdealTimeMax, food.howRaw);
+			}
+
+
+			if (food.actionDone != "") {
+				response = tasteClass.tasteTest ();
+			} else if (food.actionDone == "") {
+				response = tasteClass.tasteHeat ();
+			}
+		} else {
+			response = "We don't have much time to waste!";
+		}
+
+		GameController.Instance.MakeDialogueBox (response);
 	}
 
 	public void Discard(){
