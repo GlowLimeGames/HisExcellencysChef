@@ -17,8 +17,8 @@
 		 "YellowGreen" : 15,
 		 "GreenDarkGreen" : 18,
 		 "DarkGreenGreen" : 21,
-		 "GreenYellow" : null,
-		 "YellowRed" : null,
+		 "GreenYellow" : 0,
+		 "YellowRed" : 0,
          "ProgressBarPNG" : "Pound"
        },
        {

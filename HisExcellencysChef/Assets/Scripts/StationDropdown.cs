@@ -8,7 +8,7 @@ public class StationDropdown : MonoBehaviour {
 	public GameObject functionButton;
 
 	public bool active = false;
-	List<GameObject> functionList = new List<GameObject> ();
+	public List<GameObject> functionList = new List<GameObject> ();
 	string[] dropDownOptions;
 	Image selectedImage;
 	public Image pickUp;
@@ -30,9 +30,14 @@ public class StationDropdown : MonoBehaviour {
 			station = clickedObject;
 			dropDownOptions = GetPossibleFunctions (clickedObject);
 			MakePossibleFunctions (clickedObject);
+			ShowIngredientProcesses (clickedObject);
 			BlockOutObsoletes (clickedObject);
 			Vector3 mousePos = Camera.main.ScreenToWorldPoint (Input.mousePosition);
-			selectedImage.sprite = clickedObject.GetComponent<SpriteRenderer> ().sprite;
+			if (clickedObject.transform.parent.name != "Environment") {
+				selectedImage.sprite = clickedObject.transform.parent.GetComponent<SpriteRenderer> ().sprite;
+			} else {
+				selectedImage.sprite = clickedObject.GetComponent<SpriteRenderer> ().sprite;
+			}
 			transform.parent.position = new Vector3 (mousePos.x, 0f, mousePos.z);
 			transform.parent.gameObject.SetActive (true);
 		}
@@ -42,47 +47,50 @@ public class StationDropdown : MonoBehaviour {
 		return CookingController.Instance.GetProcessesForStation (clickedObject.name);
 	}
 
+
+
 	void MakePossibleFunctions(GameObject clickedObject){
 		//Make Basic Buttons
 		string process;
-		if (clickedObject.name == "Range" || clickedObject.name == "Table") {
-			if (GameObject.Find ("ClickHandler").GetComponent<ClickHandler> ().currentCharacter.GetComponent<CharacterProperties> ().heldDish != null) {
+
+		if (GameObject.Find ("ClickHandler").GetComponent<ClickHandler> ().currentCharacter.GetComponent<CharacterProperties> ().heldDish != null) {
+			if (clickedObject.name == "Range" || clickedObject.name == "Table") {
 				process = "PutDown";
-				GameObject aButton = (GameObject) Instantiate (functionButton,transform.position,Quaternion.identity);
-				aButton.transform.SetParent(transform);
-				aButton.transform.Rotate(Vector3.zero);
-				aButton.name = process;
-				aButton.GetComponentInChildren<Text> ().text = process;
-				functionList.Add (aButton);
-				if (station.GetComponent<Station> ().dish != null) {
-					process = "AddTo";
-					aButton = (GameObject)Instantiate (functionButton, transform.position, Quaternion.identity);
-					aButton.transform.SetParent (transform);
-					aButton.transform.Rotate (Vector3.zero);
-					aButton.name = process;
-					aButton.GetComponentInChildren<Text> ().text = process;
-					functionList.Add (aButton);
-				}
-			} else {
-				if (station.GetComponent<Station> ().dish != null) {
-					process = "PickUp";
-					GameObject aButton = (GameObject)Instantiate (functionButton, transform.position, Quaternion.identity);
-					aButton.transform.SetParent (transform);
-					aButton.transform.Rotate (Vector3.zero);
-					aButton.name = process;
-					aButton.GetComponentInChildren<Text> ().text = process;
-					functionList.Add (aButton);
-				}
-			}
-			if (station.GetComponent<Station> ().dish != null) {
-				process = "Discard";
-				GameObject aButton  = (GameObject)Instantiate (functionButton, transform.position, Quaternion.identity);
+				GameObject aButton = (GameObject)Instantiate (functionButton, transform.position, Quaternion.identity);
 				aButton.transform.SetParent (transform);
 				aButton.transform.Rotate (Vector3.zero);
 				aButton.name = process;
 				aButton.GetComponentInChildren<Text> ().text = process;
 				functionList.Add (aButton);
 			}
+			if (station.GetComponent<Station> ().dish != null) {
+				process = "AddTo";
+				GameObject aButton = (GameObject)Instantiate (functionButton, transform.position, Quaternion.identity);
+				aButton.transform.SetParent (transform);
+				aButton.transform.Rotate (Vector3.zero);
+				aButton.name = process;
+				aButton.GetComponentInChildren<Text> ().text = process;
+				functionList.Add (aButton);
+			}
+		} else {
+			if (station.GetComponent<Station> ().dish != null) {
+				process = "PickUp";
+				GameObject aButton = (GameObject)Instantiate (functionButton, transform.position, Quaternion.identity);
+				aButton.transform.SetParent (transform);
+				aButton.transform.Rotate (Vector3.zero);
+				aButton.name = process;
+				aButton.GetComponentInChildren<Text> ().text = process;
+				functionList.Add (aButton);
+			}
+		}
+		if (station.GetComponent<Station> ().dish != null) {
+			process = "Discard";
+			GameObject aButton  = (GameObject)Instantiate (functionButton, transform.position, Quaternion.identity);
+			aButton.transform.SetParent (transform);
+			aButton.transform.Rotate (Vector3.zero);
+			aButton.name = process;
+			aButton.GetComponentInChildren<Text> ().text = process;
+			functionList.Add (aButton);
 		}
 
 		//Make Discard Function here
@@ -111,6 +119,9 @@ public class StationDropdown : MonoBehaviour {
 			}
 		} else if (station.GetComponent<Station> ().dish != null) {
 			foreach (string aProcess in dropDownOptions) {
+				if (station.GetComponent<Station> ().dish.GetComponent<Ingredients> ().actionDone == aProcess) {
+					return;
+				}
 				GameObject aButton = (GameObject)Instantiate (functionButton, transform.position, Quaternion.identity);
 				aButton.transform.SetParent (transform);
 				aButton.transform.Rotate (Vector3.zero);
@@ -121,16 +132,84 @@ public class StationDropdown : MonoBehaviour {
 		}
 	}
 
+	void ShowIngredientProcesses(GameObject clickedObject){
+
+		string[] processes = new string[0];
+
+		if (station.GetComponent<Station> ().dish != null) {
+			processes = station.GetComponent<Station> ().dish.GetComponent<Ingredients> ().primaryIngredient.Processes;
+		} else {
+			if (GameObject.Find ("ClickHandler").GetComponent<ClickHandler> ().currentCharacter.GetComponent<CharacterProperties> ().heldDish != null){
+				processes = GameObject.Find ("ClickHandler").GetComponent<ClickHandler> ().currentCharacter.GetComponent<CharacterProperties> ().heldDish.GetComponent<Ingredients> ().primaryIngredient.Processes;
+			}
+		}
+
+		if (station.GetComponent<Station> ().dish != null) {
+			for (int i = 0; i < functionList.Count; i++) {
+				bool contains = false;
+				foreach (string process in processes) {
+					if (functionList [i].transform.name == process) {
+						contains = true;
+					}
+				}
+				if (contains == false) {
+					if (functionList [i].transform.name != "PickUp" &&
+					    functionList [i].transform.name != "Discard" &&
+					    functionList [i].transform.name != "Taste" &&
+					    functionList [i].transform.name != "PutDown" &&
+					    functionList [i].transform.name != "AddTo") {
+						Destroy (functionList [i]);
+					}
+				}
+			}
+		} else {
+			if (GameObject.Find ("ClickHandler").GetComponent<ClickHandler> ().currentCharacter.GetComponent<CharacterProperties> ().heldDish != null){
+				for (int i = 0; i < functionList.Count; i++) {
+					bool contains = false;
+					foreach (string process in processes) {
+						if (functionList [i] != null) {
+							if (functionList [i].transform.name == process) {
+								contains = true;
+							}
+						}
+					}
+					if (contains == false) {
+						if (functionList [i].transform.name != "PickUp" && 
+							functionList [i].transform.name != "Discard" &&
+							functionList [i].transform.name != "Taste" &&
+							functionList [i].transform.name != "PutDown" &&
+							functionList [i].transform.name != "AddTo") {
+							Destroy (functionList [i]);
+						}
+					}
+				}
+			}
+		}
+	}
+
 	void BlockOutObsoletes(GameObject clickedObject){
 		//Check dish find obsoletes and gray out
 		if (station.GetComponent<Station> ().dish != null) {
 			string[] obsoletes;
 			obsoletes = station.GetComponent<Station> ().dish.GetComponent<Ingredients> ().obsoletes;
-			foreach (string obsolete in obsoletes) {
-				for (int i = 0; i < functionList.Count; i++) {
+			for (int i = 0; i < functionList.Count; i++) {
+				foreach (string obsolete in obsoletes) {
 					if (functionList [i].transform.name == obsolete) {
-						functionList.RemoveAt (i);
+						Destroy(functionList [i]);
 						break;
+					}
+				}
+			}
+		} else {
+			if (GameObject.Find ("ClickHandler").GetComponent<ClickHandler> ().currentCharacter.GetComponent<CharacterProperties> ().heldDish != null){
+				string[] obsoletes;
+				obsoletes = GameObject.Find ("ClickHandler").GetComponent<ClickHandler> ().currentCharacter.GetComponent<CharacterProperties> ().heldDish.GetComponent<Ingredients> ().obsoletes;
+				for (int i = 0; i < functionList.Count; i++) {
+					foreach (string obsolete in obsoletes) {
+						if (functionList [i].transform.name == obsolete) {
+							Destroy(functionList [i]);
+							break;
+						}
 					}
 				}
 			}
@@ -162,8 +241,13 @@ public class StationDropdown : MonoBehaviour {
 		}
 	}
 
+	public void Discard(){
+		if (station.GetComponent<Station> ().dish != null) {
+			GameController.Instance.RemoveUIDish (station.GetComponent<Station> ().dish);
+		}
+	}
+
 	public void Taste(){
-		Debug.Log ("Got here");
 		string response = "Mmmmmmm that's pretty guud!";
 		Ingredients food = station.GetComponent<Station> ().dish.GetComponent<Ingredients> ();
 		// if ingredient was Red keep track of the processes that burnt it and randomly have a chance to say that instead of doing anything below
@@ -197,12 +281,9 @@ public class StationDropdown : MonoBehaviour {
 		GameController.Instance.MakeDialogueBox (response);
 	}
 
-	public void Discard(){
-
-	}
-
 	public void Do(Button clickedButton){
 		if (!GameObject.Find ("ClickHandler").GetComponent<ClickHandler> ().currentCharacter.GetComponent<CharacterMovement> ().isCooking) {
+			GameObject.Find ("ClickHandler").GetComponent<ClickHandler> ().selectedAction = true;
 			if (clickedButton.name == "PutDown") {
 				PutDown ();
 			} else if (clickedButton.name == "Taste") {
@@ -211,6 +292,8 @@ public class StationDropdown : MonoBehaviour {
 				Discard ();
 			} else if (clickedButton.name == "PickUp") {
 				PickUp ();
+			} else if (clickedButton.name == "AddTo") {
+				AddTo ();
 			} else if (station.GetComponent<Station>().dish == null){
 				if (CookingController.Instance.SupportsAction (GameObject.Find ("ClickHandler").GetComponent<ClickHandler> ().currentCharacter.GetComponent<CharacterProperties> ().heldDish.GetComponent<Ingredients> ().primaryIngredientName, clickedButton.name)) {
 					station.GetComponent<Station> ().Cook (clickedButton.name);

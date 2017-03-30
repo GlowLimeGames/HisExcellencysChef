@@ -27,7 +27,7 @@ public class Ingredients : MannBehaviour {
 	public string howCooked;
 	List<string> actionsDone = new List<string>();
 	public string[] obsoletes;
-
+	public GameObject UIButton;
 
     // Use this for initialization
     protected override void SetReferences () {
@@ -48,7 +48,6 @@ public class Ingredients : MannBehaviour {
 		} else {
 			Debug.LogErrorFormat("Primary ingredient {0} DNE in Lookup", primaryIngredientName);
 		}
-
 	}
 
 	protected override void CleanupReferences () {	
@@ -73,7 +72,7 @@ public class Ingredients : MannBehaviour {
 		bool wasSuccessful;
 		if (wasSuccessful = controller.SupportsAction(primaryIngredientName, actionName)) {
 			controller.TryModifyWithAction(primaryIngredient, actionName, howRaw);
-			primaryIngredientName = controller.Result(primaryIngredientName, actionName);
+//			primaryIngredientName = controller.Result(primaryIngredientName, actionName);
 		}
 		return wasSuccessful;
 	}
@@ -81,6 +80,11 @@ public class Ingredients : MannBehaviour {
     public void cookSelf(string action, GameObject activeChar)
     {
 		//Keep track of obsolete processes and check them here
+		foreach (string obsolete in obsoletes) {
+			if (action == obsolete) {
+				return;
+			}
+		}
 		Countdown (action, activeChar);
     }
 
@@ -113,11 +117,57 @@ public class Ingredients : MannBehaviour {
 		if (character.GetComponent<CharacterProperties> ().isCook) {
 			GameController.Instance.chefSlider.gameObject.SetActive (false);
 		}
-		GetComponent<SpriteRenderer>().color = new Color32(150, 150, 150, 255);
+
+
 		character.GetComponent<CharacterMovement>().Cancel();
 		RefreshFlavor ();
 		actionsDone.Add (actionDone);
-		obsoletes = controller.GetProcess (actionDone).Obsoletes;
+
+		string [] newObsoletes = controller.GetProcess (actionDone).Obsoletes;
+		string [] oldObsoletes = obsoletes;
+//
+//		for (int i = 0; i < newObsoletes.Length; i++) {
+//			foreach (string function in oldObsoletes) {
+//				if (newObsoletes [i] == function) {
+//					newObsoletes [i] = "";
+//				}
+//			}
+//		}
+
+		int increaseSize = 0;
+		foreach (string function in newObsoletes) {
+			if (function != "") {
+				increaseSize += 1;
+			}
+		}
+
+		obsoletes = new string[oldObsoletes.Length + increaseSize];
+
+		for (int i = 0; i < obsoletes.Length; i++) {
+			if (i < oldObsoletes.Length) {
+				obsoletes [i] = oldObsoletes [i];
+				Debug.Log (oldObsoletes [i]);
+			} else {
+				for (int j = 0; j < newObsoletes.Length; j++) {
+					if (newObsoletes[j] != "") {
+						bool skip = false;
+						foreach (string function in obsoletes) {
+							if (function == newObsoletes [j]) {
+								skip = true;
+								break;
+							}
+						}
+						if (!skip) {
+							obsoletes [i] = newObsoletes [j];
+							Debug.Log (newObsoletes [j]);
+							break;
+						}
+					}
+				}
+			}
+		}
+
+
 		//Add Obsolete processes to ingredient
 		//Add to side panel and store information before resetting
 		//Change sprite if needed
@@ -135,6 +185,7 @@ public class Ingredients : MannBehaviour {
 			character.GetComponent<CharacterProperties> ().atStation = true;
 			GameController.Instance.EditSlider (action, this);
 		}
+		SpriteRenderer sprite = GetComponent<SpriteRenderer> ();
 		actionDone = action;
 			while (!done)
 			{
@@ -146,6 +197,7 @@ public class Ingredients : MannBehaviour {
 					done = true;
 				}
 			}
+			sprite.color = new Color(1 - howRaw / 50 ,1 - howRaw / 50,1 - howRaw / 50, 1);
 				//Progress bar + change flavor +/- based on underling
 				yield return null;
 			}
@@ -167,11 +219,13 @@ public class Ingredients : MannBehaviour {
 			character.GetComponent<UnderlingController> ().SetTimer (action);
 		}
 		actionDone = action;
+		SpriteRenderer sprite = GetComponent<SpriteRenderer> ();
 		while (!done)
 		{
 
 			timeIn += Time.deltaTime;
 			howRaw = timeIn; 
+			sprite.color = new Color(1 - howRaw / 50 ,1 - howRaw / 50,1 - howRaw / 50, 1);
 //			if (active) {
 //				if (Input.GetMouseButtonUp (1)) {
 //					done = true;

@@ -13,6 +13,7 @@ public class DialogueController : MonoBehaviour
     // Reference to the portrait object.
     [SerializeField]
     Image portrait;
+	public Button button;
     // Reference to CanvasGroup component.
     CanvasGroup cg;
     // Whether the dialogue window is active.
@@ -38,7 +39,7 @@ Ingredients are Hot or Cold and Moist or Dry. Try to balance the flavors across 
     }
 
     // Enable or disable the dialogue box.
-    void SetActive(bool cond)
+    public void SetActive(bool cond)
     {
         active = cond;
         if (cond == true)
@@ -67,8 +68,13 @@ Ingredients are Hot or Cold and Moist or Dry. Try to balance the flavors across 
     public void PressOK()
     {
         // Close the dialogue box.
-		GameController.Instance.timer = true;
-        SetActive(false);
+		if (GameController.Instance.course == 0) {
+			GameController.Instance.timer = true;
+			SetActive (false);
+		} else {
+			GameController.Instance.Reset ();
+		}
+		StopAllCoroutines ();
     }
 
     // This is the coroutine that actually makes the character type out their message letter-by-letter.

@@ -8,6 +8,7 @@ public class ClickHandler : MonoBehaviour {
     public GameObject pantryInventoryUI; // Pantry inventory object.
     public GameObject dialogueWindow; // Dialogue window object.
 	public GameObject activeDropdown;
+	public bool selectedAction = false;
     private DialogueController dc; // Dialogue controller component.
 
     void Awake()
@@ -89,7 +90,10 @@ public class ClickHandler : MonoBehaviour {
 									if (activeDropdown != null) {
 										activeDropdown.GetComponent<Station> ().Cancel ();
 									}
-									return;
+									if(selectedAction){
+										selectedAction = false;
+										return;
+									}
 								} 
 							}
 							charMover.Move (hit.point, clickedObject); // Make the character move to that station.

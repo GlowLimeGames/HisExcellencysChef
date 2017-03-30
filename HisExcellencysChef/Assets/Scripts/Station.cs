@@ -9,14 +9,21 @@ public class Station : MonoBehaviour {
 
 	public void Clicked(){
 		if (transform.name == "ServeItForth") {
-			activeCharacter = GameObject.Find ("ClickHandler").GetComponent<ClickHandler> ().currentCharacter;
-			if (activeCharacter.GetComponent<CharacterProperties> ().heldDish != null)
-			{
-				Vector2 flavor = activeCharacter.GetComponent<CharacterProperties> ().heldDish.GetComponent<Ingredients> ().flavor;
-				GameController.Instance.courseFlavor += flavor;
-				Destroy (activeCharacter.GetComponent<CharacterProperties> ().heldDish);
+			if (GameController.Instance.canServe) {
+				activeCharacter = GameObject.Find ("ClickHandler").GetComponent<ClickHandler> ().currentCharacter;
+				if (activeCharacter.GetComponent<CharacterProperties> ().heldDish != null) {
+					Vector2 flavor = activeCharacter.GetComponent<CharacterProperties> ().heldDish.GetComponent<Ingredients> ().flavor;
+					if (GameController.Instance.course == 0) {
+						GameController.Instance.courseFlavor0 += flavor;
+					} else if (GameController.Instance.course == 1) {
+						GameController.Instance.courseFlavor1 += flavor;
+					} else if (GameController.Instance.course == 2) {
+						GameController.Instance.courseFlavor2 += flavor;
+					}
+					Destroy (activeCharacter.GetComponent<CharacterProperties> ().heldDish);
+				}
+				return;
 			}
-			return;
 		}
 		dropDown.GetComponent<StationDropdown> ().OnClicked (this.gameObject);
 		activeCharacter = GameObject.Find ("ClickHandler").GetComponent<ClickHandler> ().currentCharacter;
@@ -35,11 +42,12 @@ public class Station : MonoBehaviour {
 		if (activeCharacter.GetComponent<CharacterProperties> ().heldDish != null)
 		{
 			if (dish != null) {
-				if (dish.GetComponent<Ingredients> ().TryAddIngredient (activeCharacter.GetComponent<CharacterProperties> ().heldDish.GetComponent<Ingredients>().primaryIngredientName)) {					
-//				Vector2 flavor = activeCharacter.GetComponent<CharacterProperties> ().heldDish.GetComponent<Ingredients> ().flavor;
-				dish.GetComponent<Ingredients> ().TryAddIngredient(activeCharacter.GetComponent<CharacterProperties> ().heldDish.name);
-				dish.GetComponent<Ingredients> ().RefreshFlavor ();
-				Destroy (activeCharacter.GetComponent<CharacterProperties> ().heldDish);
+				if (dish.GetComponent<Ingredients> ().TryAddIngredient (activeCharacter.GetComponent<CharacterProperties> ().heldDish.GetComponent<Ingredients> ().primaryIngredientName)) {					
+	//				Vector2 flavor = activeCharacter.GetComponent<CharacterProperties> ().heldDish.GetComponent<Ingredients> ().flavor;
+	//				dish.GetComponent<Ingredients> ().TryAddIngredient(activeCharacter.GetComponent<CharacterProperties> ().heldDish.name);
+					dish.GetComponent<Ingredients> ().RefreshFlavor ();
+
+					GameController.Instance.RemoveUIDish (activeCharacter.GetComponent<CharacterProperties> ().heldDish);
 				}
 			}
 		}
