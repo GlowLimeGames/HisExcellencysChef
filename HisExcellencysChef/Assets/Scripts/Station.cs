@@ -68,6 +68,7 @@ public class Station : MonoBehaviour {
 			activeCharacter.GetComponent<CharacterProperties> ().heldDish = dish;
 			activeCharacter.GetComponent<CharacterMovement> ().isCooking = false;
 			dish = null;
+			EventController.Event (Event.PICKUP);
 		}
 
 		Cancel ();
@@ -80,17 +81,37 @@ public class Station : MonoBehaviour {
 			dish = activeCharacter.transform.GetChild (1).gameObject;
 			dish.transform.parent = transform;
 			dish.transform.position = transform.position;
+			EventController.Event (Event.PUTDOWN);
 		}
 
 		Cancel ();
     }
 
 	public void Cook(string action){
+		Debug.Log ("Got here");
 		if (activeCharacter.GetComponent<CharacterMovement> ().isCooking == false) {
 			if (dish == null) {
 				activeCharacter.GetComponent<CharacterProperties> ().heldDish.GetComponent<Ingredients> ().cookSelf (action, activeCharacter);
 			} else {
 				dish.GetComponent<Ingredients> ().cookSelf (action, activeCharacter);
+			}
+			if (action == "Fry") {
+				EventController.Event (Event.FRY);
+				EventController.Event (Event.FRYLOOP);
+			} else if (action == "Pound") {
+				EventController.Event (Event.POUND);
+			} else if (action == "Seethe") {
+				EventController.Event (Event.SEETHE);
+			} else if (action == "Sliver") {
+				EventController.Event (Event.SLIVER);
+			} else if (action == "Mince") {
+				EventController.Event (Event.MINCE);
+			} else if (action == "Bake") {
+				EventController.Event (Event.BAKE);
+			} else if (action == "Roast") {
+				EventController.Event (Event.ROAST);
+			} else if (action == "Boil") {
+				EventController.Event (Event.BOIL);
 			}
 		}
 

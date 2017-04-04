@@ -24,8 +24,8 @@ public class Ingredients : MannBehaviour {
 	public GameObject character;
 	public string newFood;
 
-	public string howCooked;
-	List<string> actionsDone = new List<string>();
+	public List<string> howCooked = new List<string>();
+	public List<string> actionsDone = new List<string>();
 	public string[] obsoletes;
 	public GameObject UIButton;
 
@@ -112,12 +112,13 @@ public class Ingredients : MannBehaviour {
 	public void ChangeFlavor(){
 		percentCooked = PercentCooked(actionDone, howRaw); 
 		TryPerformAction(actionDone, percentCooked);
-		howCooked = SortBoundaries (actionDone, howRaw);
+		howCooked.Add(SortBoundaries (actionDone, howRaw));
 
 		if (character.GetComponent<CharacterProperties> ().isCook) {
 			GameController.Instance.chefSlider.gameObject.SetActive (false);
 		}
-
+		SpriteRenderer sprite = GetComponent<SpriteRenderer> ();
+		sprite.color = new Color(.7f, .7f, .7f, 1);
 
 		character.GetComponent<CharacterMovement>().Cancel();
 		RefreshFlavor ();
@@ -185,7 +186,7 @@ public class Ingredients : MannBehaviour {
 			character.GetComponent<CharacterProperties> ().atStation = true;
 			GameController.Instance.EditSlider (action, this);
 		}
-		SpriteRenderer sprite = GetComponent<SpriteRenderer> ();
+//		SpriteRenderer sprite = GetComponent<SpriteRenderer> ();
 		actionDone = action;
 			while (!done)
 			{
@@ -197,7 +198,7 @@ public class Ingredients : MannBehaviour {
 					done = true;
 				}
 			}
-			sprite.color = new Color(1 - howRaw / 50 ,1 - howRaw / 50,1 - howRaw / 50, 1);
+//			sprite.color = new Color(1 - howRaw / 50 ,1 - howRaw / 50,1 - howRaw / 50, 1);
 				//Progress bar + change flavor +/- based on underling
 				yield return null;
 			}
@@ -219,13 +220,13 @@ public class Ingredients : MannBehaviour {
 			character.GetComponent<UnderlingController> ().SetTimer (action);
 		}
 		actionDone = action;
-		SpriteRenderer sprite = GetComponent<SpriteRenderer> ();
+//		SpriteRenderer sprite = GetComponent<SpriteRenderer> ();
 		while (!done)
 		{
 
 			timeIn += Time.deltaTime;
 			howRaw = timeIn; 
-			sprite.color = new Color(1 - howRaw / 50 ,1 - howRaw / 50,1 - howRaw / 50, 1);
+//			sprite.color = new Color(1 - howRaw / 50 ,1 - howRaw / 50,1 - howRaw / 50, 1);
 //			if (active) {
 //				if (Input.GetMouseButtonUp (1)) {
 //					done = true;
@@ -255,11 +256,11 @@ public class Ingredients : MannBehaviour {
 	}
 	string SortBoundaries(string action, float timeCooked){
 		ProcessDescriptor process = controller.GetProcess (action);
-
+		// U under, O over
 		if (timeCooked < process.RedYellow) {
-			return "Red";
+			return "URed";
 		} else if (timeCooked < process.YellowGreen) {
-			return "Yellow";
+			return "UYellow";
 		} else if (timeCooked < process.GreenDarkGreen) {
 			return "Green";
 		} else if (timeCooked < process.DarkGreenGreen) {
@@ -267,9 +268,9 @@ public class Ingredients : MannBehaviour {
 		} else if (timeCooked < process.GreenYellow) {
 			return "Green";
 		} else if (timeCooked < process.YellowRed) {
-			return "Yellow";
+			return "OYellow";
 		} else {
-			return "Red";
+			return "ORed";
 		}
 	}
 

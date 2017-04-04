@@ -263,9 +263,9 @@ public class StationDropdown : MonoBehaviour {
 			}
 
 			if (tasteClass == null) {
-				tasteClass = new TasteTesting (food.flavor.x, food.flavor.y, food.howCooked, process.IdealTimeMin, process.IdealTimeMax, food.howRaw);
+				tasteClass = new TasteTesting (food.flavor.x, food.flavor.y, food.howCooked[-1], process.IdealTimeMin, process.IdealTimeMax, food.howRaw);
 			} else {
-				tasteClass.updateAll (food.flavor.x, food.flavor.y, food.howCooked, process.IdealTimeMin, process.IdealTimeMax, food.howRaw);
+				tasteClass.updateAll (food.flavor.x, food.flavor.y, food.howCooked[-1], process.IdealTimeMin, process.IdealTimeMax, food.howRaw);
 			}
 
 

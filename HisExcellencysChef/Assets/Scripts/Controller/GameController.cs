@@ -89,9 +89,14 @@ public class GameController : SingletonController<GameController> {
 		GameObject thisButton = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;
 		GameObject food = activeDishes[int.Parse(thisButton.name)];
 
+//		GuestController guest = GetComponent<GuestController> ();
+//		guest.GetGuest ("Count Philip");
+//		guest.GetGuest ("Master Simon de Paris");
+//		Debug.Log (guest.ParseTriggers(guest.guestList[0], food.GetComponent<Ingredients>()));
+//		Debug.Log (guest.ParseTriggers(guest.guestList[1], food.GetComponent<Ingredients>()));
 		//if food was served then display this information in a text box
-		Debug.Log (food.GetComponent<Ingredients>().primaryIngredientName);
-		Debug.Log (food.GetComponent<Ingredients> ().flavor);
+//		Debug.Log (food.GetComponent<Ingredients>().primaryIngredientName);
+//		Debug.Log (food.GetComponent<Ingredients> ().flavor);
 	}
 
 	public Ingredients currentlyCooking;
@@ -111,6 +116,13 @@ public class GameController : SingletonController<GameController> {
 				chefSlider.GetComponentInChildren<Image>().sprite = bar;
 			}
 		}
+	}
+
+//	public List<GuestController> guests = new List<GuestController>();
+	public void MakeGuestList(){
+		//always 5 + random number 2-3
+
+
 	}
 
 	public void LadyFeedback(){

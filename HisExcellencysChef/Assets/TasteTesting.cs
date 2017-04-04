@@ -92,19 +92,19 @@ public class TasteTesting
 		if (processColor.Equals("Green")){
 			timeFunctions.Add("That last was well done.");
 		}
-		else if (processColor.Equals("Yellow") && greater)
+		else if (processColor.Equals("OYellow") && greater)
 		{
 			timeFunctions.Add("This was a little overdone.");
 		}
-		else if (processColor.Equals("Yellow") && !greater)
+		else if (processColor.Equals("UYellow") && !greater)
 		{
 			timeFunctions.Add("Hmm. Could use a little more time.");
 		}
-		else if (processColor.Equals("Red") && !greater)
+		else if (processColor.Equals("URed") && !greater)
 		{
 			timeFunctions.Add("Did they even try to finish what they were doing?!");
 		}
-		else if (processColor.Equals("Red") && greater)
+		else if (processColor.Equals("ORed") && greater)
 		{
 			timeFunctions.Add("That was a disaster! Can it be salvaged?");
 		}

@@ -24,6 +24,8 @@ public class CookingController : SingletonController<CookingController> {
 	TextAsset skillsJSON;
 	[SerializeField]
 	TextAsset underlingsJSON;
+	[SerializeField]
+	TextAsset guestJSON;
 
 	#endregion
 
@@ -43,6 +45,8 @@ public class CookingController : SingletonController<CookingController> {
 	SkillDescriptorList skills;
 	[SerializeField]
 	UnderlingDescriptorList underlings;
+	[SerializeField]
+	GuestDescriptorList guests;
 
 	#endregion
 
@@ -64,6 +68,12 @@ public class CookingController : SingletonController<CookingController> {
 	public Dictionary<string, UnderlingDescriptor> Underlings {
 		get {
 			return underlings.UnderlingByName;
+		}
+	}
+
+	public Dictionary<string, GuestDescriptor> Guests {
+		get {
+			return guests.GuestByName;
 		}
 	}
 
@@ -103,6 +113,7 @@ public class CookingController : SingletonController<CookingController> {
 		recipes = JsonUtility.FromJson<RecipeDescriptorList>(recipesJSON.text);
 		skills = JsonUtility.FromJson<SkillDescriptorList>(skillsJSON.text);
 		underlings = JsonUtility.FromJson<UnderlingDescriptorList>(underlingsJSON.text);
+		guests = JsonUtility.FromJson<GuestDescriptorList>(guestJSON.text);
 	}
 
 	void processData () {

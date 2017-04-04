@@ -54,7 +54,7 @@ public class ClickHandler : MonoBehaviour {
 
 				if (Physics.Raycast (worldPoint, Vector3.down, out hit)) {// If we clicked an object...
 					GameObject clickedObject = hit.collider.gameObject; // Store the object that was just clicked inside clickedObject.
-					Debug.Log (clickedObject.name + " was clicked."); // Print the object name to the console.
+//					Debug.Log (clickedObject.name + " was clicked."); // Print the object name to the console.
 					if (clickedObject.tag.Equals ("PlayerChar")) { // If a playable character is clicked...
 						SelectCharacter (clickedObject); // Select the character.
 					}

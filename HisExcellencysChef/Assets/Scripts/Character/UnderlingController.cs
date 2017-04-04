@@ -10,12 +10,12 @@ public class UnderlingController : MonoBehaviour {
 	public float timer;
 
 	CharacterMovement cm;
-	CharacterProperties cp;
+//	CharacterProperties cp;
 
 	UnderlingDescriptor underling;
 	void Start(){
 		cm = GetComponent <CharacterMovement> ();
-		cp = GetComponent<CharacterProperties> ();
+//		cp = GetComponent<CharacterProperties> ();
 		underlingLookup = CookingController.Instance.Underlings;
 		underlingLookup.TryGetValue (transform.name, out underling);
 	}

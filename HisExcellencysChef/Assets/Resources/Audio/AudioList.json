@@ -2,7 +2,7 @@
 	"Files":
      [
 		{
-			"Name":"Music concept 1",
+			"Name":"Awesome Medieval Theme",
 			"Groups":[],
 			"Events":["PlayStartMusic"],
 			"StopEvents":[],
@@ -12,9 +12,19 @@
 			"Volume":100
 		},
 		{
-			"Name":"Music concept 2",
+			"Name":"music - kitchen",
 			"Groups":[],
 			"Events":["PlayGameMusic"],
+			"StopEvents":[],
+			"Loop":true,
+			"Type":"Music",
+			"Channel":1,
+			"Volume":100
+		},
+		{
+			"Name":"End Menu Music",
+			"Groups":[],
+			"Events":["PlayEndMusic"],
 			"StopEvents":[],
 			"Loop":true,
 			"Type":"Music",
@@ -52,7 +62,7 @@
 			"Volume":100
 		},
 		{
-			"Name":"slow boil loop",
+			"Name":"Boil Slow Loop",
 			"Groups":[],
 			"Events":["StartSlowBoil"],
 			"StopEvents":["StopSlowBoil"],
@@ -62,13 +72,43 @@
 			"Volume":100
 		},
 		{
-			"Name":"fast boil loop",
+			"Name":"Boil Fast Loop",
 			"Groups":[],
 			"Events":["StartFastBoil"],
 			"StopEvents":["StopFastBoil"],
 			"Loop":true,
 			"Type":"FX",
 			"Channel":3,
+			"Volume":100
+		},
+		{
+			"Name":"Baking",
+			"Groups":[],
+			"Events":["Bake"],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Pounding",
+			"Groups":[],
+			"Events":["Pound"],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Roasting",
+			"Groups":[],
+			"Events":["Roast"],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
 			"Volume":100
 		},
 		{
@@ -92,8 +132,8 @@
 			"Volume":100
 		},
 		{
-			"Name":"sizzle 1",
-			"Groups":["Sizzle"],
+			"Name":"slice 1",
+			"Groups":["Slice"],
 			"Events":[],
 			"StopEvents":[],
 			"Loop":false,
@@ -102,11 +142,111 @@
 			"Volume":100
 		},
 		{
-			"Name":"sizzle 2",
-			"Groups":["Sizzle"],
+			"Name":"slice 2",
+			"Groups":["Slice"],
 			"Events":[],
 			"StopEvents":[],
 			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Frying (loop)",
+			"Groups":[],
+			"Events":["FryLoop"],
+			"StopEvents":[],
+			"Loop":true,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Frying (one shot)",
+			"Groups":[],
+			"Events":["Fry"],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"chop 1",
+			"Groups":["Chop"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":true,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"chop 2",
+			"Groups":["Chop"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":true,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"chop 3",
+			"Groups":["Chop"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":true,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"chop 4",
+			"Groups":["Chop"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":true,
+			"Type":"true",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"chop 5",
+			"Groups":["Chop"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":true,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"chop 6",
+			"Groups":["Chop"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":true,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"chop 7",
+			"Groups":["Chop"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":true,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"chop 8",
+			"Groups":["Chop"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":true,
 			"Type":"FX",
 			"Channel":2,
 			"Volume":100
@@ -152,7 +292,7 @@
 			"Volume":100
 		},
 		{
-			"Name":"fast chop",
+			"Name":"chop fast",
 			"Groups":["FastChop"],
 			"Events":[],
 			"StopEvents":[],
@@ -162,7 +302,7 @@
 			"Volume":100
 		},
 		{
-			"Name":"slow chop",
+			"Name":"chop slow",
 			"Groups":["SlowChop"],
 			"Events":[],
 			"StopEvents":[],
@@ -170,10 +310,881 @@
 			"Type":"FX",
 			"Channel":2,
 			"Volume":100
-		}
+		},
+		{
+			"Name":"Grinding (dry)",
+			"Groups":[],
+			"Events":["GrindDry"],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Grinding (wet)",
+			"Groups":[],
+			"Events":["GrindWet"],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"GUI click 1",
+			"Groups":["GUIclick"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"GUI click 2",
+			"Groups":["GUIclick"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"GUI click 3",
+			"Groups":["GUIclick"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"GUI click 4",
+			"Groups":["GUIclick"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"GUI click 5",
+			"Groups":["GUIclick"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"GUI click 6",
+			"Groups":["GUIclick"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"GUI click 7",
+			"Groups":["GUIclick"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Clock Out of Time",
+			"Groups":[],
+			"Events":["ClockOutOfTime"],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Dish Delivered",
+			"Groups":[],
+			"Events":["DishDelivered"],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"end of level concept 1",
+			"Groups":[],
+			"Events":["EndOfLevel"],
+			"StopEvents":[],
+			"Loop":true,
+			"Type":"FX",
+			"Channel":1,
+			"Volume":100
+		},
+		{
+			"Name":"end of level concept 2",
+			"Groups":[],
+			"Events":["EndOfLevel2"],
+			"StopEvents":[],
+			"Loop":true,
+			"Type":"FX",
+			"Channel":1,
+			"Volume":100
+		},
+		{
+			"Name":"His Excellency's Chef Ambience",
+			"Groups":[],
+			"Events":["PlayAmbience"],
+			"StopEvents":["StopAmbience"],
+			"Loop":true,
+			"Type":"Music",
+			"Channel":3,
+			"Volume":100
+		},
+		{
+			"Name":"Get Chicken",
+			"Groups":[],
+			"Events":["GetChicken"],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Get Egg",
+			"Groups":[],
+			"Events":["GetEgg"],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Get Flour",
+			"Groups":[],
+			"Events":["GetFlour"],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Get Mustard",
+			"Groups":[],
+			"Events":["GetMustard"],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Get Spinach",
+			"Groups":[],
+			"Events":["GetSpinach"],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Get Water",
+			"Groups":[],
+			"Events":["GetWater"],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Pick Up 1",
+			"Groups":["PickUp"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Pick Up 2",
+			"Groups":["PickUp"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Pick Up 3",
+			"Groups":["PickUp"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Put Down 1",
+			"Groups":["PutDown"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Put Down 2",
+			"Groups":["PutDown"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Put Down 3",
+			"Groups":["PutDown"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Put Down 4",
+			"Groups":["PutDown"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Put Down 5",
+			"Groups":["PutDown"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Put Down 6",
+			"Groups":["PutDown"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Put Down 7",
+			"Groups":["PutDown"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Put Down 8",
+			"Groups":["PutDown"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Aemilia Awknowledge 1",
+			"Groups":["Aemilia"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Aemilia Awknowledge 2",
+			"Groups":["Aemilia"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Aemilia Awknowledge 3",
+			"Groups":["Aemilia"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Aemilia Awknowledge 4",
+			"Groups":["Aemilia"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Aemilia Awknowledge 5",
+			"Groups":["Aemilia"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Amaud Awknowledge 1",
+			"Groups":["Amaud"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Amaud Awknowledge 2",
+			"Groups":["Amaud"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Amaud Awknowledge 3",
+			"Groups":["Amaud"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Amaud Awknowledge 4",
+			"Groups":["Amaud"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Amaud Awknowledge 5",
+			"Groups":["Amaud"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Amaud Awknowledge 6",
+			"Groups":["Amaud"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Amaud Awknowledge 7",
+			"Groups":["Amaud"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},	
+		{
+			"Name":"Amaud Awknowledge 8",
+			"Groups":["Amaud"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Eloise acknowledge 1",
+			"Groups":["Eloise"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Eloise acknowledge 2",
+			"Groups":["Eloise"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Eloise acknowledge 3",
+			"Groups":["Eloise"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Eloise acknowledge 4",
+			"Groups":["Eloise"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Eloise acknowledge 5",
+			"Groups":["Eloise"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Eloise acknowledge 6",
+			"Groups":["Eloise"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Guilbert - Grunt 1",
+			"Groups":["Guilbert"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Guilbert - Grunt 2",
+			"Groups":["Guilbert"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Guilbert - Grunt 3",
+			"Groups":["Guilbert"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Guilbert - Grunt 4",
+			"Groups":["Guilbert"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Guilbert - Grunt 5",
+			"Groups":["Guilbert"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Guilbert - Grunt 6",
+			"Groups":["Guilbert"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Consumer Dish reaction - Awful",
+			"Groups":[],
+			"Events":["DishAwful"],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Consumer Dish reaction - Good",
+			"Groups":[],
+			"Events":["DishGood"],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Consumer Dish reaction - OK",
+			"Groups":[],
+			"Events":["DishOk"],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Lady - not final",
+			"Groups":[],
+			"Events":["LadyTalk"],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Chef Test Bad 1",
+			"Groups":["ChefTestBad"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Chef Test Bad 2",
+			"Groups":["ChefTestBad"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Chef Test Bad 3",
+			"Groups":["ChefTestBad"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Chef Test Good 1",
+			"Groups":["ChefTestGood"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Chef Test Good 2",
+			"Groups":["ChefTestGood"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Chef Test Good 3",
+			"Groups":["ChefTestGood"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Chef Test Good 4",
+			"Groups":["ChefTestGood"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Chef Test Neutral 1",
+			"Groups":["ChefTestNeutral"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Chef Test Neutral 2",
+			"Groups":["ChefTestNeutral"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Chef Test Neutral 3",
+			"Groups":["ChefTestNeutral"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},	
+		{
+			"Name":"Footsteps Female 1",
+			"Groups":["FemaleStep"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Footsteps Female 2",
+			"Groups":["FemaleStep"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Footsteps Female 3",
+			"Groups":["FemaleStep"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Footsteps Female 4",
+			"Groups":["FemaleStep"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Footsteps Female 5",
+			"Groups":["FemaleStep"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Footsteps Female 6",
+			"Groups":["FemaleStep"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Footsteps Male 1",
+			"Groups":["MaleStep"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Footsteps Male 2",
+			"Groups":["MaleStep"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Footsteps Male 3",
+			"Groups":["MaleStep"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		},
+		{
+			"Name":"Footsteps Male 4",
+			"Groups":["MaleStep"],
+			"Events":[],
+			"StopEvents":[],
+			"Loop":false,
+			"Type":"FX",
+			"Channel":2,
+			"Volume":100
+		}			
      ],
 	"Groups":
 	[
+		{
+			"Name":"GUIclick",
+			"Type":"Random",
+			"Events":["GUIclick"],
+			"StopEvents":[]
+		},
+		{
+			"Name":"PickUp",
+			"Type":"Random",
+			"Events":["PickUp"],
+			"StopEvents":[]
+		},
+		{
+			"Name":"PutDown",
+			"Type":"Random",
+			"Events":["PutDown"],
+			"StopEvents":[]
+		},
+		{
+			"Name":"ChefTestBad",
+			"Type":"Random",
+			"Events":["ChefTestBad"],
+			"StopEvents":[]
+		},
+		{
+			"Name":"ChefTestNeutral",
+			"Type":"Random",
+			"Events":["ChefTestNeutral"],
+			"StopEvents":[]
+		},
+		{
+			"Name":"ChefTestGood",
+			"Type":"Random",
+			"Events":["ChefTestGood"],
+			"StopEvents":[]
+		},
+		{
+			"Name":"FemaleStep",
+			"Type":"Random",
+			"Events":["FemaleStep"],
+			"StopEvents":[]
+		},
+		{
+			"Name":"MaleStep",
+			"Type":"Random",
+			"Events":["MaleStep"],
+			"StopEvents":[]
+		},
+		{
+			"Name":"Aemilia",
+			"Type":"Random",
+			"Events":["Aemilia"],
+			"StopEvents":[]
+		},
+		{
+			"Name":"Guilbert",
+			"Type":"Random",
+			"Events":["Guilbert"],
+			"StopEvents":[]
+		},
+		{
+			"Name":"Eloise",
+			"Type":"Random",
+			"Events":["Eloise"],
+			"StopEvents":[]
+		},{
+			"Name":"Amaud",
+			"Type":"Random",
+			"Events":["Amaud"],
+			"StopEvents":[]
+		},
 		{
 			"Name":"AddToWet",
 			"Type":"Random",
@@ -187,9 +1198,9 @@
 			"StopEvents":[]
 		},
 		{
-			"Name":"Sizzle",
+			"Name":"Slice",
 			"Type":"Random",
-			"Events":["Sizzle"],
+			"Events":["Sliver"],
 			"StopEvents":[]
 		},
 		{
