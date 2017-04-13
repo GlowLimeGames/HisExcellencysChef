@@ -34,8 +34,43 @@ public class InventoryButton : MonoBehaviour
 			GameObject food = (GameObject)Instantiate (item, cp.transform.position + new Vector3 (0, 0, 3f), Quaternion.identity);
 			food.transform.rotation = item.transform.rotation;
 			food.GetComponent<Ingredients>().primaryIngredientName = food.name.Replace ("(Clone)", "").Trim();
+			food.name = food.name.Replace ("(Clone)", "").Trim();
+			if (GameController.Instance.tutorial1Part4) {
+				if (food.name != "Rice") {
+					return;
+				}
+			}
+
 			if (food.GetComponent<Ingredients>().primaryIngredient.ResultsInDish) {
 				GameController.Instance.MakeUIDish (food);
+			}
+			if (GameController.Instance.tutorial0Part2) {
+				string nextProcess = food.GetComponent<Ingredients> ().primaryIngredient.Processes [0];
+				string foodName = food.GetComponent<Ingredients> ().primaryIngredientName;
+				string station;
+				if (nextProcess == "Fry" || nextProcess == "Seethe") {
+					station = "Range";
+				} else if (nextProcess == "Mince" || nextProcess == "Sliver") {
+					station = "Table";
+				} else if (nextProcess == "Roast" || nextProcess == "Bake") {
+					station = "Oven";
+					if (nextProcess == "Bake") {
+						nextProcess = "Bak";
+					}
+				} else if (nextProcess == "Boil") {
+					station = "Cauldron";
+				} else if (nextProcess == "Pound") {
+					station = "Mortar";
+				} else if (nextProcess == "Chop") {
+					station = "Table";
+					nextProcess = "Chopp";
+				}else {
+					station = "Table";
+				}
+				GameController.Instance.MakeTutorialeBox("You can either add that directly to the chicken or process it first. " +
+					"Try " + nextProcess + "ing your " + foodName + " at the " + station + ", if you like.");
+				GameController.Instance.tutorial0Part22 = true;
+				GameController.Instance.tutorial0Part2 = false;
 			}
             // Make the player have this food as the held dish.
 			cp.heldDish = food;

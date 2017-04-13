@@ -21,7 +21,7 @@ public class InventoryUI : MonoBehaviour
     // For use in the Inspector.
     // It's an array of elements, where each element contains a GameObject and an integer quantity.
     [SerializeField]
-    private Inventory.InventoryNode[] foods;
+    public Inventory.InventoryNode[] foods;
 
     private void Awake()
     {

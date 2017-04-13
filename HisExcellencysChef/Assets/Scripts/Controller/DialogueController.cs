@@ -25,17 +25,6 @@ public class DialogueController : MonoBehaviour
         // If the dialogue box isn't set as active in the scene editor, hide it.
         SetActive(active);
         // First message!
-		if (active) {
-			CharacterSpeak (@"Hello, young cook!
-
-To select a primary ingredient, click on a character, then click on the Pantry Door.
-
-To cook that ingredient, click a station and select ""Put Down"" in the drop down menu, then select it again and pick the cooking process you want and wait for the character to pick it up again.
-
-When you want to finish a dish, select the character carrying it and click on the gray square below.
-
-Ingredients are Hot or Cold and Moist or Dry. Try to balance the flavors across your dishes.");
-		}
     }
 
     // Enable or disable the dialogue box.
@@ -62,11 +51,16 @@ Ingredients are Hot or Cold and Moist or Dry. Try to balance the flavors across 
     public void CharacterSpeak(string msg)
     {
         SetActive(true);
+		StopAllCoroutines ();
         StartCoroutine(DialogueTypeOut(msg));
     }
 
     public void PressOK()
     {
+
+		if (GameController.Instance.tutorial1Part1) {
+			GameController.Instance.MakeTutorialeBox("This is Aemilia. To order her to Roast the Almonds, you must first select her by clicking on her or her portrait at the bottom of the screen. Note that she will become outlined in green when selected.");
+		}
         // Close the dialogue box.
 		if (GameController.Instance.course == 0) {
 			GameController.Instance.timer = true;

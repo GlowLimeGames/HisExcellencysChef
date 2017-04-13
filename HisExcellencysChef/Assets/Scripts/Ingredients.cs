@@ -77,8 +77,10 @@ public class Ingredients : MannBehaviour {
 		return wasSuccessful;
 	}
 
-    public void cookSelf(string action, GameObject activeChar)
+	public GameObject lastStation;
+    public void cookSelf(string action, GameObject activeChar, GameObject aStation)
     {
+		lastStation = aStation;
 		//Keep track of obsolete processes and check them here
 		foreach (string obsolete in obsoletes) {
 			if (action == obsolete) {
@@ -94,6 +96,9 @@ public class Ingredients : MannBehaviour {
 			character = activeChar;
 			if (activeChar.GetComponent<CharacterProperties> ().isCook) {
 				StartCoroutine ("CookTimeStartChef", action);
+				if (GameController.Instance.tutorial0Part1) {
+					GameController.Instance.MakeTutorialeBox("Because Pounding is an active Process, you’ll need to stay at the Mortar until you're satisfied. How long you spend, as indicated here, determines how well-done your chicken is. When you’re satisfied, right click to stop.");
+				}
 			} else {
 				StartCoroutine ("CookTimeStartUnderling", action);
 			}
@@ -114,6 +119,14 @@ public class Ingredients : MannBehaviour {
 		TryPerformAction(actionDone, percentCooked);
 		howCooked.Add(SortBoundaries (actionDone, howRaw));
 
+		if (GameController.Instance.tutorial1Part4) {
+			if (primaryIngredientName == "Rice") {
+				flavor.y = 3.1f;
+				GameController.Instance.tutorial1Part4 = false;
+				GameController.Instance.tutorial1Part5 = true;
+			}
+		}
+
 		if (character.GetComponent<CharacterProperties> ().isCook) {
 			GameController.Instance.chefSlider.gameObject.SetActive (false);
 		}
@@ -123,6 +136,13 @@ public class Ingredients : MannBehaviour {
 		character.GetComponent<CharacterMovement>().Cancel();
 		RefreshFlavor ();
 		actionsDone.Add (actionDone);
+
+		if (GameController.Instance.tutorial0Part1) {
+			lastStation.GetComponent<Station> ().PickUp ();
+			GameController.Instance.MakeTutorialeBox ("Good. But we can’t just serve it like this. Put the chicken on the table, then click on the Pantry door to get some more ingredients.");
+			GameController.Instance.tutorial0Part1 = false;
+			GameController.Instance.tutorial0Part2 = true;
+		}
 
 		string [] newObsoletes = controller.GetProcess (actionDone).Obsoletes;
 		string [] oldObsoletes = obsoletes;
@@ -147,7 +167,6 @@ public class Ingredients : MannBehaviour {
 		for (int i = 0; i < obsoletes.Length; i++) {
 			if (i < oldObsoletes.Length) {
 				obsoletes [i] = oldObsoletes [i];
-				Debug.Log (oldObsoletes [i]);
 			} else {
 				for (int j = 0; j < newObsoletes.Length; j++) {
 					if (newObsoletes[j] != "") {
@@ -160,7 +179,6 @@ public class Ingredients : MannBehaviour {
 						}
 						if (!skip) {
 							obsoletes [i] = newObsoletes [j];
-							Debug.Log (newObsoletes [j]);
 							break;
 						}
 					}
@@ -188,9 +206,18 @@ public class Ingredients : MannBehaviour {
 		}
 //		SpriteRenderer sprite = GetComponent<SpriteRenderer> ();
 		actionDone = action;
-			while (!done)
-			{
-			
+		bool tutorialPass = false;
+		while (!done)
+		{
+			if (GameController.Instance.tutorial1Part2 && !tutorialPass) {
+				float percentCooked = PercentCooked(actionDone, howRaw); 
+				if (SortBoundaries (actionDone, howRaw) == "Green") {
+					tutorialPass = true;
+					GameController.Instance.MakeTutorialeBox ("Have you checked on the Rice recently?");
+					GameController.Instance.tutorial1Part2 = false;
+					GameController.Instance.tutorial1Part3 = true;
+				}
+			}
 			timeIn += Time.deltaTime;
 			howRaw = timeIn; 
 			if (active) {
@@ -198,10 +225,10 @@ public class Ingredients : MannBehaviour {
 					done = true;
 				}
 			}
-//			sprite.color = new Color(1 - howRaw / 50 ,1 - howRaw / 50,1 - howRaw / 50, 1);
+	//			sprite.color = new Color(1 - howRaw / 50 ,1 - howRaw / 50,1 - howRaw / 50, 1);
 				//Progress bar + change flavor +/- based on underling
-				yield return null;
-			}
+			yield return null;
+		}
 		ChangeFlavor ();
 		RefreshFlavor();
 		character.GetComponent<CharacterMovement>().isCooking = false;
@@ -221,9 +248,18 @@ public class Ingredients : MannBehaviour {
 		}
 		actionDone = action;
 //		SpriteRenderer sprite = GetComponent<SpriteRenderer> ();
+		bool tutorialPass = false;
 		while (!done)
 		{
-
+			if (GameController.Instance.tutorial1Part2 && !tutorialPass) {
+				float percentCooked = PercentCooked(actionDone, howRaw); 
+				if (SortBoundaries (actionDone, howRaw) == "Green") {
+					tutorialPass = true;
+					GameController.Instance.MakeTutorialeBox ("Have you checked on the Rice recently?");
+					GameController.Instance.tutorial1Part2 = false;
+					GameController.Instance.tutorial1Part3 = true;
+				}
+			}
 			timeIn += Time.deltaTime;
 			howRaw = timeIn; 
 //			sprite.color = new Color(1 - howRaw / 50 ,1 - howRaw / 50,1 - howRaw / 50, 1);

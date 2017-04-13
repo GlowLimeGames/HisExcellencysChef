@@ -20,8 +20,21 @@ public class Station : MonoBehaviour {
 					} else if (GameController.Instance.course == 2) {
 						GameController.Instance.courseFlavor2 += flavor;
 					}
-					Destroy (activeCharacter.GetComponent<CharacterProperties> ().heldDish);
+					GameController.Instance.servedDishes.Add (activeCharacter.GetComponent<CharacterProperties> ().heldDish);
+					activeCharacter.GetComponent<CharacterProperties> ().heldDish.SetActive(false);
+					activeCharacter.GetComponent<CharacterProperties> ().heldDish = null;
 				}
+				if (GameController.Instance.tutorial0Part22) {
+					GameController.Instance.Invoke ("NextTutorialStep", 5f);
+				}
+				if (GameController.Instance.tutorial1Part3) {
+					GameController.Instance.MakeTutorialeBox ("You have done as I asked. Let us continue.\n Since you clearly are aware of advanced concepts of flavors, let us experiment with them a little. I’ve added some new ingredients to your pantry. Go have a look at them.");
+					GameController.Instance.tutorial1Part3 = false;
+					GameController.Instance.tutorial1Part4 = true;
+					GameController.Instance.time = 0;
+					GameController.Instance.NextTutorialStep ();
+				}
+
 				return;
 			}
 		}
@@ -60,17 +73,18 @@ public class Station : MonoBehaviour {
 		if (activeCharacter.GetComponent<CharacterProperties> ().heldDish == null) {
 			if (dish.GetComponent<Ingredients> ().isCooking) {
 				dish.GetComponent<Ingredients> ().isCooking = false;
-				dish.GetComponent<Ingredients> ().ChangeFlavor();
+				if (!GameController.Instance.tutorial0Part1) {
+					dish.GetComponent<Ingredients> ().ChangeFlavor ();
+				}
 				dish.GetComponent<Ingredients> ().StopAllCoroutines ();
 			}
 			dish.transform.parent = activeCharacter.transform;
-			dish.transform.position = activeCharacter.transform.position + new Vector3(0, 0, 3f);
+			dish.transform.position = activeCharacter.transform.position + new Vector3 (0, 0, 3f);
 			activeCharacter.GetComponent<CharacterProperties> ().heldDish = dish;
 			activeCharacter.GetComponent<CharacterMovement> ().isCooking = false;
 			dish = null;
 			EventController.Event (Event.PICKUP);
 		}
-
 		Cancel ();
     }
 
@@ -91,9 +105,9 @@ public class Station : MonoBehaviour {
 		Debug.Log ("Got here");
 		if (activeCharacter.GetComponent<CharacterMovement> ().isCooking == false) {
 			if (dish == null) {
-				activeCharacter.GetComponent<CharacterProperties> ().heldDish.GetComponent<Ingredients> ().cookSelf (action, activeCharacter);
+				activeCharacter.GetComponent<CharacterProperties> ().heldDish.GetComponent<Ingredients> ().cookSelf (action, activeCharacter,gameObject);
 			} else {
-				dish.GetComponent<Ingredients> ().cookSelf (action, activeCharacter);
+				dish.GetComponent<Ingredients> ().cookSelf (action, activeCharacter,gameObject);
 			}
 			if (action == "Fry") {
 				EventController.Event (Event.FRY);

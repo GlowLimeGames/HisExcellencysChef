@@ -55,26 +55,45 @@ public class StationDropdown : MonoBehaviour {
 
 		if (GameObject.Find ("ClickHandler").GetComponent<ClickHandler> ().currentCharacter.GetComponent<CharacterProperties> ().heldDish != null) {
 			if (clickedObject.name == "Range" || clickedObject.name == "Table") {
-				process = "PutDown";
-				GameObject aButton = (GameObject)Instantiate (functionButton, transform.position, Quaternion.identity);
-				aButton.transform.SetParent (transform);
-				aButton.transform.Rotate (Vector3.zero);
-				aButton.name = process;
-				aButton.GetComponentInChildren<Text> ().text = process;
-				functionList.Add (aButton);
+				if (!GameController.Instance.tutorial0Part1) {
+					process = "PutDown";
+					GameObject aButton = (GameObject)Instantiate (functionButton, transform.position, Quaternion.identity);
+					aButton.transform.SetParent (transform);
+					aButton.transform.Rotate (Vector3.zero);
+					aButton.name = process;
+					aButton.GetComponentInChildren<Text> ().text = process;
+					functionList.Add (aButton);
+				}
 			}
 			if (station.GetComponent<Station> ().dish != null) {
-				process = "AddTo";
-				GameObject aButton = (GameObject)Instantiate (functionButton, transform.position, Quaternion.identity);
-				aButton.transform.SetParent (transform);
-				aButton.transform.Rotate (Vector3.zero);
-				aButton.name = process;
-				aButton.GetComponentInChildren<Text> ().text = process;
-				functionList.Add (aButton);
+				if (!GameController.Instance.tutorial0Part1) {
+					if (!GameController.Instance.tutorial1Part1 && !GameController.Instance.tutorial1Part5 &&!GameController.Instance.tutorial1Part2 && !GameController.Instance.tutorial1Part3 && station.GetComponent<Station> ().dish.GetComponent<Ingredients> ().primaryIngredientName != "Spinach") {
+						process = "AddTo";
+						GameObject aButton = (GameObject)Instantiate (functionButton, transform.position, Quaternion.identity);
+						aButton.transform.SetParent (transform);
+						aButton.transform.Rotate (Vector3.zero);
+						aButton.name = process;
+						aButton.GetComponentInChildren<Text> ().text = process;
+						functionList.Add (aButton);
+					}
+				}
 			}
 		} else {
 			if (station.GetComponent<Station> ().dish != null) {
-				process = "PickUp";
+				if (!GameController.Instance.tutorial0Part1 && !GameController.Instance.tutorial1Part1) {
+					process = "PickUp";
+					GameObject aButton = (GameObject)Instantiate (functionButton, transform.position, Quaternion.identity);
+					aButton.transform.SetParent (transform);
+					aButton.transform.Rotate (Vector3.zero);
+					aButton.name = process;
+					aButton.GetComponentInChildren<Text> ().text = process;
+					functionList.Add (aButton);
+				}
+			}
+		}
+		if (station.GetComponent<Station> ().dish != null) {
+			if (!GameController.Instance.tutorial0Part1 && !GameController.Instance.tutorial1Part1 && !GameController.Instance.tutorial1Part5) {
+				process = "Discard";
 				GameObject aButton = (GameObject)Instantiate (functionButton, transform.position, Quaternion.identity);
 				aButton.transform.SetParent (transform);
 				aButton.transform.Rotate (Vector3.zero);
@@ -82,15 +101,6 @@ public class StationDropdown : MonoBehaviour {
 				aButton.GetComponentInChildren<Text> ().text = process;
 				functionList.Add (aButton);
 			}
-		}
-		if (station.GetComponent<Station> ().dish != null) {
-			process = "Discard";
-			GameObject aButton  = (GameObject)Instantiate (functionButton, transform.position, Quaternion.identity);
-			aButton.transform.SetParent (transform);
-			aButton.transform.Rotate (Vector3.zero);
-			aButton.name = process;
-			aButton.GetComponentInChildren<Text> ().text = process;
-			functionList.Add (aButton);
 		}
 
 		//Make Discard Function here
@@ -98,36 +108,40 @@ public class StationDropdown : MonoBehaviour {
 		//Chef only Functions
 		if (GameObject.Find("ClickHandler").GetComponent<ClickHandler>().currentCharacter.name == "Cook"){
 			if (station.GetComponent<Station> ().dish != null) {
-				process = "Taste";
-				GameObject aButton = (GameObject)Instantiate (functionButton, transform.position, Quaternion.identity);
-				aButton.transform.SetParent (transform);
-				aButton.transform.Rotate (Vector3.zero);
-				aButton.name = process;
-				aButton.GetComponentInChildren<Text> ().text = process;
-				functionList.Add (aButton);
+				if (!GameController.Instance.tutorial0Part1) {
+					process = "Taste";
+					GameObject aButton = (GameObject)Instantiate (functionButton, transform.position, Quaternion.identity);
+					aButton.transform.SetParent (transform);
+					aButton.transform.Rotate (Vector3.zero);
+					aButton.name = process;
+					aButton.GetComponentInChildren<Text> ().text = process;
+					functionList.Add (aButton);
+				}
 			}
 		}
 		//Make Buttons based on Processes
-		if (GameObject.Find ("ClickHandler").GetComponent<ClickHandler> ().currentCharacter.GetComponent<CharacterProperties> ().heldDish != null) {
-			foreach (string aProcess in dropDownOptions) {
-				GameObject aButton = (GameObject)Instantiate (functionButton, transform.position, Quaternion.identity);
-				aButton.transform.SetParent (transform);
-				aButton.transform.Rotate (Vector3.zero);
-				aButton.name = aProcess;
-				aButton.GetComponentInChildren<Text> ().text = aProcess;
-				functionList.Add (aButton);
-			}
-		} else if (station.GetComponent<Station> ().dish != null) {
-			foreach (string aProcess in dropDownOptions) {
-				if (station.GetComponent<Station> ().dish.GetComponent<Ingredients> ().actionDone == aProcess) {
-					return;
+		if (!GameController.Instance.tutorial1Part5) {
+			if (GameObject.Find ("ClickHandler").GetComponent<ClickHandler> ().currentCharacter.GetComponent<CharacterProperties> ().heldDish != null) {
+				foreach (string aProcess in dropDownOptions) {
+					GameObject aButton = (GameObject)Instantiate (functionButton, transform.position, Quaternion.identity);
+					aButton.transform.SetParent (transform);
+					aButton.transform.Rotate (Vector3.zero);
+					aButton.name = aProcess;
+					aButton.GetComponentInChildren<Text> ().text = aProcess;
+					functionList.Add (aButton);
 				}
-				GameObject aButton = (GameObject)Instantiate (functionButton, transform.position, Quaternion.identity);
-				aButton.transform.SetParent (transform);
-				aButton.transform.Rotate (Vector3.zero);
-				aButton.name = aProcess;
-				aButton.GetComponentInChildren<Text> ().text = aProcess;
-				functionList.Add (aButton);
+			} else if (station.GetComponent<Station> ().dish != null) {
+				foreach (string aProcess in dropDownOptions) {
+					if (station.GetComponent<Station> ().dish.GetComponent<Ingredients> ().actionDone == aProcess) {
+						return;
+					}
+					GameObject aButton = (GameObject)Instantiate (functionButton, transform.position, Quaternion.identity);
+					aButton.transform.SetParent (transform);
+					aButton.transform.Rotate (Vector3.zero);
+					aButton.name = aProcess;
+					aButton.GetComponentInChildren<Text> ().text = aProcess;
+					functionList.Add (aButton);
+				}
 			}
 		}
 	}
@@ -142,6 +156,10 @@ public class StationDropdown : MonoBehaviour {
 			if (GameObject.Find ("ClickHandler").GetComponent<ClickHandler> ().currentCharacter.GetComponent<CharacterProperties> ().heldDish != null){
 				processes = GameObject.Find ("ClickHandler").GetComponent<ClickHandler> ().currentCharacter.GetComponent<CharacterProperties> ().heldDish.GetComponent<Ingredients> ().primaryIngredient.Processes;
 			}
+		}
+
+		if (processes == null) {
+			return;
 		}
 
 		if (station.GetComponent<Station> ().dish != null) {
@@ -188,7 +206,7 @@ public class StationDropdown : MonoBehaviour {
 	}
 
 	void BlockOutObsoletes(GameObject clickedObject){
-		//Check dish find obsoletes and gray out
+		
 		if (station.GetComponent<Station> ().dish != null) {
 			string[] obsoletes;
 			obsoletes = station.GetComponent<Station> ().dish.GetComponent<Ingredients> ().obsoletes;
@@ -209,6 +227,32 @@ public class StationDropdown : MonoBehaviour {
 						if (functionList [i].transform.name == obsolete) {
 							Destroy(functionList [i]);
 							break;
+						}
+					}
+				}
+			}
+		}
+
+		if (GameController.Instance.Level == 0) {
+			if (station.GetComponent<Station> ().dish != null) {
+				string[] obsoletes = GameController.Instance.level0Obsoletes;
+				for (int i = 0; i < functionList.Count; i++) {
+					foreach (string obsolete in obsoletes) {
+						if (functionList [i].transform.name == obsolete) {
+							Destroy(functionList [i]);
+							break;
+						}
+					}
+				}
+			} else {
+				if (GameObject.Find ("ClickHandler").GetComponent<ClickHandler> ().currentCharacter.GetComponent<CharacterProperties> ().heldDish != null){
+					string[] obsoletes = GameController.Instance.level0Obsoletes;
+					for (int i = 0; i < functionList.Count; i++) {
+						foreach (string obsolete in obsoletes) {
+							if (functionList [i].transform.name == obsolete) {
+								Destroy(functionList [i]);
+								break;
+							}
 						}
 					}
 				}
@@ -262,10 +306,14 @@ public class StationDropdown : MonoBehaviour {
 				process = CookingController.Instance.GetProcess ("Fry");
 			}
 
+			if (food.howCooked.Count == 0) {
+				food.howCooked.Add("URed");
+			}
+
 			if (tasteClass == null) {
-				tasteClass = new TasteTesting (food.flavor.x, food.flavor.y, food.howCooked[-1], process.IdealTimeMin, process.IdealTimeMax, food.howRaw);
+				tasteClass = new TasteTesting (food.flavor.x, food.flavor.y, food.howCooked[food.howCooked.Count - 1], process.IdealTimeMin, process.IdealTimeMax, food.howRaw);
 			} else {
-				tasteClass.updateAll (food.flavor.x, food.flavor.y, food.howCooked[-1], process.IdealTimeMin, process.IdealTimeMax, food.howRaw);
+				tasteClass.updateAll (food.flavor.x, food.flavor.y, food.howCooked[food.howCooked.Count - 1], process.IdealTimeMin, process.IdealTimeMax, food.howRaw);
 			}
 
 
@@ -278,13 +326,62 @@ public class StationDropdown : MonoBehaviour {
 			response = "We don't have much time to waste!";
 		}
 
+		if (GameController.Instance.tutorial1Part1) {
+			GameController.Instance.MakeTutorialeBox ("Indeed. Aemilia will stop on her own when she thinks the Almonds are done, but if you feel a mixture is well-cooked before an Underling has finished, you can stop them by Picking it Up before they finish.");
+			GameController.Instance.NextTutorialStep ();
+		}
+
+		if (GameController.Instance.tutorial1Part3) {
+			if (food.name == "Spinach") {
+				GameController.Instance.spinachTasted = true;
+				GameController.Instance.NextTutorialStep ();
+			} 
+		}
+
+		if (GameController.Instance.tutorial1Part5) {
+			if (food.name == "Rice") {
+				GameController.Instance.MakeTutorialeBox ("Cooking processes normally only change the flavor a little, depending on how well-done they were. The closer to an ideal time, the greater the flavor change. Adding ingredients, on the other hand, usually changes the flavor of a mixture in a slightly stronger, but more predictable manner.");
+				GameController.Instance.NextTutorialStep ();
+			}
+		}
+
 		GameController.Instance.MakeDialogueBox (response);
 	}
 
 	public void Do(Button clickedButton){
+		if (GameController.Instance.tutorial0Part22 && !GameController.Instance.timerOn) {
+			GameController.Instance.MakeTutorialeBox ("My lord will be here soon! I’ve hung a bell in the window to indicate when you can serve him. When the sun reaches it, it will be time. Try adding some more ingredients or mixtures to the chicken, and don’t forget to fry it.");
+			GameController.Instance.time = GameController.Instance.course1time * .5f;
+			GameController.Instance.timerOn = true;
+		} 
+		if (GameController.Instance.tutorial0Part3) {
+			GameController.Instance.MakeTutorialeBox ("What kind of dish you are making is determined by its first ingredient and the first process used. So for example, our Pounded Chicken mixture from before became Boulettes. When you add a mixture to another, the new mixture is treated as an ingredient added to the base mixture.");
+		}
+
+		if (GameController.Instance.tutorial1Part1) {
+			if (clickedButton.name == "Roast") {
+				GameController.Instance.MakeTutorialeBox ("Because you are not Aemilia yourself, you cannot directly control how well she cooks or see how well-done the mixture seems to her. You can, however, taste test her Almonds yourself by clicking on them, even as she cooks.");
+			}
+		}
+		if (GameController.Instance.tutorial1Part2) {
+			if (clickedButton.name == "Seethe") {
+				GameController.Instance.MakeTutorialeBox ("Notice that seething does not trigger a timer. As a Passive process, it does not need your attention, so you can do other things while it cooks. Just don’t forget to Taste Test it and Pick it Up, or it will burn. For now, though feel free to cut up the Spinach for the Salad and add some other ingredients to it.");
+			}
+		}
+
+		if (GameController.Instance.tutorial1Part4) {
+			if (clickedButton.name == "Seethe") {
+				GameController.Instance.MakeTutorialeBox ("Cooking food in different ways changes its flavor. seething, for example, makes it taste more moist and slightly hotter. Mincing, on the other hand, makes your mixture a taste a bit colder and more moist. You can see a process’ flavors under their menu listing when you go to process a mixture. Go ahead and taste it when you’re done.");
+			}
+		}
 		if (!GameObject.Find ("ClickHandler").GetComponent<ClickHandler> ().currentCharacter.GetComponent<CharacterMovement> ().isCooking) {
 			GameObject.Find ("ClickHandler").GetComponent<ClickHandler> ().selectedAction = true;
 			if (clickedButton.name == "PutDown") {
+				if (station.name == "Mortar" || station.name == "Range") {
+					GameObject.Find ("ClickHandler").GetComponent<ClickHandler> ().currentCharacter.GetComponent<CharacterProperties> ().heldDish.GetComponent<SpriteRenderer> ().sortingOrder = 2;
+				} else {
+					GameObject.Find ("ClickHandler").GetComponent<ClickHandler> ().currentCharacter.GetComponent<CharacterProperties> ().heldDish.GetComponent<SpriteRenderer> ().sortingOrder = 5;
+				}
 				PutDown ();
 			} else if (clickedButton.name == "Taste") {
 				Taste ();
@@ -292,15 +389,19 @@ public class StationDropdown : MonoBehaviour {
 				Discard ();
 			} else if (clickedButton.name == "PickUp") {
 				PickUp ();
+				if (station.name == "Mortar" || station.name == "Range") {
+					GameObject.Find ("ClickHandler").GetComponent<ClickHandler> ().currentCharacter.GetComponent<CharacterProperties> ().heldDish.GetComponent<SpriteRenderer> ().sortingOrder = 5;
+				}
 			} else if (clickedButton.name == "AddTo") {
 				AddTo ();
 			} else if (station.GetComponent<Station>().dish == null){
-				if (CookingController.Instance.SupportsAction (GameObject.Find ("ClickHandler").GetComponent<ClickHandler> ().currentCharacter.GetComponent<CharacterProperties> ().heldDish.GetComponent<Ingredients> ().primaryIngredientName, clickedButton.name)) {
+				if (CookingController.Instance.GetProcess(clickedButton.name).SupportsIngredient (GameObject.Find ("ClickHandler").GetComponent<ClickHandler> ().currentCharacter.GetComponent<CharacterProperties> ().heldDish.GetComponent<Ingredients> ().primaryIngredient)) {
 					station.GetComponent<Station> ().Cook (clickedButton.name);
 					PutDown ();
+				} else {
 				}
 			} else if (station.GetComponent<Station>().dish != null){
-				if (CookingController.Instance.SupportsAction (station.GetComponent<Station>().dish.GetComponent<Ingredients> ().primaryIngredientName, clickedButton.name)) {
+				if (CookingController.Instance.GetProcess(clickedButton.name).SupportsIngredient (station.GetComponent<Station> ().dish.GetComponent<Ingredients> ().primaryIngredient)) {
 					station.GetComponent<Station> ().Cook (clickedButton.name);
 				}
 			}

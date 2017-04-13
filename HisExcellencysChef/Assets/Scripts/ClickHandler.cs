@@ -37,7 +37,7 @@ public class ClickHandler : MonoBehaviour {
 					if (activeDropdown != null) {
 						if (clickedObject != activeDropdown && clickedObject != activeDropdown.GetComponent<Station> ().dropDown) {
 							activeDropdown.GetComponent<Station> ().Cancel ();
-							activeDropdown.GetComponent<Station> ().dropDown.SetActive (false);
+//							activeDropdown.GetComponent<Station> ().dropDown.SetActive (false);
 							currentCharacter.GetComponent<CharacterMovement> ().Cancel();
 							activeDropdown = null;
 						}
@@ -57,6 +57,11 @@ public class ClickHandler : MonoBehaviour {
 //					Debug.Log (clickedObject.name + " was clicked."); // Print the object name to the console.
 					if (clickedObject.tag.Equals ("PlayerChar")) { // If a playable character is clicked...
 						SelectCharacter (clickedObject); // Select the character.
+						if (GameController.Instance.tutorial1Part1) {
+							if (clickedObject.name == "Aemilia") {
+								GameController.Instance.MakeTutorialeBox ("Now order her to Roast the Almonds by clicking on the Oven and selecting 'Roast'.");
+							}
+						}
 					}
 
 
@@ -69,13 +74,18 @@ public class ClickHandler : MonoBehaviour {
 							}
 						}
 						if (clickedObject.name == "Pantry") {
-							if (activeDropdown != null) {
-								if (clickedObject != activeDropdown && clickedObject != activeDropdown.GetComponent<Station> ().dropDown) {
-									activeDropdown.GetComponent<Station> ().Cancel ();
+							if (!GameController.Instance.tutorial0Part1 && !GameController.Instance.tutorial1Part1) {
+								if (GameController.Instance.tutorial1Part4) {
+									GameController.Instance.MakeTutorialeBox ("I make a habit of noting the flavors of each ingredient in the pantry. Keeping them all straight without tasting them can be a bit confusing. Look around, then let us make a moist-flavored dish by seething some rice.");
 								}
+								if (activeDropdown != null) {
+									if (clickedObject != activeDropdown && clickedObject != activeDropdown.GetComponent<Station> ().dropDown) {
+										activeDropdown.GetComponent<Station> ().Cancel ();
+									}
+								}
+								InventoryUI piui = pantryInventoryUI.GetComponent<InventoryUI> ();
+								piui.SetEnabled (true);
 							}
-							InventoryUI piui = pantryInventoryUI.GetComponent<InventoryUI> ();
-							piui.SetEnabled (true);
 						} else {
 							if (activeDropdown != null) {
 								activeDropdown.GetComponent<Station> ().Cancel ();
