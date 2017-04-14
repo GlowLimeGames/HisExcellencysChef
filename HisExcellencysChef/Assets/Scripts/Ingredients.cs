@@ -209,7 +209,7 @@ public class Ingredients : MannBehaviour {
 		bool tutorialPass = false;
 		while (!done)
 		{
-			if (GameController.Instance.tutorial1Part2 && !tutorialPass) {
+			if (GameController.Instance.tutorial1Part2 && !tutorialPass && transform.name == "Rice") {
 				float percentCooked = PercentCooked(actionDone, howRaw); 
 				if (SortBoundaries (actionDone, howRaw) == "Green") {
 					tutorialPass = true;
@@ -251,7 +251,7 @@ public class Ingredients : MannBehaviour {
 		bool tutorialPass = false;
 		while (!done)
 		{
-			if (GameController.Instance.tutorial1Part2 && !tutorialPass) {
+			if (GameController.Instance.tutorial1Part2 && !tutorialPass && transform.name == "Rice") {
 				float percentCooked = PercentCooked(actionDone, howRaw); 
 				if (SortBoundaries (actionDone, howRaw) == "Green") {
 					tutorialPass = true;

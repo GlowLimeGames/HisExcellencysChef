@@ -10,6 +10,8 @@ using System.Collections.Generic;
 
 public class GameController : SingletonController<GameController> {
 	public int Level;
+	public int Fame;
+	public int Infamy;
 	public GameObject[] Underlings;
 	public GameObject[] Ingredients;
 	public InventoryUI inventory;
@@ -20,6 +22,7 @@ public class GameController : SingletonController<GameController> {
 	public bool tutorial0Part3;
 
 	public bool tutorial1Part1;
+	public bool clickedAemilia;
 	public bool tutorial1Part2;
 	public bool tutorial1Part3;
 	public bool checkSpinach;
@@ -27,6 +30,12 @@ public class GameController : SingletonController<GameController> {
 	public bool tutorial1Part4;
 	public bool tutorial1Part5;
 	public bool tutorial1Part6;
+
+	public bool tutorial2Part1;
+	public bool tutorial2Part2;
+	public bool tutorial2Part3;
+	public bool tutorial2Part4;
+	public bool tutorial2Part5;
 
 	public float course1time;
 	public float course2time;
@@ -44,6 +53,7 @@ public class GameController : SingletonController<GameController> {
 		}
 		cooking = CookingController.Instance;
 		chef = GameObject.Find ("Cook").GetComponent<CharacterMovement>();
+		guestController = GetComponent<GuestController> ();
 		time = levelTime;
 		if (Level == 0) {
 			LadyDialogue.CharacterSpeak (@"“You there! You have helped in the kitchen before, have you not? We have a small emergency.”
@@ -56,7 +66,12 @@ public class GameController : SingletonController<GameController> {
 				
 			Until then you need to practice. You're a natural talent, but could do with some instruction.  We’ll make a good start of it today. I’ve hired some underlings for you.  Let us start with an exotically themed spinach salad with roasted Almonds. I’ve given some Almonds to your underling, so let us practice working with others.");
 		} else if (Level == 2) {
+			LadyDialogue.CharacterSpeak (@"Good morning. In preparation for the upcoming feast, you should work on understanding guest preferences. After all, we don’t want to be giving Master Simon food he dislikes.
 
+Today Anna, our daughter, has volunteered to try some of your dishes.  She, like all guests, wants certain things more than others.");
+
+			guestController.GetGuest ("Anna");
+			canServe = true;
 		} else if (Level == 3) {
 
 		} else {
@@ -79,6 +94,7 @@ Ingredients are Hot or Cold and Moist or Dry. Try to balance the flavors across 
 
 	public CharacterMovement chef;
 	public CharacterMovement underling1;
+	public CharacterMovement underling2;
 
 	public bool timer = false;
 	public float time;
@@ -96,6 +112,7 @@ Ingredients are Hot or Cold and Moist or Dry. Try to balance the flavors across 
 	public Slider chefSlider;
 
 	public float dialogueTime = 5f;
+	GuestController guestController;
 	public DialogueController LadyDialogue;
 	public DialogueController TutorialDialogue;
 	public GameObject UIDialogueBox;
@@ -182,6 +199,8 @@ Ingredients are Hot or Cold and Moist or Dry. Try to balance the flavors across 
 			time = 342f;
 			course = 1;
 			timerOn = true;
+		} else if (tutorial2Part3) {
+			MakeTutorialeBox ("So… I could get famous off of this. The King could hear about me. I wonder what it would be like to cook for royalty.\n I should be careful what I wish for. Nobles can be temperamental. If I get too infamous and my Lady hears too many bad stories about me, I could get kicked out. Better be careful...");
 		}
 	}
 
@@ -201,10 +220,67 @@ Ingredients are Hot or Cold and Moist or Dry. Try to balance the flavors across 
 		TutorialDialogue.gameObject.SetActive (false);
 	}
 
-	void BannerOnClick()
+	public GameObject guestBox;
+	void CloseGuest(){
+		guestBox.SetActive (false);
+	}
+
+	public void BannerOnClick()
 	{
 		GameObject thisButton = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;
 		GameObject food = activeDishes[int.Parse(thisButton.name)];
+
+		string response = "";
+		List<GuestDescriptor> validGuests = new List<GuestDescriptor> ();
+		foreach (GuestDescriptor guest in guestController.guestList) {
+			if (guestController.ParseTriggers (guest, food.GetComponent<Ingredients>()) != "I have nothing to say to you.") {
+				validGuests.Add (guest);
+			}
+		}
+
+		List<GuestDescriptor> sortedList = new List<GuestDescriptor>();
+		int priority = 0;
+		for (int i = 0; i < validGuests.Count; i++) {
+			if (validGuests [i].priority > priority) {
+				sortedList.Add(validGuests[i]);
+			}
+		}
+
+		for (int j = 0; j < sortedList.Count; j++) {
+			if (j < 3) {
+				guestBox.transform.GetChild(0).GetComponent<Image>().sprite = guestController.GetGuestImage (sortedList [j]);
+				response += guestController.ParseTriggers (sortedList [j], food.GetComponent<Ingredients> ()) + "\n";
+			}
+		}
+		if (response == "") {
+			response = "I have nothing to say to you";
+		}
+		if (GameController.Instance.tutorial2Part2) {
+			response = @"Anna loves the dish! When you make a guest especially happy, they will tell others about you, spreading your fame. This is what we are going for. If you make something they hate, they will complain about it, increasing your infamy. Fame and infamy are both fleeting though, and old fame will slowly fade as the days go by. Fame is represented by the yellow bar at the top of your screen, while infamy is represented by the purple.
+			You will never be able to make a dish that perfectly suits everyone’s tastes. Why don’t you try to serve a course for Anna and her brother Henri both.";
+			MakeTutorialeBox (response);
+			guestController.GetGuest ("Henri");
+			inventory.foods [0].quantity += 1;
+			Inventory.InventoryNode[] array = new Inventory.InventoryNode[10];
+			for (int i = 0; i < inventory.foods.Length; i++) {
+				array [i] = inventory.foods [i];
+			}
+			array [7].obj = Ingredients [6];
+			array [7].quantity = 2;
+			array [8].obj = Ingredients [1];
+			array [8].quantity = 1;
+			array [9].obj = Ingredients [40];
+			array [9].quantity = 2;
+
+			inventory.foods = array;
+			timerOn = true;
+			tutorial2Part2 = false;
+			tutorial2Part3 = true;
+			Invoke ("NextTutorialStep", 5f + course1time * .16f);
+
+		} else {
+			MakeGuestBox (response);
+		}
 
 //		GuestController guest = GetComponent<GuestController> ();
 //		guest.GetGuest ("Count Philip");
@@ -214,6 +290,14 @@ Ingredients are Hot or Cold and Moist or Dry. Try to balance the flavors across 
 		//if food was served then display this information in a text box
 //		Debug.Log (food.GetComponent<Ingredients>().primaryIngredientName);
 //		Debug.Log (food.GetComponent<Ingredients> ().flavor);
+	}
+
+	public void MakeGuestBox(string whatToSay){
+		guestBox.SetActive (true);
+		guestBox.GetComponent<DialogueController> ().CharacterSpeak (whatToSay);
+
+		CancelInvoke ("CloseGuest");
+		Invoke ("CloseGuest", dialogueTime);
 	}
 
 	public Ingredients currentlyCooking;
@@ -258,6 +342,10 @@ Ingredients are Hot or Cold and Moist or Dry. Try to balance the flavors across 
 		response = response1 + "\n" + "\n" + "\n" + tasteClass.tasteTest ();
 		response = response.Replace ("<course name>", "Third Course");
 
+		if (tutorial2Part4) {
+			response += "\n" + "I hope you feel ready, the time for the feast is fast approaching.";
+		}
+
 		LadyDialogue.button.GetComponentInChildren<Text> ().text = "RESET";
 		LadyDialogue.CharacterSpeak(response);
 	}
@@ -300,7 +388,36 @@ Ingredients are Hot or Cold and Moist or Dry. Try to balance the flavors across 
 								time = course2time * .9f;
 							}
 							course += 1;
+							if (tutorial2Part3) {
+								MakeTutorialeBox ("It looks like Philip brought back some friends of ours. Since you’re still learning, we’ll go with a two-course meal instead of the usual three courses. You’ll have only a little time between courses, so make sure you’re well prepared for both. One final factor to keep in mind with regards to flavors and courses: while individuals may prefer strong tastes, courses themselves should have overall balanced flavors for health reasons. If you, for example, serve a very moist dish, make sure to serve one or more dry dishes to balance it out.");
+								inventory.foods [0].quantity += 2;
+								inventory.foods [7].quantity += 2;
+								inventory.foods [1].quantity += 3;
+								inventory.foods [2].quantity += 2;
+								inventory.foods [3].quantity += 1;
+								inventory.foods [4].quantity += 1;
+								inventory.foods [8].quantity += 2;
+								inventory.foods [5].quantity += 1;
+								inventory.foods [9].quantity += 1;
+								inventory.foods [6].quantity += 1;
+
+								guestController.guestList.Clear ();
+								guestController.GetGuest ("Count Philip");
+								guestController.GetGuest ("Lady Florine");
+								guestController.GetGuest ("Master Roger of Bologna");
+								guestController.GetGuest ("Sir Conrad the Swabian");
+								guestController.GetGuest ("Count Godfrey");
+
+								courseFlavor0 = Vector2.zero;
+								courseFlavor1 = Vector2.zero;
+								tutorial2Part3 = false;
+								tutorial2Part4 = true;
+								course = 0;
+							}
 						} else if (course == 1) {
+							if (tutorial2Part4) {
+								LadyFeedback ();
+							}
 							time = course3time;
 							course += 1;
 							if (tutorial0Part3) {

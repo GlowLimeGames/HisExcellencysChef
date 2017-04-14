@@ -35,8 +35,9 @@ public class InventoryButton : MonoBehaviour
 			food.transform.rotation = item.transform.rotation;
 			food.GetComponent<Ingredients>().primaryIngredientName = food.name.Replace ("(Clone)", "").Trim();
 			food.name = food.name.Replace ("(Clone)", "").Trim();
-			if (GameController.Instance.tutorial1Part4) {
+			if (GameController.Instance.tutorial1Part4 || GameController.Instance.tutorial1Part2) {
 				if (food.name != "Rice") {
+					Destroy (food);
 					return;
 				}
 			}

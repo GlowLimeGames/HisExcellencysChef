@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GuestController : MonoBehaviour {
 
@@ -8,15 +9,72 @@ public class GuestController : MonoBehaviour {
 	public List<GuestDescriptor> guestList = new List<GuestDescriptor> ();
 
 
+
 	void Start(){
 		guestLookup = CookingController.Instance.Guests;
 	}
+
+	public GameObject guestDisplay;
+	public void CloseList(){
+		guestDisplay.SetActive (false);
+		if (GameController.Instance.tutorial2Part1) {
+			GameController.Instance.MakeTutorialeBox ("The success of a good meal is partially in satisfying the desires of your guests. Make a dish that will really excite Anna. That is, make a dish that is either as Dry-tasting as possible, include one or more ingredients that has been perfectly ground, or both.");
+			GameController.Instance.tutorial2Part1 = false;
+			GameController.Instance.tutorial2Part2 = true;
+		}
+	}
+	public void OpenList(){
+		guestDisplay.SetActive (true);
+		if (GameController.Instance.tutorial2Part1) {
+			GameController.Instance.MakeTutorialeBox ("As you can see, Anna loves Dry-tasting food. She also likes dishes with an ingredient or two that has been perfectly ground.");
+		}
+	}
+
+	public Sprite[] guestImages;
+
+	public GameObject descriptions;
+	public GameObject images;
+
+	public GameObject descriptionPrefab;
+	public GameObject imagePrefab;
 
 	public void GetGuest(string guestName){
 		GuestDescriptor guest;
 		guestLookup.TryGetValue (guestName, out guest);
 
 		guestList.Add (guest);
+
+
+		Sprite thisFace = guestImages[0];
+		foreach (Sprite sprite in guestImages) {
+			if (guest.name == sprite.name) {
+				thisFace = sprite;
+			}
+		}
+
+		GameObject desc = (GameObject) Instantiate (descriptionPrefab, descriptions.transform);
+		desc.transform.localScale = Vector3.one;
+		if (GameController.Instance.tutorial2Part1) {
+			desc.GetComponent<Text> ().text = "Our young lady Anna.\nShe prefers Dry and well-ground food.";
+		} else {
+			desc.GetComponent<Text> ().text = guest.description;
+		}
+
+		GameObject image = (GameObject) Instantiate (imagePrefab, images.transform);
+		image.transform.localScale = Vector3.one;
+		image.GetComponent<Image>().sprite = thisFace;
+
+	}
+
+	public Sprite GetGuestImage(GuestDescriptor guest){
+		Sprite thisFace = guestImages [0];
+		foreach (Sprite sprite in guestImages) {
+			if (guest.name == sprite.name) {
+				thisFace = sprite;
+			}
+		}
+
+		return thisFace;
 	}
 
 	bool pTrigger1;
@@ -208,6 +266,22 @@ public class GuestController : MonoBehaviour {
 
 
 	}
+
+	public bool CheckPos3and4(GuestDescriptor guest, Ingredients dish){
+		guest.pTrigger3 = ReplacePhrase (guest.pTrigger3);
+		guest.pTrigger4 = ReplacePhrase (guest.pTrigger4);
+
+		pTrigger3 = OperatePhrase (guest.pTrigger3, dish);
+		pTrigger4 = OperatePhrase (guest.pTrigger4, dish);
+
+		if (pTrigger3 || pTrigger4) {
+			return true;
+		} else {
+			GameController.Instance.MakeTutorialeBox ("I should include a perfectly-ground ingredient or make this more Dry before I serve it to young Lady Anna.");
+			return false;
+		}
+	}
+
 
 
 	public string ParseTriggers(GuestDescriptor guest,Ingredients dish){

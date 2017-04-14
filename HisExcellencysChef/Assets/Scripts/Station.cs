@@ -12,6 +12,13 @@ public class Station : MonoBehaviour {
 			if (GameController.Instance.canServe) {
 				activeCharacter = GameObject.Find ("ClickHandler").GetComponent<ClickHandler> ().currentCharacter;
 				if (activeCharacter.GetComponent<CharacterProperties> ().heldDish != null) {
+					if (GameController.Instance.tutorial2Part2) {
+						if (!GameController.Instance.GetComponent<GuestController> ().CheckPos3and4 (GameController.Instance.GetComponent<GuestController> ().guestList [0], activeCharacter.GetComponent<CharacterProperties> ().heldDish.GetComponent<Ingredients> ())) {
+							return;
+						} else {
+							GameController.Instance.MakeTutorialeBox ("Wonderful. As you can see, dishes on your banner here are moved to the appropriate course section when served. Let’s click over the listing here to see what Anna thought.");
+						}
+					}
 					Vector2 flavor = activeCharacter.GetComponent<CharacterProperties> ().heldDish.GetComponent<Ingredients> ().flavor;
 					if (GameController.Instance.course == 0) {
 						GameController.Instance.courseFlavor0 += flavor;

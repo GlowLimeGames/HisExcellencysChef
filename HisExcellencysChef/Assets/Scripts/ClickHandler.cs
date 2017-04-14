@@ -23,6 +23,11 @@ public class ClickHandler : MonoBehaviour {
 	
 	void LateUpdate ()
 	{	
+		if (GameController.Instance.tutorial2Part1) {
+			return;
+		}
+
+
 		if (Input.GetMouseButtonDown (1)) { // If we right click.
 			if (CanSelectCharacter ()) { // If we can select a character...
 				Vector3 worldPoint = Camera.main.ScreenToWorldPoint (Input.mousePosition);
@@ -59,7 +64,10 @@ public class ClickHandler : MonoBehaviour {
 						SelectCharacter (clickedObject); // Select the character.
 						if (GameController.Instance.tutorial1Part1) {
 							if (clickedObject.name == "Aemilia") {
-								GameController.Instance.MakeTutorialeBox ("Now order her to Roast the Almonds by clicking on the Oven and selecting 'Roast'.");
+								if (!GameController.Instance.clickedAemilia) {
+									GameController.Instance.clickedAemilia = true;
+									GameController.Instance.MakeTutorialeBox ("Now order her to Roast the Almonds by clicking on the Oven and selecting 'Roast'.");
+								}
 							}
 						}
 					}

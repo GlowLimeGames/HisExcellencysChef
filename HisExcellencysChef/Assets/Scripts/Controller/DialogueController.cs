@@ -61,7 +61,10 @@ public class DialogueController : MonoBehaviour
 		if (GameController.Instance.tutorial1Part1) {
 			GameController.Instance.MakeTutorialeBox("This is Aemilia. To order her to Roast the Almonds, you must first select her by clicking on her or her portrait at the bottom of the screen. Note that she will become outlined in green when selected.");
 		}
-        // Close the dialogue box.
+		if (GameController.Instance.tutorial2Part1) {
+			GameController.Instance.MakeTutorialeBox ("It is a good idea to keep a written guest list handy, so you can quickly check the preferences of our guests as you cook. For now, I’ve written you a guest list myself. Click here and open it.");
+		}
+                                                                                                           // Close the dialogue box.
 		if (GameController.Instance.course == 0) {
 			GameController.Instance.timer = true;
 			SetActive (false);
