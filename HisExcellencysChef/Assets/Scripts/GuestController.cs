@@ -7,10 +7,11 @@ public class GuestController : MonoBehaviour {
 
 	Dictionary<string, GuestDescriptor> guestLookup;
 	public List<GuestDescriptor> guestList = new List<GuestDescriptor> ();
+	public List<GuestDescriptor> poisonedList = new List<GuestDescriptor> ();
 
 
 
-	void Start(){
+	void Awake(){
 		guestLookup = CookingController.Instance.Guests;
 	}
 
@@ -280,6 +281,56 @@ public class GuestController : MonoBehaviour {
 			GameController.Instance.MakeTutorialeBox ("I should include a perfectly-ground ingredient or make this more Dry before I serve it to young Lady Anna.");
 			return false;
 		}
+	}
+
+	public int CheckForFame(GuestDescriptor guest, Ingredients dish){
+		int priorityCount = 0;
+
+		guest.pTrigger1 = ReplacePhrase (guest.pTrigger1);
+		guest.pTrigger2 = ReplacePhrase (guest.pTrigger2);
+		guest.pTrigger5 = ReplacePhrase (guest.pTrigger5);
+		guest.pTrigger3 = ReplacePhrase (guest.pTrigger3);
+		guest.pTrigger4 = ReplacePhrase (guest.pTrigger4);
+
+		pTrigger1 = OperatePhrase (guest.pTrigger1, dish);
+		if (pTrigger1) {
+			priorityCount += 1;
+		}
+		pTrigger2 = OperatePhrase (guest.pTrigger2, dish);
+		if (pTrigger2) {
+			priorityCount += 1;
+		}
+		pTrigger3 = OperatePhrase (guest.pTrigger3, dish);
+		if (pTrigger3) {
+			GameController.Instance.Fame += guest.fpos3;
+			priorityCount += 2;
+		}
+		pTrigger4 = OperatePhrase (guest.pTrigger4, dish);
+		if (pTrigger4) {
+			GameController.Instance.Fame += guest.fpos4;
+			priorityCount += 2;
+		}
+		pTrigger5 = OperatePhrase(guest.pTrigger5, dish);
+		if (pTrigger5) {
+			priorityCount += 1;
+		}
+
+		guest.nTrigger1 = ReplacePhrase (guest.nTrigger1);
+		guest.nTrigger2 = ReplacePhrase (guest.nTrigger2);
+		guest.nTrigger5 = ReplacePhrase (guest.nTrigger5);
+		guest.nTrigger3 = ReplacePhrase (guest.nTrigger3);
+		guest.nTrigger4 = ReplacePhrase (guest.nTrigger4);
+
+		nTrigger3 = OperatePhrase (guest.nTrigger3, dish);
+		if (nTrigger3) {
+			GameController.Instance.Infamy += guest.infneg;
+		}
+		nTrigger4 = OperatePhrase (guest.nTrigger4, dish);
+		if (nTrigger4) {
+			GameController.Instance.Infamy += guest.infneg;
+		}
+
+		return priorityCount;
 	}
 
 

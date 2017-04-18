@@ -63,6 +63,14 @@
          "TasteMoisture" : -2,
          "IncomeQuantity" : "Average"
      },
+	{
+         "Ingredient" : "Hemlock",
+         "PantryType" : "Poison",
+         "TasteStrength" : "Strong",
+         "TasteHeat" : -2,
+         "TasteMoisture" : 2,
+         "IncomeQuantity" : null
+     },
      {
          "Ingredient" : "Water",
          "PantryType" : null,

@@ -393,6 +393,11 @@ public class StationDropdown : MonoBehaviour {
 					GameObject.Find ("ClickHandler").GetComponent<ClickHandler> ().currentCharacter.GetComponent<CharacterProperties> ().heldDish.GetComponent<SpriteRenderer> ().sortingOrder = 5;
 				}
 			} else if (clickedButton.name == "AddTo") {
+				if (GameController.Instance.tutorial3Part2) {
+					if (GameObject.Find ("ClickHandler").GetComponent<ClickHandler> ().currentCharacter.GetComponent<CharacterProperties> ().heldDish.name == "Hemlock"){
+						GameController.Instance.MakeTutorialeBox("*It is done. If the dish is still flavored and cooked to Lady Anna’s preference, I can send it out to remove her as an obstacle.*");
+					}
+				}
 				AddTo ();
 			} else if (station.GetComponent<Station>().dish == null){
 				if (CookingController.Instance.GetProcess(clickedButton.name).SupportsIngredient (GameObject.Find ("ClickHandler").GetComponent<ClickHandler> ().currentCharacter.GetComponent<CharacterProperties> ().heldDish.GetComponent<Ingredients> ().primaryIngredient)) {

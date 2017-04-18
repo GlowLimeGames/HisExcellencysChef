@@ -14,7 +14,7 @@ public class Ingredients : MannBehaviour {
     public string primaryIngredientName;
 
 	public IngredientDescriptor primaryIngredient = new IngredientDescriptor();
-	List<IngredientDescriptor> addOnIngridents = new List<IngredientDescriptor>();
+	public List<IngredientDescriptor> addOnIngridents = new List<IngredientDescriptor>();
 	Dictionary<string, IngredientDescriptor> ingredientLookup;
 
 	public float cookTime;
@@ -66,6 +66,15 @@ public class Ingredients : MannBehaviour {
 			primaryIngredient.ModifyWithAddOn(ingredient);
 		}
 		return wasSuccessful;
+	}
+
+	public bool ContainsIngredient(string ingredientName){
+		foreach (IngredientDescriptor ingredient in addOnIngridents) {
+			if (ingredientName == ingredient.Ingredient) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public bool TryPerformAction (string actionName, float howRaw) {

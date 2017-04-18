@@ -23,10 +23,13 @@ public class ClickHandler : MonoBehaviour {
 	
 	void LateUpdate ()
 	{	
-		if (GameController.Instance.tutorial2Part1) {
+		if (GameController.Instance == null) {
 			return;
 		}
 
+		if (GameController.Instance.tutorial2Part1) {
+			return;
+		}
 
 		if (Input.GetMouseButtonDown (1)) { // If we right click.
 			if (CanSelectCharacter ()) { // If we can select a character...

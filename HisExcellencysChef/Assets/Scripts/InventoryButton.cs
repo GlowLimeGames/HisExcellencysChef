@@ -41,6 +41,9 @@ public class InventoryButton : MonoBehaviour
 					return;
 				}
 			}
+			if (GameController.Instance.tutorial3Part2) {
+				GameController.Instance.MakeTutorialeBox ("*If I mix this into a dish, it will change the dish’s flavour, just like any other ingredient. It will still need to fit Lady Anna’s tastes even with the hemlock. If this is really what I want to do, anyway...*");
+			}
 
 			if (food.GetComponent<Ingredients>().primaryIngredient.ResultsInDish) {
 				GameController.Instance.MakeUIDish (food);

@@ -27,9 +27,17 @@ public class Station : MonoBehaviour {
 					} else if (GameController.Instance.course == 2) {
 						GameController.Instance.courseFlavor2 += flavor;
 					}
+					if (GameController.Instance.tutorial3Part2) {
+						if (activeCharacter.GetComponent<CharacterProperties> ().heldDish.GetComponent<Ingredients> ().ContainsIngredient ("Hemlock")) {
+							GameController.Instance.tutorial3Part2 = false;
+							GameController.Instance.tutorial3Part3 = true;
+							GameController.Instance.Invoke ("NextTutorialStep", 5f);
+						}
+					}
 					GameController.Instance.servedDishes.Add (activeCharacter.GetComponent<CharacterProperties> ().heldDish);
 					activeCharacter.GetComponent<CharacterProperties> ().heldDish.SetActive(false);
 					activeCharacter.GetComponent<CharacterProperties> ().heldDish = null;
+					GameController.Instance.ModifyGuests ();
 				}
 				if (GameController.Instance.tutorial0Part22) {
 					GameController.Instance.Invoke ("NextTutorialStep", 5f);
@@ -41,6 +49,7 @@ public class Station : MonoBehaviour {
 					GameController.Instance.time = 0;
 					GameController.Instance.NextTutorialStep ();
 				}
+
 
 				return;
 			}

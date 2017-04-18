@@ -64,6 +64,12 @@ public class DialogueController : MonoBehaviour
 		if (GameController.Instance.tutorial2Part1) {
 			GameController.Instance.MakeTutorialeBox ("It is a good idea to keep a written guest list handy, so you can quickly check the preferences of our guests as you cook. For now, I’ve written you a guest list myself. Click here and open it.");
 		}
+		if (GameController.Instance.tutorial3Part1) {
+			GameController.Instance.Invoke ("NextTutorialStep", 20f);
+		}
+		if (GameController.Instance.tutorial3Part3) {
+			GameController.Instance.LadyFeedback();
+		}
                                                                                                            // Close the dialogue box.
 		if (GameController.Instance.course == 0) {
 			GameController.Instance.timer = true;

@@ -1,9 +1,25 @@
 fileFormatVersion: 2
 guid: ba1598cb5fe4d3940a5c13fbd5de037d
-timeCreated: 1491441332
+timeCreated: 1492467698
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: Gilbert_walking_0
+    21300002: Gilbert_walking_1
+    21300004: Gilbert_walking_2
+    21300006: Gilbert_walking_3
+    21300008: Gilbert_walking_4
+    21300010: Gilbert_walking_5
+    21300012: Gilbert_walking_6
+    21300014: Gilbert_walking_7
+    21300016: Gilbert_walking_8
+    21300018: Gilbert_walking_9
+    21300020: Gilbert_walking_10
+    21300022: Gilbert_walking_11
+    21300024: Gilbert_walking_12
+    21300026: Gilbert_walking_13
+    21300028: Gilbert_walking_14
+    21300030: Gilbert_walking_15
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -34,7 +50,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -58,9 +74,236 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+  - buildTarget: Standalone
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: iPhone
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: Android
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: WebGL
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Gilbert_walking_1
+      rect:
+        serializedVersion: 2
+        x: 41
+        y: 604
+        width: 96
+        height: 281
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Gilbert_walking_2
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 603
+        width: 93
+        height: 281
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Gilbert_walking_3
+      rect:
+        serializedVersion: 2
+        x: 285
+        y: 733
+        width: 4
+        height: 21
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Gilbert_walking_4
+      rect:
+        serializedVersion: 2
+        x: 342
+        y: 606
+        width: 91
+        height: 281
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Gilbert_walking_5
+      rect:
+        serializedVersion: 2
+        x: 488
+        y: 608
+        width: 93
+        height: 281
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Gilbert_walking_6
+      rect:
+        serializedVersion: 2
+        x: 581
+        y: 739
+        width: 4
+        height: 21
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Gilbert_walking_7
+      rect:
+        serializedVersion: 2
+        x: 638
+        y: 738
+        width: 4
+        height: 21
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Gilbert_walking_8
+      rect:
+        serializedVersion: 2
+        x: 642
+        y: 608
+        width: 93
+        height: 281
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Gilbert_walking_9
+      rect:
+        serializedVersion: 2
+        x: 779
+        y: 609
+        width: 91
+        height: 282
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Gilbert_walking_10
+      rect:
+        serializedVersion: 2
+        x: 156
+        y: 328
+        width: 124
+        height: 265
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Gilbert_walking_11
+      rect:
+        serializedVersion: 2
+        x: 372
+        y: 327
+        width: 132
+        height: 261
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Gilbert_walking_12
+      rect:
+        serializedVersion: 2
+        x: 621
+        y: 317
+        width: 80
+        height: 274
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Gilbert_walking_13
+      rect:
+        serializedVersion: 2
+        x: 129
+        y: 28
+        width: 81
+        height: 274
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Gilbert_walking_14
+      rect:
+        serializedVersion: 2
+        x: 326
+        y: 38
+        width: 132
+        height: 261
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Gilbert_walking_15
+      rect:
+        serializedVersion: 2
+        x: 551
+        y: 39
+        width: 123
+        height: 265
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
     outline: []
   spritePackingTag: 
   userData: 

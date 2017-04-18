@@ -37,6 +37,10 @@ public class GameController : SingletonController<GameController> {
 	public bool tutorial2Part4;
 	public bool tutorial2Part5;
 
+	public bool tutorial3Part1;
+	public bool tutorial3Part2;
+	public bool tutorial3Part3;
+
 	public float course1time;
 	public float course2time;
 	public float course3time;
@@ -74,6 +78,32 @@ Today Anna, our daughter, has volunteered to try some of your dishes.  She, like
 			canServe = true;
 		} else if (Level == 3) {
 
+			guestController.GetGuest ("Count Philip");
+			guestController.GetGuest ("Lady Florine");
+			guestController.GetGuest ("Anna");
+			guestController.GetGuest ("Henri");
+			guestController.GetGuest ("Master Roger of Bologna");
+			guestController.GetGuest ("Renaud d'Oc");
+			guestController.GetGuest ("Lady Anna de Chalons");
+			guestController.GetGuest ("Sir Conrad the Swabian");
+			guestController.GetGuest ("Master Simon de Paris");
+			guestController.GetGuest ("Count Godfrey");
+			Fame = 15;
+			Infamy = 7;
+
+			LadyDialogue.CharacterSpeak(@"Master Simon is here, tonight is the night! A chance for fame, for you and me both.  Remember, the guest list is quite long, so more food than before will be necessary. Try to serve at least 4 dishes per course, one of which per course should have at least five ingredients. Tonight we need you to be a cook fit for a king!”
+				
+These are the guests who will be attending our feast tonight, including Master Simon:
+Count Philip
+Lady Florine
+Anna
+Henri
+Master Roger of Bologna
+Renaud d'Oc
+Lady Anna de Chalons
+Sir Conrad the Swabian
+Master Simon de Paris
+Count Godfrey"); 
 		} else {
 			LadyDialogue.CharacterSpeak (@"Hello, young cook!
 
@@ -201,6 +231,21 @@ Ingredients are Hot or Cold and Moist or Dry. Try to balance the flavors across 
 			timerOn = true;
 		} else if (tutorial2Part3) {
 			MakeTutorialeBox ("So… I could get famous off of this. The King could hear about me. I wonder what it would be like to cook for royalty.\n I should be careful what I wish for. Nobles can be temperamental. If I get too infamous and my Lady hears too many bad stories about me, I could get kicked out. Better be careful...");
+		} else if (tutorial3Part1) {
+			//underling move towards you
+			tutorial3Part1 = false;
+			tutorial3Part2 = true;
+			LadyDialogue.CharacterSpeak ("You have received a note. It reads thusly:\n‘Attending your feast tonight will be one Lady Anna de Chalons, the Count’s political rival and mine. I would like you to poison her. Your Count, gracious host that he is, ensures each guest gets the largest portions of their favorite dishes. Create a dish that matches her tastes both in flavor and cooking style as strongly as possible, and include in it some of this essence of hemlock. She will accept his magnanimity, then mysteriously take ill and die. If you do this for me, I will ensure that word of your skill is heard by every ear in the Parisian court.’");
+		} else if (tutorial3Part3) {
+			if (guestController.poisonedList [0] != null) {
+				if (guestController.poisonedList [0].name == "Lady Anna de Chalons") {
+					MakeTutorialeBox ("Excellent work. Lady Anna graciously accepted a large portion of the <dish> and is beginning to look quite… uncomfortable.’");
+				} else {
+					MakeTutorialeBox ("You poisoned the wrong person! You can try to get another dish out with hemlock in it if you have any left, but be more careful next time!");
+				}
+			} else {
+				MakeTutorialeBox ("Whatever you put the hemlock in didn’t match anyone’s tastes. Now we’re all a bit queasy.’");
+			}
 		}
 	}
 
@@ -223,6 +268,54 @@ Ingredients are Hot or Cold and Moist or Dry. Try to balance the flavors across 
 	public GameObject guestBox;
 	void CloseGuest(){
 		guestBox.SetActive (false);
+	}
+
+	bool florineTriggered = false;
+	Ingredients florineDish;
+	public void ModifyGuests(){
+		Ingredients lastDish = servedDishes [servedDishes.Count - 1].GetComponent<Ingredients>();
+
+		int priorityEat = 0;
+		GuestDescriptor priorityGuest = guestController.guestList[0];
+		foreach (GuestDescriptor guest in guestController.guestList) {
+			int currentPriorityEat = guestController.CheckForFame (guest, lastDish);
+			if (currentPriorityEat > priorityEat) {
+				priorityEat = currentPriorityEat;
+				priorityGuest = guest;
+			} else if (currentPriorityEat == priorityEat) {
+				if (guest.priority > priorityGuest.priority) {
+					priorityGuest = guest;
+				}
+			}
+		}
+		if (priorityEat != 0) {
+			if (lastDish.ContainsIngredient ("Hemlock")) {
+				if (priorityGuest.name == "Lady Florine") {
+					florineTriggered = true;
+					florineDish = lastDish;
+				} else {
+					guestController.poisonedList.Add (priorityGuest);
+					Invoke ("PoisonNotice", 30f);
+				}
+			}
+		}
+		if (priorityEat == 0) {
+			Infamy += 20;
+		}
+	}
+
+	void PoisonNotice(){
+		string names = "";
+		foreach (GuestDescriptor guest in guestController.poisonedList) {
+			names += guest.name + " ";
+		}
+		string prep = "";
+		if (guestController.poisonedList.Count > 1) {
+			prep = "have";
+		}else{
+			prep = "has";
+		}
+		MakeTutorialeBox ( names + prep + " taken ill and retired to their lodgings.");
 	}
 
 	public void BannerOnClick()
@@ -347,6 +440,9 @@ Ingredients are Hot or Cold and Moist or Dry. Try to balance the flavors across 
 		}
 
 		LadyDialogue.button.GetComponentInChildren<Text> ().text = "RESET";
+		if (florineTriggered) {
+			response = "Your " + florineDish.name + " was… off. I’ve got my eye on you.";
+		}
 		LadyDialogue.CharacterSpeak(response);
 	}
 
@@ -511,7 +607,54 @@ Ingredients are Hot or Cold and Moist or Dry. Try to balance the flavors across 
 							}
 
 						} else if (course == 2) {
-							LadyFeedback ();
+							if (tutorial3Part3) {
+								if (servedDishes.Count >= 4) {
+									bool done = false;
+									foreach (GameObject dish in servedDishes) {
+										if (dish.GetComponent<Ingredients> ().addOnIngridents.Count >= 4) {
+											done = true;
+										}
+									}
+									if (done) {
+										Fame += 25;
+										LadyDialogue.CharacterSpeak (@"You did wonderfully! Master Simon was quite impressed with the feast. If we gather enough fame from people like him, I wonder if perhaps we can attract the King some day. Are you ambitious?
+
+											Now, about the courses...");
+									} else {
+										Fame += 10;
+										Infamy += 10;
+										LadyDialogue.CharacterSpeak (@"We have finished for the night. Your service was sufficient, but the lack of complexity rather failed to impress Master Simon. Perhaps if we continue to work together and can spread your fame better, we can still attract royal attention.”
+
+Regarding the flavors of the courses...");
+									}
+								} else if (servedDishes.Count <= 3) {
+									bool done = false;
+									foreach (GameObject dish in servedDishes) {
+										if (dish.GetComponent<Ingredients> ().addOnIngridents.Count >= 4) {
+											done = true;
+										}
+									}
+									if (done) {
+										Fame += 10;
+										Infamy += 10;
+										LadyDialogue.CharacterSpeak (@"The dishes were nicely complex, but in case you’ve forgotten, this was supposed to be a feast. Not enough food was served! We will have difficulty attracting attention and fame this way.
+
+Regarding the courses, such as was there to eat.");
+									} 
+								} else if (servedDishes.Count == 0) {
+									Infamy += 20;
+									LadyDialogue.CharacterSpeak (@"Do you refuse to feed us?? Is there something wholly wrong with you? Go, get out! I shall see you gone from my lands by midmorning!");
+									tutorial3Part3 = false;
+								}
+								else {
+									Fame -= 5;
+									Infamy += 10;
+									LadyDialogue.CharacterSpeak (@"This was a disappointment. You followed neither of my instructions, and I begin to question if you are at all fit for leading the kitchen. Have you no ambition?");
+									tutorial3Part3 = false;
+								}
+							} else {
+								LadyFeedback ();
+							}
 							timer = false;
 							if (GameObject.Find ("ClickHandler").GetComponent<ClickHandler> ().activeDropdown != null) {
 								GameObject.Find ("ClickHandler").GetComponent<ClickHandler> ().activeDropdown.GetComponent<Station> ().Cancel ();
@@ -542,9 +685,6 @@ Ingredients are Hot or Cold and Moist or Dry. Try to balance the flavors across 
 		new WaitForSeconds (2);
 
 		SceneManager.LoadScene (0);
-
-
-		time = 480f;
 	}
 
 }
