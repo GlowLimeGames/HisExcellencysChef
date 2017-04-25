@@ -22,10 +22,13 @@ public class Station : MonoBehaviour {
 					Vector2 flavor = activeCharacter.GetComponent<CharacterProperties> ().heldDish.GetComponent<Ingredients> ().flavor;
 					if (GameController.Instance.course == 0) {
 						GameController.Instance.courseFlavor0 += flavor;
+						GameController.Instance.course1count += 1;
 					} else if (GameController.Instance.course == 1) {
 						GameController.Instance.courseFlavor1 += flavor;
+						GameController.Instance.course2count += 1;
 					} else if (GameController.Instance.course == 2) {
 						GameController.Instance.courseFlavor2 += flavor;
+						GameController.Instance.course3count += 1;
 					}
 					if (GameController.Instance.tutorial3Part2) {
 						if (activeCharacter.GetComponent<CharacterProperties> ().heldDish.GetComponent<Ingredients> ().ContainsIngredient ("Hemlock")) {

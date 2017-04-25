@@ -36,7 +36,9 @@ public class InventoryUI : MonoBehaviour
         {
             foods[i].obj.GetComponent<Ingredients>().NonInstanceDoReferences();
             //Debug.Log("InventoryUI.cs: "+foods[i].obj.transform.name);
-            inv.Add(foods[i].obj, foods[i].quantity);
+			if (foods [i].quantity != 0) {
+				inv.Add (foods [i].obj, foods [i].quantity);
+			}
         }
         // For every inventory slot...
         //int ii = 0;

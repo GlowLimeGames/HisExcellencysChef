@@ -70,11 +70,23 @@ public class DialogueController : MonoBehaviour
 		if (GameController.Instance.tutorial3Part3) {
 			GameController.Instance.LadyFeedback();
 		}
+
+		if (GameController.Instance.kingLevel && GameController.Instance.course < 1) {
+			GameController.Instance.MakeTutorialeBox ("All that I have achieved may finally bear fruit. Whatever milady wants out of the king is her business, but if I can get him to think this meal is perfect, I might just become the most powerful cook in France.");
+		} else if (GameController.Instance.kingLevel && GameController.Instance.course >= 2) {
+			GameController.Instance.KingFeedback ();
+		}
+
+		if (GameController.Instance.infamyLevel) {
+			if (GameController.Instance.florineTriggered) {
+				GameController.Instance.Reset ();
+			}
+		}
                                                                                                            // Close the dialogue box.
 		if (GameController.Instance.course == 0) {
 			GameController.Instance.timer = true;
 			SetActive (false);
-		} else {
+		} else if (GameController.Instance.course >= 2){
 			GameController.Instance.Reset ();
 		}
 		StopAllCoroutines ();

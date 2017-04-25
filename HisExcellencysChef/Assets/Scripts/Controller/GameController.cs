@@ -66,7 +66,7 @@ public class GameController : SingletonController<GameController> {
 
 “He’s requested Boulettes. I’ve left some chicken in the Mortar for you. Click on the Mortar and choose a process to begin cooking.");			
 		} else if (Level == 1) {
-			LadyDialogue.CharacterSpeak(@"I have a plan and you're it’s key to its success. In a weeks time [Important Guest], the kings advisor/brother, will be passing through.  I intend to throw a feast such that he will be singing our praise high and low and to ear of the king himself.
+			LadyDialogue.CharacterSpeak (@"I have a plan and you're it’s key to its success. In a weeks time [Important Guest], the kings advisor/brother, will be passing through.  I intend to throw a feast such that he will be singing our praise high and low and to ear of the king himself.
 				
 			Until then you need to practice. You're a natural talent, but could do with some instruction.  We’ll make a good start of it today. I’ve hired some underlings for you.  Let us start with an exotically themed spinach salad with roasted Almonds. I’ve given some Almonds to your underling, so let us practice working with others.");
 		} else if (Level == 2) {
@@ -91,7 +91,7 @@ Today Anna, our daughter, has volunteered to try some of your dishes.  She, like
 			Fame = 15;
 			Infamy = 7;
 
-			LadyDialogue.CharacterSpeak(@"Master Simon is here, tonight is the night! A chance for fame, for you and me both.  Remember, the guest list is quite long, so more food than before will be necessary. Try to serve at least 4 dishes per course, one of which per course should have at least five ingredients. Tonight we need you to be a cook fit for a king!”
+			LadyDialogue.CharacterSpeak (@"Master Simon is here, tonight is the night! A chance for fame, for you and me both.  Remember, the guest list is quite long, so more food than before will be necessary. Try to serve at least 4 dishes per course, one of which per course should have at least five ingredients. Tonight we need you to be a cook fit for a king!”
 				
 These are the guests who will be attending our feast tonight, including Master Simon:
 Count Philip
@@ -105,7 +105,29 @@ Sir Conrad the Swabian
 Master Simon de Paris
 Count Godfrey"); 
 		} else {
-			LadyDialogue.CharacterSpeak (@"Hello, young cook!
+			SceneController.Instance.Load ();
+			GetNewIngredients ();
+			GetNewUnderlings ();
+			GetNewGuests ();
+
+			if (Fame > 70) {
+				float chance = 2.5f * (Fame - 70);
+				int random = Random.Range (0, 100);
+				if (random <= Mathf.CeilToInt (chance)) {
+					KingLevel ();
+				}
+			}
+
+			if (Infamy > 70) {
+				float chance = 2.5f * (Infamy - 70);
+				int random = Random.Range (0, 100);
+				if (random <= Mathf.CeilToInt (chance)) {
+					InfamyLevel ();
+				}
+			}
+
+			if (!kingLevel && !infamyLevel) {
+				LadyDialogue.CharacterSpeak (@"Hello, young cook!
 
 To select a primary ingredient, click on a character, then click on the Pantry Door.
 
@@ -115,9 +137,125 @@ When you want to finish a dish, select the character carrying it and click on th
 
 Ingredients are Hot or Cold and Moist or Dry. Try to balance the flavors across your dishes.");
 			
+			}
 		}
+
 	}
 		
+	void GetNewIngredients(){
+		int random = Random.Range (0, 4);
+		if (random == 0){
+			int amount = Random.Range (3, 5);
+			inventory.foods [11].quantity += amount;
+		}
+		random = Random.Range (0, 100);
+		if (random < 65){
+			int amount = Random.Range (2, 4);
+			inventory.foods [1].quantity += amount;
+		}
+		random = Random.Range (0, 100);
+		if (random < 90){
+			int amount = Random.Range (2, 4);
+			inventory.foods [2].quantity += amount;
+		}
+		random = Random.Range (0, 100);
+		if (random < 80){
+			int amount = Random.Range (2, 6);
+			inventory.foods [3].quantity += amount;
+		}
+		random = Random.Range (0, 100);
+		if (random < 75){
+			int amount = Random.Range (1, 3);
+			inventory.foods [4].quantity += amount;
+		}
+		random = Random.Range (0, 100);
+		if (random < 40){
+			int amount = Random.Range (2, 4);
+			inventory.foods [5].quantity += amount;
+		}
+		random = Random.Range (0, 100);
+		if (random < 40){
+			int amount = Random.Range (2, 4);
+			inventory.foods [6].quantity += amount;
+		}
+		random = Random.Range (0, 100);
+		if (random < 25){
+			int amount = Random.Range (1, 3);
+			inventory.foods [7].quantity += amount;
+		}
+		random = Random.Range (0, 100);
+		if (random < 25){
+			int amount = Random.Range (1, 3);
+			inventory.foods [8].quantity += amount;
+		}
+		random = Random.Range (0, 100);
+		if (random < 30){
+			int amount = Random.Range (1, 4);
+			inventory.foods [9].quantity += amount;
+		}
+		random = Random.Range (0, 100);
+		if (random < 30){
+			int amount = Random.Range (1, 4);
+			inventory.foods [10].quantity += amount;
+		}
+		random = Random.Range (0, 100);
+		if (random < 8){
+			int amount = Random.Range (1, 3);
+			inventory.foods [12].quantity += amount;
+		}
+
+
+	}
+
+	public int underlingCount;
+	public GameObject[] underlingPrefabs;
+	public List<GameObject> currentUnderlings;
+	public Transform[] underlingPositions;
+	void GetNewUnderlings(){
+		
+	}
+
+	void GetNewGuests(){
+		GuestDescriptor[] newGuests = guestController.GetGuestList (guestController.guestLookup.Values.ToArray ());
+
+		foreach (GuestDescriptor guest in newGuests) {
+			guestController.GetGuest (guest.name);
+		}
+	}
+
+	public bool kingLevel = false;
+	void KingLevel(){
+		kingLevel = true;
+
+		inventory.foods [11].quantity += 3;
+		inventory.foods [1].quantity += 3;
+		inventory.foods [2].quantity += 4;
+		inventory.foods [3].quantity += 3;
+		inventory.foods [4].quantity += 3;
+		inventory.foods [5].quantity += 2;
+		inventory.foods [6].quantity += 4;
+		inventory.foods [7].quantity += 2;
+		inventory.foods [8].quantity += 4;
+		inventory.foods [9].quantity += 4;
+		inventory.foods [10].quantity += 4;
+
+		LadyDialogue.CharacterSpeak ("The king has heard from those who you have pleased and is anxious to try your food himself! His eyes are now on all of us. He is, however, a man influenced by those around him. If he or any guest is served any dish that would cause them to increase your Infamy, he will lose interest, so serve only the finest dishes for this evening. Don’t forget that this is a feast, though. Remember to serve at least 4 dishes per course.");
+			
+		guestController.GetGuest ("King of France");
+
+	}
+
+	public bool infamyLevel = false;
+	void InfamyLevel(){
+		if (Fame < 33) {
+			LadyDialogue.CharacterSpeak ("The many times you have served unto our family and guests inadequate meals has gotten us left out of many a social occasion. In the simplest form I want you to know that I am having second thoughts and you better not make me have more. I will be watching tonight. I expect at least two dishes per course with no ruined ingredients. If we do not get them, you will be relieved of your duties working for us.");
+		} else if (Fame >= 33 && Fame < 66) {
+			LadyDialogue.CharacterSpeak ("I see in you the potential for greatness, but I am beginning to have qualms. <If have poisoned a target before> People have not forgotten the accidents that have happened here.</> Often, guests leave our house feeling sickly.  I have suspicions that had better remain just suspicions and will be watching you closely tonight. I expect at least two healthy dishes per course with no ruined ingredients. If we do not get them, you will be relieved of your duties working for us.");
+		} else if (Fame >= 66) {
+			LadyDialogue.CharacterSpeak("You have done great things for our house it is true.  However, of late I have felt the burden of explaining accidents away, or explaining why a dish left a guest feeling sick.  I will be keeping a close watch over you today so I recommend doing your best work. I am starting to have second thoughts; show me that they are unfounded tonight. I expect at least two healthy dishes per course with no ruined ingredients. If things go awry, you will be relieved of your duties working for us.");
+		}
+	}
+
 	void playMusic () {
 		EventController.Event(Event.GAME_MUSIC);
 	}
@@ -135,6 +273,9 @@ Ingredients are Hot or Cold and Moist or Dry. Try to balance the flavors across 
 	public Vector2 courseFlavor0;
 	public Vector2 courseFlavor1;
 	public Vector2 courseFlavor2;
+	public int course1count;
+	public int course2count;
+	public int course3count;
 	public GameObject endScreen;
 	public Text score;
 
@@ -236,6 +377,7 @@ Ingredients are Hot or Cold and Moist or Dry. Try to balance the flavors across 
 			tutorial3Part1 = false;
 			tutorial3Part2 = true;
 			LadyDialogue.CharacterSpeak ("You have received a note. It reads thusly:\n‘Attending your feast tonight will be one Lady Anna de Chalons, the Count’s political rival and mine. I would like you to poison her. Your Count, gracious host that he is, ensures each guest gets the largest portions of their favorite dishes. Create a dish that matches her tastes both in flavor and cooking style as strongly as possible, and include in it some of this essence of hemlock. She will accept his magnanimity, then mysteriously take ill and die. If you do this for me, I will ensure that word of your skill is heard by every ear in the Parisian court.’");
+			inventory.foods [12].quantity += 1;
 		} else if (tutorial3Part3) {
 			if (guestController.poisonedList [0] != null) {
 				if (guestController.poisonedList [0].name == "Lady Anna de Chalons") {
@@ -270,7 +412,7 @@ Ingredients are Hot or Cold and Moist or Dry. Try to balance the flavors across 
 		guestBox.SetActive (false);
 	}
 
-	bool florineTriggered = false;
+	public bool florineTriggered = false;
 	Ingredients florineDish;
 	public void ModifyGuests(){
 		Ingredients lastDish = servedDishes [servedDishes.Count - 1].GetComponent<Ingredients>();
@@ -293,14 +435,19 @@ Ingredients are Hot or Cold and Moist or Dry. Try to balance the flavors across 
 				if (priorityGuest.name == "Lady Florine") {
 					florineTriggered = true;
 					florineDish = lastDish;
+					LadyDialogue.CharacterSpeak ("I have given you everything...  I made you what you are…and you repay me with disloyalty!  You are but my hand in the kitchen. So my suspicions were well-founded. And you thought I wouldn’t notice hemlock in my favorite foods. Guards, take this traitor! You are hereby exiled from these lands. May you starve in the wilds and may the wolves gnaw on your bones.");
 				} else {
+					if (infamyLevel) {
+						LadyDialogue.CharacterSpeak ("Did you think I would not notice hemlock in our food? That I had not? You have terrorized my guests and family long enough. To poison a respected member of society is a nefarious act.  For this I declare a smooth death from the elements of the forest. Guards, escort this criminal to the edge of my domain.");
+						return;
+					}
 					guestController.poisonedList.Add (priorityGuest);
 					Invoke ("PoisonNotice", 30f);
 				}
 			}
 		}
 		if (priorityEat == 0) {
-			Infamy += 20;
+			Infamy += 30;
 		}
 	}
 
@@ -412,12 +559,6 @@ Ingredients are Hot or Cold and Moist or Dry. Try to balance the flavors across 
 		}
 	}
 
-//	public List<GuestController> guests = new List<GuestController>();
-	public void MakeGuestList(){
-		//always 5 + random number 2-3
-
-
-	}
 
 	public void LadyFeedback(){
 		string response0 = "Mmmmmmm that's pretty guud!";
@@ -443,10 +584,15 @@ Ingredients are Hot or Cold and Moist or Dry. Try to balance the flavors across 
 		if (florineTriggered) {
 			response = "Your " + florineDish.name + " was… off. I’ve got my eye on you.";
 		}
+
 		LadyDialogue.CharacterSpeak(response);
+
+		Fame -= 10;
+		Infamy -= 5;
 	}
 
 	public bool timerOn = false;
+	public bool hitNegative = false;
 	void Update(){
 		if (chef.isCooking) {
 			chefSlider.value = currentlyCooking.howRaw;
@@ -659,6 +805,8 @@ Regarding the courses, such as was there to eat.");
 							if (GameObject.Find ("ClickHandler").GetComponent<ClickHandler> ().activeDropdown != null) {
 								GameObject.Find ("ClickHandler").GetComponent<ClickHandler> ().activeDropdown.GetComponent<Station> ().Cancel ();
 							}
+
+
 						}
 					} else {
 						time = 60f;
@@ -678,12 +826,72 @@ Regarding the courses, such as was there to eat.");
 		}
 	}
 
+	public bool beatenKing = false;
+	public void KingFeedback(){
+		if (kingLevel) {
+			bool poisonedKing = false;
+			foreach (GuestDescriptor guest in guestController.poisonedList) {
+				if (guest.name == "King of France") {
+					poisonedKing = true;
+				}
+			}
+			if (poisonedKing) {
+				LadyDialogue.CharacterSpeak ("The king was found dead in his chambers. Did you not think you would be suspected?  At the very least you are complacent in your vigilance over his food.”\n<continue break>\n“Guards! Prepare for my cook a last meal of half an orange and gingerbread. Prepare your neck for the axe!");
+				kingLevel = false;
+				return;
+			}
+
+			if (servedDishes.Count > 4) {
+				if (!hitNegative) {
+					LadyDialogue.CharacterSpeak ("I am both delighted and, I must confess... shocked. It seems you have placed your last meal onto our now beloved table. Even the more critical guests are speaking your praises out there.\n\nWhat am I saying? Let me explain. His Majesty told me that with you serving dishes he would be able to keep any number of guests happy and that he is quite taken with your food himself. He has requested that I yield you to him. We will miss your amazing cooking and you have already brought us so far in social circles because of it. You have achieved the highest possible honor: the king’s mouth and ear are yours, and you will get to work with the freshest ingredients and best underlings money can hire. Congratulations.");
+					kingLevel = false;
+					beatenKing = true;
+				} else {
+					LadyDialogue.CharacterSpeak ("The King has departed. He did not say much about the meal except that he was perhaps interested in returning another day. Perhaps you will get another chance to impress him.");
+					kingLevel = false;
+				}
+			}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       			
+		}
+	}
+
+	public void InfamyFeedback(){
+		if (infamyLevel) {
+			if (course1count >= 3 && course2count >= 3 && course3count >= 3) {
+				foreach (GameObject dish in servedDishes) {
+					foreach (string action in dish.GetComponent<Ingredients>().actionsDone) {
+						if (action != "Green" || action != "DarkGreen") {
+							LadyDialogue.CharacterSpeak ("I must apologize for my suspicious ways. Of course we will keep you on after tonight.  Well done.");
+							Infamy -= 20;
+						} else {
+							LadyDialogue.CharacterSpeak ("Your dishes leave a lack of distinction to them.  I will not tolerate such disgusting food being fed to my family and guests.  You have disgraced us.  We need someone who will look out for us better than you have.  Guards, send this man away and see that he does not return. Exiled to the forest, perhaps starvation will be a fitting end to a terrible cook.");
+						}
+					}
+				}
+			} else if (course1count == 2 && course2count == 2 && course3count == 2) {
+				foreach (GameObject dish in servedDishes) {
+					foreach (string action in dish.GetComponent<Ingredients>().actionsDone) {
+						if (action != "Green" || action != "DarkGreen") {
+							LadyDialogue.CharacterSpeak ("You have done adequately, and I do not have room to complain.  We are fed well enough.  You shall remain on here.  I appreciate your service tonight.");
+							Infamy -= 5;
+						} else {
+							LadyDialogue.CharacterSpeak ("You not only feed less than what my family needs but you feed us this drivel!  This kitchen is no place for someone who seeks to starve my family and guests and feed them naught but discolored refuse!  This is why we have been pushed so far from the social gatherings we seek to attend.  You have failed us and I will see that you suffer for it.  Guards, escort this cook to the wild edges of my lands. A death of thirst should ensure the next cook does a better job of it.");
+						}
+					}
+				}
+			} else if (course1count <= 2 || course2count <= 2 || course3count <= 2) {
+				LadyDialogue.CharacterSpeak ("You not only feed less than what my family needs but you feed us this drivel!  This kitchen is no place for someone who seeks to starve my family and guests and feed them naught but discolored refuse!  This is why we have been pushed so far from the social gatherings we seek to attend.  You have failed us and I will see that you suffer for it.  Guards, escort this cook to the wild edges of my lands. A death of thirst should ensure the next cook does a better job of it.");
+			} else if (servedDishes.Count == 0) {
+				LadyDialogue.CharacterSpeak ("You would starve us. Your audacity ends here. Get out.");
+			}
+		}
+	}
+
 	public void EndCourse(){
 		time = 0;
 	}
 	public void Reset(){
 		new WaitForSeconds (2);
-
+		SceneController.Instance.Save ();
 		SceneManager.LoadScene (0);
 	}
 

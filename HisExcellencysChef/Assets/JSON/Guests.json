@@ -360,6 +360,37 @@
 		"fpos4": 1,
 		"infneg": 2,
 		"infpoison": 25
+	},
+		{
+		"name": "King of France",
+		"ladyDescription": "His Majesty, the King. Fond of balanced flavors and well-roasted foods.",
+		"description": "The king enjoys balance in his meals as well as his politics. He is also fond of roasted foods. ",
+		"chance": 0,
+		"priority": 10,
+		"pTrigger1": "Heat Score between -1 and 1",
+		"pFeedback1": "The Hot and Cold Humors show a refined skill.",
+		"pTrigger2": "Moist Score Between -1 and 1",
+		"pFeedback2": "The Moist and Dry Humors of this Dish dance upon the tounge evenly.",
+		"pTrigger3": "If Moist is between -1 AND 1 and Heat is Between -1 and 1",
+		"pFeedback3": "I have no memory of such a well balanced dish.  Incredible.",
+		"pTrigger4": "Roast Process in Dark Green",
+		"pFeedback4": "The roasted <ingredient> was good enough to be called legendary.",
+		"pTrigger5": "Roast Process in Green",
+		"pFeedback5": "The <ingredient> was roasted relatively well for my tastes.",
+		"nTrigger1": "Roast Below Green in Yellow",
+		"nFeedback1": "The <ingredient> needed more time roasting in the fire.",
+		"nTrigger2": "Roast Above Green in Yellow",
+		"nFeedback2": "The char on the <ingredient> was a bit much.",
+		"nTrigger3": "Roast Process Below Green in Red",
+		"nFeedback3": "The <ingredient> was practically raw. Not much of a roast!",
+		"nTrigger4": "Roast Process Above Green in Red",
+		"nFeedback4": "Did you mean to serve ash? The roasting was way overdone!",
+		"nTrigger5": "None",
+		"nFeedback5": "None",
+		"fpos3": 3,
+		"fpos4": 1,
+		"infneg": 2,
+		"infpoison": 25
 	}
 		]
 }

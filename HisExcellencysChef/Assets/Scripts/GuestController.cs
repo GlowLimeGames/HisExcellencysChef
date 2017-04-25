@@ -409,14 +409,19 @@ public class GuestController : MonoBehaviour {
 		string response = "";
 		if (nTrigger5) {
 			response = guest.nFeedback5;
+			GameController.Instance.hitNegative = true;
 		} else if (nTrigger4) {
 			response = guest.nFeedback4;
+			GameController.Instance.hitNegative = true;
 		} else if (nTrigger3) {
 			response = guest.nFeedback3;
+			GameController.Instance.hitNegative = true;
 		} else if (nTrigger2) {
 			response = guest.nFeedback2;
+			GameController.Instance.hitNegative = true;
 		} else if (nTrigger1) {
 			response = guest.nFeedback1;
+			GameController.Instance.hitNegative = true;
 		} 
 
 		if (response.Contains ("<ingredient>")) {
