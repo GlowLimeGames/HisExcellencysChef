@@ -6,6 +6,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Linq;
 using System.Collections.Generic;
 
 public class GameController : SingletonController<GameController> {

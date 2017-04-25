@@ -6,7 +6,7 @@ using System.Linq;
 
 public class GuestController : MonoBehaviour {
 
-	Dictionary<string, GuestDescriptor> guestLookup;
+	public Dictionary<string, GuestDescriptor> guestLookup;
 	public List<GuestDescriptor> guestList = new List<GuestDescriptor> ();
 	public List<GuestDescriptor> poisonedList = new List<GuestDescriptor> ();
 
@@ -52,6 +52,11 @@ public class GuestController : MonoBehaviour {
 		GuestDescriptor guest;
 		guestLookup.TryGetValue (guestName, out guest);
 
+		foreach (GuestDescriptor dead in poisonedList) {
+			if (dead.name == guestName) {
+				return;
+			}
+		}
 		guestList.Add (guest);
 
 

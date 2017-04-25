@@ -34,6 +34,7 @@ public class SceneController : SingletonController<SceneController> {
 		data.Fame = GameController.Instance.Fame;
 		data.Infamy = GameController.Instance.Infamy;
 
+		data.beatKing = GameController.Instance.beatenKing;
 //		data.pantry = GameController.Instance.inventory.foods;
 		data.poisoned = GameController.Instance.GetComponent<GuestController> ().poisonedList;
 
@@ -50,8 +51,8 @@ public class SceneController : SingletonController<SceneController> {
 
 			GameController.Instance.Fame = data.Fame;
 			GameController.Instance.Infamy = data.Infamy;
-
-//			GameController.Instance.inventory.foods = data.pantry;
+			GameController.Instance.beatenKing = data.beatKing;
+			GameController.Instance.inventory.foods = data.pantry;
 			GameController.Instance.GetComponent<GuestController> ().poisonedList = data.poisoned;
 
 
@@ -64,6 +65,7 @@ public class SceneController : SingletonController<SceneController> {
 		GameController.Instance.Fame = 0;
 		GameController.Instance.Infamy = 0;
 
+		GameController.Instance.beatenKing = false;
 		GameController.Instance.GetComponent<GuestController> ().poisonedList.Clear ();
 
 		Save ();
@@ -78,6 +80,8 @@ class PlayerData
 	public int Infamy;
 
 	public Inventory.InventoryNode[] pantry;
+
+	public bool beatKing;
 
 	public List<GuestDescriptor> poisoned = new List<GuestDescriptor>();
 }
