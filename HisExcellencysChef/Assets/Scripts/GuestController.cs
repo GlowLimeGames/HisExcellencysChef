@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 public class GuestController : MonoBehaviour {
 
@@ -13,6 +14,14 @@ public class GuestController : MonoBehaviour {
 
 	void Awake(){
 		guestLookup = CookingController.Instance.Guests;
+	}
+
+	void TestGuestList () {
+		GuestDescriptor[] allGuests = guestLookup.Values.ToArray();
+		GuestDescriptor[] guestList = GetGuestList(allGuests);
+		foreach(GuestDescriptor guest in guestList) {
+			Debug.Log(guest.name);
+		}
 	}
 
 	public GameObject guestDisplay;
@@ -417,5 +426,51 @@ public class GuestController : MonoBehaviour {
 		return response;
 	}
 
+	public GuestDescriptor[] GetGuestList(GuestDescriptor[] potentialGuests) {
+		int numGuests = Random.Range(7, 11);
+		if(potentialGuests.Length <= numGuests) {
+			return potentialGuests;
+		} else {
+			GuestDescriptor[] actualGuests = new GuestDescriptor[numGuests];
+			List<GuestDescriptor> unpickedGuests = new List<GuestDescriptor>();
+			Dictionary<GuestDescriptor, int> guestChances = new Dictionary<GuestDescriptor, int>();
+			int currentIndex = 0;
+			foreach(GuestDescriptor guest in potentialGuests) {
+				if(guest.chance == 100) {
+					actualGuests[currentIndex++] = guest;
+				} else {
+					guestChances.Add(guest, guest.chance);
+					unpickedGuests.Add(guest);
+				}
+				if(currentIndex >= actualGuests.Length) {
+					return actualGuests;
+				}
+			}
+			unpickedGuests.Sort(CompareGuests);
+			while(unpickedGuests.Count > 0 && currentIndex < numGuests) {
+				for(int i = 1; i < unpickedGuests.Count; i++) {
+					guestChances[unpickedGuests[i]] += guestChances[unpickedGuests[i - 1]];
+				}
+				int randomMax = Random.Range(0, guestChances[unpickedGuests[unpickedGuests.Count - 1]] + 1);
+				for(int i = 0; i < unpickedGuests.Count; i++) {
+					if(guestChances[unpickedGuests[i]] >= randomMax) {
+						GuestDescriptor picked = unpickedGuests[i];
+						actualGuests[currentIndex++] = picked;
+						unpickedGuests.Remove(picked);
+						guestChances.Remove(picked);
+						break;
+					}
+				}
+			}
+			if(currentIndex < numGuests) {
+				return potentialGuests;
+			} else {
+				return actualGuests;
+			}
+		}
+	}
 
+	int CompareGuests(GuestDescriptor guest1, GuestDescriptor guest2) {
+		return guest1.chance - guest2.chance;
+	}
 }
