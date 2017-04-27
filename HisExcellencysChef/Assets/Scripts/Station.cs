@@ -11,7 +11,8 @@ public class Station : MonoBehaviour {
 		if (transform.name == "ServeItForth") {
 			if (GameController.Instance.canServe) {
 				activeCharacter = GameObject.Find ("ClickHandler").GetComponent<ClickHandler> ().currentCharacter;
-				if (activeCharacter.GetComponent<CharacterProperties> ().heldDish != null) {
+				if (activeCharacter.GetComponent<CharacterProperties> ().heldDish != null
+					&& activeCharacter.GetComponent<CharacterProperties>().heldDish.GetComponent<Ingredients>().actionsDone != null) {
 					if (GameController.Instance.tutorial2Part2) {
 						if (!GameController.Instance.GetComponent<GuestController> ().CheckPos3and4 (GameController.Instance.GetComponent<GuestController> ().guestList [0], activeCharacter.GetComponent<CharacterProperties> ().heldDish.GetComponent<Ingredients> ())) {
 							return;
@@ -91,7 +92,7 @@ public class Station : MonoBehaviour {
     {
 		if (activeCharacter.GetComponent<CharacterProperties> ().heldDish == null) {
 			if (dish.GetComponent<Ingredients> ().isCooking) {
-				dish.GetComponent<Ingredients> ().isCooking = false;
+				dish.GetComponent<Ingredients> ().done = true;
 				if (!GameController.Instance.tutorial0Part1) {
 					dish.GetComponent<Ingredients> ().ChangeFlavor ();
 				}
@@ -100,7 +101,10 @@ public class Station : MonoBehaviour {
 			dish.transform.parent = activeCharacter.transform;
 			dish.transform.position = activeCharacter.transform.position + new Vector3 (0, 0, 3f);
 			activeCharacter.GetComponent<CharacterProperties> ().heldDish = dish;
-			activeCharacter.GetComponent<CharacterMovement> ().isCooking = false;
+			if (cookingCharacter != null) {
+				cookingCharacter.GetComponent<CharacterMovement> ().isCooking = false;
+				cookingCharacter = null;
+			}
 			dish = null;
 			EventController.Event (Event.PICKUP);
 		}
@@ -120,12 +124,14 @@ public class Station : MonoBehaviour {
 		Cancel ();
     }
 
+	public GameObject cookingCharacter;
 	public void Cook(string action){
-		Debug.Log ("Got here");
 		if (activeCharacter.GetComponent<CharacterMovement> ().isCooking == false) {
 			if (dish == null) {
 				activeCharacter.GetComponent<CharacterProperties> ().heldDish.GetComponent<Ingredients> ().cookSelf (action, activeCharacter,gameObject);
+				cookingCharacter = activeCharacter;
 			} else {
+				cookingCharacter = activeCharacter;
 				dish.GetComponent<Ingredients> ().cookSelf (action, activeCharacter,gameObject);
 			}
 			if (action == "Fry") {

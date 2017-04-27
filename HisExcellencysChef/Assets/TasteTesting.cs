@@ -47,7 +47,7 @@ public class TasteTesting
 		if (dishHeat > 3) {
 			heatMoisture.Add("This tasted very hot!");
 		}
-		if (dishHeat >= -.25 && dishHeat <= -3)
+		if (dishHeat <= -.25 && dishHeat >= -3)
 		{
 			heatMoisture.Add("Tastes cool.");
 		}
@@ -63,7 +63,7 @@ public class TasteTesting
 		{
 			heatMoisture.Add("This tastes very dry!");
 		}
-		if (dishMoisture >= -.25 && dishMoisture <= -3)
+		if (dishMoisture <= -.25 && dishMoisture <= -3)
 		{
 			heatMoisture.Add("This tastes moist.");
 		}
@@ -71,6 +71,7 @@ public class TasteTesting
 		{
 			heatMoisture.Add("This is quite the moist mixture!");
 		}
+
 	}
 
 	public void updateProcess(string processColor, double idealValueMin, double idealValueMax, double timerValue)
@@ -132,7 +133,7 @@ public class TasteTesting
 		if (heatMoisture.Count == 0) {
 			updateHeatAndMoisture (dishHeat, dishMoisture);
 		}
-		string returnValue;
+		string returnValue = "";
 		Random random = new Random ();
 		int randomIndex = random.Next (0, heatMoisture.Count - 1);
 		returnValue = heatMoisture [randomIndex];

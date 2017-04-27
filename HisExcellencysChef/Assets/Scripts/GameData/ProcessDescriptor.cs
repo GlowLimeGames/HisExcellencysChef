@@ -63,8 +63,8 @@ public class ProcessDescriptor : HECData {
 	}
 
 	public void PerformOnIngredient (IngredientDescriptor ingredient, float howRaw) {
-		ingredient.TasteHeat += this.TasteHeat * howRaw;
-		ingredient.TasteMoisture += this.TasteMoisture * howRaw;
+		ingredient.TasteHeat += this.TasteHeat * howRaw * .25f;
+		ingredient.TasteMoisture += this.TasteMoisture * howRaw * .25f;
 	}
 }
 

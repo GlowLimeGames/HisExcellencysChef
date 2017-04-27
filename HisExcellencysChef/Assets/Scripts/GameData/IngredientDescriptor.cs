@@ -20,8 +20,8 @@ public class IngredientDescriptor : HECData {
 	public string[] NegativeExecutionModifiers;
 
 	public void ModifyWithAddOn (IngredientDescriptor addOn) {
-		this.TasteHeat += addOn.TasteHeat;
-		this.TasteMoisture += addOn.TasteMoisture;
+		this.TasteHeat += addOn.TasteHeat * .3f;
+		this.TasteMoisture += addOn.TasteMoisture * .3f;
 	}
 
 	public IngredientDescriptor Copy(){

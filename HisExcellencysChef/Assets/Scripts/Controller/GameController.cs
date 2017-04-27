@@ -378,7 +378,7 @@ Ingredients are Hot or Cold and Moist or Dry. Try to balance the flavors across 
 			tutorial3Part1 = false;
 			tutorial3Part2 = true;
 			LadyDialogue.CharacterSpeak ("You have received a note. It reads thusly:\n‘Attending your feast tonight will be one Lady Anna de Chalons, the Count’s political rival and mine. I would like you to poison her. Your Count, gracious host that he is, ensures each guest gets the largest portions of their favorite dishes. Create a dish that matches her tastes both in flavor and cooking style as strongly as possible, and include in it some of this essence of hemlock. She will accept his magnanimity, then mysteriously take ill and die. If you do this for me, I will ensure that word of your skill is heard by every ear in the Parisian court.’");
-			inventory.foods [12].quantity += 1;
+			inventory.foods [11].quantity += 1;
 		} else if (tutorial3Part3) {
 			if (guestController.poisonedList [0] != null) {
 				if (guestController.poisonedList [0].name == "Lady Anna de Chalons") {

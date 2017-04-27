@@ -151,6 +151,7 @@ public class Ingredients : MannBehaviour {
 			GameController.Instance.MakeTutorialeBox ("Good. But we can’t just serve it like this. Put the chicken on the table, then click on the Pantry door to get some more ingredients.");
 			GameController.Instance.tutorial0Part1 = false;
 			GameController.Instance.tutorial0Part2 = true;
+			GameController.Instance.level0Obsoletes = new string[0];
 		}
 
 		string [] newObsoletes = controller.GetProcess (actionDone).Obsoletes;
@@ -202,11 +203,11 @@ public class Ingredients : MannBehaviour {
 		//Do things after cooking here
 	}
 
+	public bool done = false;
 	IEnumerator CookTimeStartChef(string action)
 	{
 		isCooking = true;
 		float timeIn = 0f;
-		bool done = false;
 		bool active = controller.GetProcess (action).Active;
 		if (active) {
 			character.GetComponent<CharacterMovement> ().isCooking = true;
@@ -242,6 +243,7 @@ public class Ingredients : MannBehaviour {
 		RefreshFlavor();
 		character.GetComponent<CharacterMovement>().isCooking = false;
 		isCooking = false;
+		done = false;
 				//change icon to new one
 	}
 
@@ -249,7 +251,6 @@ public class Ingredients : MannBehaviour {
 	{
 		isCooking = true;
 		float timeIn = 0f;
-		bool done = false;
 		bool active = controller.GetProcess (action).Active;
 		if (active) {
 			character.GetComponent<CharacterMovement>().isCooking = true;
@@ -282,8 +283,10 @@ public class Ingredients : MannBehaviour {
 		}
 		ChangeFlavor ();
 		RefreshFlavor();
+		character.GetComponent<UnderlingController> ().slider.gameObject.SetActive (false);
 		character.GetComponent<CharacterMovement>().isCooking = false;
 		isCooking = false;
+		done = false;
 		//change icon to new one
 	}
 

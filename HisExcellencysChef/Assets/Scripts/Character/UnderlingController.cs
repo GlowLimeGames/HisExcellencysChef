@@ -51,6 +51,10 @@ public class UnderlingController : MonoBehaviour {
 					cm.atStation.GetComponent<Station> ().PickUp ();
 					slider.gameObject.SetActive (false);
 				}
+			} else {
+				if (slider.gameObject.activeInHierarchy) {
+					slider.gameObject.SetActive (false);
+				}
 			}
 		}
 	}

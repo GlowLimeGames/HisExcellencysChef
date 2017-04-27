@@ -81,7 +81,22 @@ public class StationDropdown : MonoBehaviour {
 		} else {
 			if (station.GetComponent<Station> ().dish != null) {
 				if (!GameController.Instance.tutorial0Part1 && !GameController.Instance.tutorial1Part1) {
-					process = "PickUp";
+					if (station.GetComponent<Station> ().cookingCharacter == null || !station.GetComponent<Station> ().cookingCharacter.GetComponent<CharacterMovement> ().isCooking || GameObject.Find ("ClickHandler").GetComponent<ClickHandler> ().currentCharacter.GetComponent<CharacterProperties> ().isCook) {
+						process = "PickUp";
+						GameObject aButton = (GameObject)Instantiate (functionButton, transform.position, Quaternion.identity);
+						aButton.transform.SetParent (transform);
+						aButton.transform.Rotate (Vector3.zero);
+						aButton.name = process;
+						aButton.GetComponentInChildren<Text> ().text = process;
+						functionList.Add (aButton);
+					}
+				}
+			}
+		}
+		if (station.GetComponent<Station> ().dish != null) {
+			if (!GameController.Instance.tutorial0Part1 && !GameController.Instance.tutorial1Part1 && !GameController.Instance.tutorial1Part5) {
+				if (station.GetComponent<Station> ().cookingCharacter == null || !station.GetComponent<Station> ().cookingCharacter.GetComponent<CharacterMovement> ().isCooking) {
+					process = "Discard";
 					GameObject aButton = (GameObject)Instantiate (functionButton, transform.position, Quaternion.identity);
 					aButton.transform.SetParent (transform);
 					aButton.transform.Rotate (Vector3.zero);
@@ -89,17 +104,6 @@ public class StationDropdown : MonoBehaviour {
 					aButton.GetComponentInChildren<Text> ().text = process;
 					functionList.Add (aButton);
 				}
-			}
-		}
-		if (station.GetComponent<Station> ().dish != null) {
-			if (!GameController.Instance.tutorial0Part1 && !GameController.Instance.tutorial1Part1 && !GameController.Instance.tutorial1Part5) {
-				process = "Discard";
-				GameObject aButton = (GameObject)Instantiate (functionButton, transform.position, Quaternion.identity);
-				aButton.transform.SetParent (transform);
-				aButton.transform.Rotate (Vector3.zero);
-				aButton.name = process;
-				aButton.GetComponentInChildren<Text> ().text = process;
-				functionList.Add (aButton);
 			}
 		}
 
