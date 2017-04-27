@@ -115,7 +115,7 @@
          "Ingredient" : "Eggs",
          "PantryType" : "Dairy",
          "TasteStrength" : "Weak",
-         "TasteHeat" : -2,
+         "TasteHeat" : -3,
          "TasteMoisture" : -1,
          "IncomeQuantity" : "Common",
          "Spoilage" : "Fast",
