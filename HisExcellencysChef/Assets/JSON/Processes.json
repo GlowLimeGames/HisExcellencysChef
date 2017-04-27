@@ -109,7 +109,7 @@
          "Process" : "Seethe",
          "Type" : "Range",
          "Station" : "Range",
-         "TasteHeat" : 1,
+         "TasteHeat" : 0,
          "TasteMoisture" : -3,
          "Ingredients" : ["Spinach", "Chicken", "Eggs", "Almond", "Rice"],
          "Active" : false,
