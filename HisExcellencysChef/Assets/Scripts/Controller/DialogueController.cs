@@ -4,6 +4,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 
 public class DialogueController : MonoBehaviour
 {
@@ -54,6 +55,57 @@ public class DialogueController : MonoBehaviour
 		StopAllCoroutines ();
         StartCoroutine(DialogueTypeOut(msg));
     }
+
+	public List<string> messageList = new List<string> ();
+	public void AddMessage(string msg){
+		SetActive (true);
+		StopAllCoroutines ();
+		StartCoroutine (DialogueTypeOut (msg));
+
+		messageList.Add (msg);
+		msgIndex = messageList.Count - 1;
+	}
+
+	public void ContinueMsg(string msg){
+		messageList.Add (msg);
+	}
+
+	public GameObject nextButton;
+	public void NextMsg(){
+		msgIndex += 1;
+		textObject.text = messageList [msgIndex];
+	}
+
+	public GameObject previousButton;
+	public void PreviousMsg(){
+		msgIndex -= 1;
+		textObject.text = messageList [msgIndex];
+	}
+
+	int msgIndex = 0;
+	public bool dialogueBox = false;
+	void Update(){
+		if (dialogueBox) {
+			if (msgIndex == messageList.Count - 1) {
+				nextButton.SetActive (false);
+			} else {
+				nextButton.SetActive (true);
+			}
+			if (msgIndex == 0) {
+				previousButton.SetActive (false);
+			} else {
+				previousButton.SetActive (true);
+			}
+				
+			if (Input.GetKeyUp(KeyCode.Escape)) {
+				if (cg.alpha == 1) {
+					SetActive (false);
+				} else {
+					SetActive (true);
+				}
+			}
+		}
+	}
 
     public void PressOK()
     {
@@ -108,6 +160,10 @@ public class DialogueController : MonoBehaviour
             // This will hide all of the text after position i.
             string typedOut = msg.Insert(i, richcolor) + "</color>";
             // Update the text field with the resulting rich text.
+			if (Input.GetMouseButtonUp (0)) {
+				typedOut = msg;
+				i = msg.Length;
+			}
             textObject.text = typedOut;
             // Pause after each letter.
             yield return new WaitForSeconds(LETTER_WAIT_SECONDS);

@@ -21,7 +21,9 @@ public class SceneController : SingletonController<SceneController> {
 	}
 
 	public void ReturnMainMenu(){
-		Save ();
+		if (GameController.Instance.Level == 5) {
+			Save ();
+		}
 		SceneManager.LoadScene (0);
 		Destroy (GameController.Instance);
 	}
@@ -35,7 +37,9 @@ public class SceneController : SingletonController<SceneController> {
 		data.Infamy = GameController.Instance.Infamy;
 
 		data.beatKing = GameController.Instance.beatenKing;
-//		data.pantry = GameController.Instance.inventory.foods;
+		if (GameController.Instance.course >= 2) {
+			data.pantry = GameController.Instance.inventory.foods;
+		}
 		data.poisoned = GameController.Instance.GetComponent<GuestController> ().poisonedList;
 
 
@@ -52,7 +56,9 @@ public class SceneController : SingletonController<SceneController> {
 			GameController.Instance.Fame = data.Fame;
 			GameController.Instance.Infamy = data.Infamy;
 			GameController.Instance.beatenKing = data.beatKing;
-			GameController.Instance.inventory.foods = data.pantry;
+			if (data.pantry != null) {
+				GameController.Instance.inventory.foods = data.pantry;
+			}
 			GameController.Instance.GetComponent<GuestController> ().poisonedList = data.poisoned;
 
 

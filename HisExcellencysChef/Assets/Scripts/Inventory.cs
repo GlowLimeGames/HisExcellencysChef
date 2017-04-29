@@ -101,12 +101,12 @@ public class Inventory : MonoBehaviour
                 return;
             }
             // Reduce quantity by one.
-            --val.quantity;
-            if (val.quantity == 0)
-            {
-                // We're out of this ingredient... Remove it from the dictionary.
-                dict.Remove(name);
-            }
+			--val.quantity;
+//            if (val.quantity == 0)
+//            {
+//                // We're out of this ingredient... Remove it from the dictionary.
+//                dict.Remove(name);
+//            }
         }
         else
         {

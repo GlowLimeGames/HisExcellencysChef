@@ -12,9 +12,10 @@ public class Station : MonoBehaviour {
 			if (GameController.Instance.canServe) {
 				activeCharacter = GameObject.Find ("ClickHandler").GetComponent<ClickHandler> ().currentCharacter;
 				if (activeCharacter.GetComponent<CharacterProperties> ().heldDish != null
-					&& activeCharacter.GetComponent<CharacterProperties>().heldDish.GetComponent<Ingredients>().actionsDone != null) {
+					&& activeCharacter.GetComponent<CharacterProperties>().heldDish.GetComponent<Ingredients>().actionsDone.Count != 0) {
 					if (GameController.Instance.tutorial2Part2) {
 						if (!GameController.Instance.GetComponent<GuestController> ().CheckPos3and4 (GameController.Instance.GetComponent<GuestController> ().guestList [0], activeCharacter.GetComponent<CharacterProperties> ().heldDish.GetComponent<Ingredients> ())) {
+							GameController.Instance.MakeDialogueBox ("I should include a perfectly-ground ingredient or make this more Dry before I serve it to young Lady Anna.");
 							return;
 						} else {
 							GameController.Instance.MakeTutorialeBox ("Wonderful. As you can see, dishes on your banner here are moved to the appropriate course section when served. Let’s click over the listing here to see what Anna thought.");
@@ -40,23 +41,24 @@ public class Station : MonoBehaviour {
 					}
 					GameController.Instance.servedDishes.Add (activeCharacter.GetComponent<CharacterProperties> ().heldDish);
 					activeCharacter.GetComponent<CharacterProperties> ().heldDish.SetActive(false);
+					activeCharacter.GetComponent<CharacterProperties> ().heldDish.transform.SetParent (null);
 					activeCharacter.GetComponent<CharacterProperties> ().heldDish = null;
-					GameController.Instance.ModifyGuests ();
+					if (GameController.Instance.Level > 1) {
+						GameController.Instance.ModifyGuests ();
+					}
+					if (GameController.Instance.tutorial0Part22) {
+						GameController.Instance.Invoke ("NextTutorialStep", 5f);
+					}
+					if (GameController.Instance.tutorial1Part3) {
+						GameController.Instance.MakeTutorialeBox ("You have done as I asked. Let us continue.\n Since you clearly are aware of advanced concepts of flavors, let us experiment with them a little. I’ve added some new ingredients to your pantry. Go have a look at them.");
+						GameController.Instance.tutorial1Part3 = false;
+						GameController.Instance.tutorial1Part4 = true;
+						GameController.Instance.time = 0;
+						GameController.Instance.NextTutorialStep ();
+					}
 				}
-				if (GameController.Instance.tutorial0Part22) {
-					GameController.Instance.Invoke ("NextTutorialStep", 5f);
-				}
-				if (GameController.Instance.tutorial1Part3) {
-					GameController.Instance.MakeTutorialeBox ("You have done as I asked. Let us continue.\n Since you clearly are aware of advanced concepts of flavors, let us experiment with them a little. I’ve added some new ingredients to your pantry. Go have a look at them.");
-					GameController.Instance.tutorial1Part3 = false;
-					GameController.Instance.tutorial1Part4 = true;
-					GameController.Instance.time = 0;
-					GameController.Instance.NextTutorialStep ();
-				}
-
-
-				return;
 			}
+			return;
 		}
 		dropDown.GetComponent<StationDropdown> ().OnClicked (this.gameObject);
 		activeCharacter = GameObject.Find ("ClickHandler").GetComponent<ClickHandler> ().currentCharacter;
@@ -98,9 +100,12 @@ public class Station : MonoBehaviour {
 				}
 				dish.GetComponent<Ingredients> ().StopAllCoroutines ();
 			}
-			dish.transform.parent = activeCharacter.transform;
-			dish.transform.position = activeCharacter.transform.position + new Vector3 (0, 0, 3f);
-			activeCharacter.GetComponent<CharacterProperties> ().heldDish = dish;
+			if (cookingCharacter == null) {
+				cookingCharacter = activeCharacter;
+			}
+			dish.transform.parent = cookingCharacter.transform;
+			dish.transform.position = cookingCharacter.transform.position + new Vector3 (0, 0, 3f);
+			cookingCharacter.GetComponent<CharacterProperties> ().heldDish = dish;
 			if (cookingCharacter != null) {
 				cookingCharacter.GetComponent<CharacterMovement> ().isCooking = false;
 				cookingCharacter = null;

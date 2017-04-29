@@ -338,10 +338,12 @@ public class GuestController : MonoBehaviour {
 		nTrigger3 = OperatePhrase (guest.nTrigger3, dish);
 		if (nTrigger3) {
 			GameController.Instance.Infamy += guest.infneg;
+			Debug.Log (guest.infneg);
 		}
 		nTrigger4 = OperatePhrase (guest.nTrigger4, dish);
 		if (nTrigger4) {
 			GameController.Instance.Infamy += guest.infneg;
+			Debug.Log (guest.infneg);
 		}
 
 		return priorityCount;

@@ -25,7 +25,9 @@ public class GameController : SingletonController<GameController> {
 	public bool tutorial1Part1;
 	public bool clickedAemilia;
 	public bool tutorial1Part2;
+	public bool tutorial1Part22;
 	public bool tutorial1Part3;
+	public bool gotRice;
 	public bool checkSpinach;
 	public bool spinachTasted;
 	public bool tutorial1Part4;
@@ -61,15 +63,15 @@ public class GameController : SingletonController<GameController> {
 		guestController = GetComponent<GuestController> ();
 		time = levelTime;
 		if (Level == 0) {
-			LadyDialogue.CharacterSpeak (@"“You there! You have helped in the kitchen before, have you not? We have a small emergency.”
+			LadyDialogue.CharacterSpeak (@"There you are! You used to work in the kitchen with old Jean, did you not? Let’s see if you're as proficient as I’ve heard.
 
-“Count Philip, my husband, will be returning from the Duke’s manor much sooner than planned, and with news. He will be expecting a meal, but we are short on time. You are our only servant currently here who who knows their way around a kitchen.”
+My husband will be returning from the court of the King of France much sooner than planned, and he will be expecting dinner. We are short on time and a proper staff. You will have to be the one to make it for him.
 
-“He’s requested Boulettes. I’ve left some chicken in the Mortar for you. Click on the Mortar and choose a process to begin cooking.");			
+He has requested Boulettes. I’ve left some chicken in the Mortar for you. Click on the Mortar and choose a process to begin cooking.");			
 		} else if (Level == 1) {
-			LadyDialogue.CharacterSpeak (@"I have a plan and you're it’s key to its success. In a weeks time [Important Guest], the kings advisor/brother, will be passing through.  I intend to throw a feast such that he will be singing our praise high and low and to ear of the king himself.
-				
-			Until then you need to practice. You're a natural talent, but could do with some instruction.  We’ll make a good start of it today. I’ve hired some underlings for you.  Let us start with an exotically themed spinach salad with roasted Almonds. I’ve given some Almonds to your underling, so let us practice working with others.");
+			LadyDialogue.CharacterSpeak (@"I have a plan, and you are key to its success. There is news that one Master Simon will be passing through here soon. This Simon is highly respected for his opinions on food, and is known to have the ear of the King in matters of the table. I intend for us to throw a feast such that he will be singing our praises low and very, very high.
+
+Until then, we need to practice. You're a natural talent, but could do with some instruction.  We’ll make a good start of it today. I’ve hired an underling for you to work with today. Let us start with an exotically themed spinach salad with roasted Almonds. I’ve given some Almonds to your underling, so let us practice working with others.");
 		} else if (Level == 2) {
 			LadyDialogue.CharacterSpeak (@"Good morning. In preparation for the upcoming feast, you should work on understanding guest preferences. After all, we don’t want to be giving Master Simon food he dislikes.
 
@@ -106,6 +108,7 @@ Sir Conrad the Swabian
 Master Simon de Paris
 Count Godfrey"); 
 		} else {
+			SceneController.Instance.ClearSave ();
 			SceneController.Instance.Load ();
 			GetNewIngredients ();
 			GetNewUnderlings ();
@@ -321,26 +324,33 @@ Ingredients are Hot or Cold and Moist or Dry. Try to balance the flavors across 
 		Invoke ("CloseDialogue", dialogueTime);
 	}
 
+	bool tut1p2 = false;
 	public void NextTutorialStep(){
 		if (tutorial0Part22) {
-			MakeTutorialeBox ("He is well fed and satisfied.  It seems you weren’t all talk after all, thank you for your work.");
+			MakeTutorialeBox ("He is well satisfied. Good job. If only chicken could salve wounded pride, though. The so-called “Lady” of Chalons made sure my lord Philip was snubbed by the king again at court.  After all this time… Alas that her house amounts to more than ours.");
 			tutorial0Part22 = false;
 			tutorial0Part3 = true;
 			Invoke ("NextTutorialStep", dialogueTime);
 		} else if (tutorial0Part3) {
 			time = 0;
-			MakeTutorialeBox ("The rest of the household will be returning in a few hours. Please prepare at least two dishes to serve to us by then.");
+			MakeTutorialeBox ("But no matter. The rest of the household will be returning shortly. Please prepare at least two dishes to serve to us by then.");
 		} else if (tutorial1Part1) {
+			MakeTutorialeBox ("Indeed. Aemilia will stop on her own when she thinks the Almonds are done, but if you feel a mixture is well-cooked before an Underling has finished, you can stop them by Picking it Up before they finish.");
 			tutorial1Part1 = false;
 			tutorial1Part2 = true;
+			tut1p2 = true;
 			Invoke ("NextTutorialStep", dialogueTime);
-		} else if (tutorial1Part2) {
+		} else if (tutorial1Part2 || tut1p2) {
+			tut1p2 = false;
 			MakeTutorialeBox ("In the meantime, however, you might want to prepare some of the rest of the Salad. In keeping with its exotic theme, let us add some Rice. Fetch some Rice and cook it at the Range.");				
 		} else if (tutorial1Part3) {
 			MakeTutorialeBox ("I see you learned more than just the motions from old Jean. Excellent. Yes, those educated in the works of the Philosopher know that flavors are reducible to two essential qualities: Heat and Moisture. But enough of that for now. I am ready for this Salad when you are ready to serve it.");
 			timerOn = true;
+			time = 0;
 		} else if (tutorial1Part4) {
 			timerOn = false;
+			time = 0;
+			canServe = false;
 			inventory.foods = new Inventory.InventoryNode[10];
 			inventory.foods [0].obj = Ingredients [7];
 			inventory.foods [0].quantity = -2;
@@ -371,7 +381,31 @@ Ingredients are Hot or Cold and Moist or Dry. Try to balance the flavors across 
 			time = 342f;
 			course = 1;
 			timerOn = true;
-		} else if (tutorial2Part3) {
+		} else if (tutorial2Part2) {
+			MakeTutorialeBox ("Anna loves the dish! When you make a guest especially happy, they will tell others about you, spreading your fame. This is what we are going for. If you make something they hate, they will complain about it, increasing your infamy. Fame and infamy are both fleeting though, and old fame will slowly fade as the days go by. Fame is represented by the yellow bar at the top of your screen, while infamy is represented by the purple.");
+			TutorialDialogue.GetComponent<DialogueController>().AddMessage("You will never be able to make a dish that perfectly suits everyone’s tastes. Why don’t you try to serve a course for Anna and her brother Henri both.");
+
+			guestController.GetGuest ("Henri");
+			inventory.foods [0].quantity += 1;
+			Inventory.InventoryNode[] array = new Inventory.InventoryNode[10];
+			for (int i = 0; i < inventory.foods.Length; i++) {
+				array [i] = inventory.foods [i];
+			}
+			array [7].obj = Ingredients [6];
+			array [7].quantity = 2;
+			array [8].obj = Ingredients [1];
+			array [8].quantity = 1;
+			array [9].obj = Ingredients [40];
+			array [9].quantity = 2;
+
+			inventory.foods = array;
+			time = course1time;
+			canServe = false;
+			timerOn = true;
+			tutorial2Part2 = false;
+			tutorial2Part3 = true;
+			Invoke ("NextTutorialStep", course1time * .16f);
+		}else if (tutorial2Part3) {
 			MakeTutorialeBox ("So… I could get famous off of this. The King could hear about me. I wonder what it would be like to cook for royalty.\n I should be careful what I wish for. Nobles can be temperamental. If I get too infamous and my Lady hears too many bad stories about me, I could get kicked out. Better be careful...");
 		} else if (tutorial3Part1) {
 			//underling move towards you
@@ -394,10 +428,10 @@ Ingredients are Hot or Cold and Moist or Dry. Try to balance the flavors across 
 
 	public void MakeTutorialeBox(string whatToSay){
 		TutorialDialogue.gameObject.SetActive (true);
-		TutorialDialogue.CharacterSpeak (whatToSay);
+		TutorialDialogue.AddMessage (whatToSay);
 
-		CancelInvoke ("CloseTutorial");
-		Invoke ("CloseTutorial", dialogueTime);
+//		CancelInvoke ("CloseTutorial");
+//		Invoke ("CloseTutorial", dialogueTime);
 	}
 
 	void CloseDialogue(){
@@ -448,7 +482,9 @@ Ingredients are Hot or Cold and Moist or Dry. Try to balance the flavors across 
 			}
 		}
 		if (priorityEat == 0) {
-			Infamy += 30;
+			if (GameController.Instance.Level == 5) {
+				Infamy += 30;
+			}
 		}
 	}
 
@@ -468,6 +504,10 @@ Ingredients are Hot or Cold and Moist or Dry. Try to balance the flavors across 
 
 	public void BannerOnClick()
 	{
+		if (Level < 2) {
+			return;
+		}
+
 		GameObject thisButton = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;
 		GameObject food = activeDishes[int.Parse(thisButton.name)];
 
@@ -497,28 +537,8 @@ Ingredients are Hot or Cold and Moist or Dry. Try to balance the flavors across 
 			response = "I have nothing to say to you";
 		}
 		if (GameController.Instance.tutorial2Part2) {
-			response = @"Anna loves the dish! When you make a guest especially happy, they will tell others about you, spreading your fame. This is what we are going for. If you make something they hate, they will complain about it, increasing your infamy. Fame and infamy are both fleeting though, and old fame will slowly fade as the days go by. Fame is represented by the yellow bar at the top of your screen, while infamy is represented by the purple.
-			You will never be able to make a dish that perfectly suits everyone’s tastes. Why don’t you try to serve a course for Anna and her brother Henri both.";
-			MakeTutorialeBox (response);
-			guestController.GetGuest ("Henri");
-			inventory.foods [0].quantity += 1;
-			Inventory.InventoryNode[] array = new Inventory.InventoryNode[10];
-			for (int i = 0; i < inventory.foods.Length; i++) {
-				array [i] = inventory.foods [i];
-			}
-			array [7].obj = Ingredients [6];
-			array [7].quantity = 2;
-			array [8].obj = Ingredients [1];
-			array [8].quantity = 1;
-			array [9].obj = Ingredients [40];
-			array [9].quantity = 2;
-
-			inventory.foods = array;
-			timerOn = true;
-			tutorial2Part2 = false;
-			tutorial2Part3 = true;
-			Invoke ("NextTutorialStep", 5f + course1time * .16f);
-
+			MakeGuestBox (response);
+			Invoke("NextTutorialStep", dialogueTime);
 		} else {
 			MakeGuestBox (response);
 		}
@@ -594,16 +614,25 @@ Ingredients are Hot or Cold and Moist or Dry. Try to balance the flavors across 
 
 	public bool timerOn = false;
 	public bool hitNegative = false;
+	public Slider fameBar;
+	public Slider infamyBar;
 	void Update(){
 		if (chef.isCooking) {
 			chefSlider.value = currentlyCooking.howRaw;
+		}
+		if (fameBar != null) {
+			fameBar.value = Fame;
+		}
+
+		if (infamyBar != null) {
+			infamyBar.value = Infamy;
 		}
 
 		if (tutorial1Part3) {
 			if (!checkSpinach) {
 				if (activeDishes.Count == 1) {
 					if (activeDishes [0].name == "Spinach") {
-						if (spinachTasted) {
+						if (!spinachTasted) {
 							checkSpinach = true;
 							MakeTutorialeBox ("Go ahead and taste the Spinach!");
 						}
@@ -705,50 +734,52 @@ Ingredients are Hot or Cold and Moist or Dry. Try to balance the flavors across 
 									for (int i = 1; i < servedDishes.Count; i++) {
 										if (servedDishes [i].GetComponent<Ingredients> ().flavor.x < 0
 											&& Mathf.Abs(servedDishes[i].GetComponent<Ingredients>().flavor.y) < Mathf.Abs(servedDishes[i].GetComponent<Ingredients>().flavor.x)) {
-											response += "Your " + servedDishes[i].name + " was notably cold. My favorite flavor I must say.";
+											response += "Your " + servedDishes[i].name + " was notably cold. My favorite flavor I must say." + "\n";
 											found = true;
 										}
 									}
 									if (!found) {
-										response += "\n" + "I was disappointed with the lack of cold-humoured dishes. Perhaps that was your intent with " + coldest.name + "?";
+										response += "\n" + "I was disappointed with the lack of cold-humoured dishes. Perhaps that was your intent with " + coldest.name + "?" + "\n";
 									}
 
 									found = false;
 									for (int i = 1; i < servedDishes.Count; i++) {
 										if (servedDishes [i].GetComponent<Ingredients> ().flavor.x > 0
 											&& Mathf.Abs(servedDishes[i].GetComponent<Ingredients>().flavor.y) < Mathf.Abs(servedDishes[i].GetComponent<Ingredients>().flavor.x)) {
-											response += "The " + servedDishes[i].name + " was indeed stronger in heat than any other flavor. Not to my personal taste, but some like it that way.";
+											response += "The " + servedDishes[i].name + " was indeed stronger in heat than any other flavor. Not to my personal taste, but some like it that way." + "\n";
 											found = true;
 										}
 									}
 									if (!found) {
-										response += "\n" + "While warm flavors are not my favorite, they are a healthy part of good eating. Where was the dish that was stronger in its heat than any other flavor? Was that your objective with" + hottest.name + " ?";
+										response += "\n" + "While warm flavors are not my favorite, they are a healthy part of good eating. Where was the dish that was stronger in its heat than any other flavor? Was that your objective with" + hottest.name + " ?" + "\n";
 									}
 
 									found = false;
 									for (int i = 1; i < servedDishes.Count; i++) {
 										if (servedDishes [i].GetComponent<Ingredients> ().flavor.y < 0
 											&& Mathf.Abs(servedDishes[i].GetComponent<Ingredients>().flavor.x) < Mathf.Abs(servedDishes[i].GetComponent<Ingredients>().flavor.y)) {
-											response += "\n" + "You cooked the " + servedDishes[i].name + " to the dryness I asked for, thank you.";
+											response += "\n" + "You cooked the " + servedDishes[i].name + " to the dryness I asked for, thank you." + "\n";
 											found = true;
 										}
 									}
 									if (!found) {
-										response += "\n" + "There was a sad deficit of strongly dry dishes. I believe the " + dryest.name + " could have served that purpose.";
+										response += "\n" + "There was a sad deficit of strongly dry dishes. I believe the " + dryest.name + " could have served that purpose." + "\n";
 									}
 
 									found = false;
 									for (int i = 1; i < servedDishes.Count; i++) {
 										if (servedDishes [i].GetComponent<Ingredients> ().flavor.y > 0
 											&& Mathf.Abs(servedDishes[i].GetComponent<Ingredients>().flavor.x) < Mathf.Abs(servedDishes[i].GetComponent<Ingredients>().flavor.y)) {
-											response += "\n" + "The moisture of your " + servedDishes[i] + " was its strongest flavor. I’m sure my young Henri would have loved it.";
+											response += "\n" + "The moisture of your " + servedDishes[i].name + " was its strongest flavor. I’m sure my young Henri would have loved it." + "\n";
 											found = true;
 										}
 									}
 									if (!found) {
-										response += "\n" + "Why were there no dishes with mostly Moist flavors? Could you not have used the " + moistest.name + " for that purpose?";
+										response += "\n" + "Why were there no dishes with mostly Moist flavors? Could you not have used the " + moistest.name + " for that purpose?" + "\n";
 									}
 
+									LadyDialogue.CharacterSpeak (response);
+		
 								}
 
 							}
@@ -813,10 +844,10 @@ Regarding the courses, such as was there to eat.");
 						time = 60f;
 						canServe = true;
 //					EventController.Event (Event.START_MUSIC);
-						if (!tutorial0Part22 && !tutorial0Part3) {
+						if (!tutorial0Part22 && !tutorial0Part3 && !tutorial1Part3) {
 							MakeDialogueBox ("SERVE IT FORTH!");
 						} else if (tutorial0Part22) {
-							MakeTutorialeBox ("He’s here and he’s hungry! To serve forth your creation, take it to the door labeled 'Serve it Forth!'");
+							MakeTutorialeBox ("He’s here and in a sour mood.  I pray a good meal will soothe him.  To serve forth your creation, take it to the door labeled ‘Serve it Forth!");
 						} else if (tutorial0Part3) {
 							MakeTutorialeBox ("Supper is Served");
 						}

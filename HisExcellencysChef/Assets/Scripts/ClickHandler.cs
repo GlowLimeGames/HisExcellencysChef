@@ -86,9 +86,6 @@ public class ClickHandler : MonoBehaviour {
 						}
 						if (clickedObject.name == "Pantry") {
 							if (!GameController.Instance.tutorial0Part1 && !GameController.Instance.tutorial1Part1) {
-								if (GameController.Instance.tutorial1Part4) {
-									GameController.Instance.MakeTutorialeBox ("I make a habit of noting the flavors of each ingredient in the pantry. Keeping them all straight without tasting them can be a bit confusing. Look around, then let us make a moist-flavored dish by seething some rice.");
-								}
 								if (activeDropdown != null) {
 									if (clickedObject != activeDropdown && clickedObject != activeDropdown.GetComponent<Station> ().dropDown) {
 										activeDropdown.GetComponent<Station> ().Cancel ();

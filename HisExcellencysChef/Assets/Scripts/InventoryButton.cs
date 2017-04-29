@@ -5,7 +5,7 @@
 
 using UnityEngine;
 using System.Collections;
-
+using System.Collections.Generic;
 using UnityEngine.UI;
 
 public class InventoryButton : MonoBehaviour
@@ -13,12 +13,12 @@ public class InventoryButton : MonoBehaviour
     private GameObject item;
     public int quantity;
 
-    private InventoryUI invui;
+    public InventoryUI invui;
 
     private void Start()
     {
         //Debug.Log("InventoryButton.cs: I'm real.");
-        invui = transform.parent.gameObject.GetComponent<InventoryUI>();
+//        invui = GetComponentInParent<InventoryUI>();
     }
 
     public void ButtonClick()
@@ -37,9 +37,20 @@ public class InventoryButton : MonoBehaviour
 			food.name = food.name.Replace ("(Clone)", "").Trim();
 			if (GameController.Instance.tutorial1Part4 || GameController.Instance.tutorial1Part2) {
 				if (food.name != "Rice") {
-					Destroy (food);
-					return;
+					if (!GameController.Instance.gotRice) {
+						Destroy (food);
+						return;
+					}
+				} else {
+					if (!GameController.Instance.gotRice) {
+						GameController.Instance.gotRice = true;
+						GameController.Instance.tutorial1Part2 = false;
+						GameController.Instance.tutorial1Part3 = true;
+					}
 				}
+			}
+			if (GameController.Instance.tutorial1Part4) {
+				GameController.Instance.MakeTutorialeBox ("I make a habit of noting the flavors of each ingredient in the pantry. Keeping them all straight without tasting them can be a bit confusing. Look around, then let us make a moist-flavored dish by seething some rice.");
 			}
 			if (GameController.Instance.tutorial3Part2) {
 				GameController.Instance.MakeTutorialeBox ("*If I mix this into a dish, it will change the dish’s flavour, just like any other ingredient. It will still need to fit Lady Anna’s tastes even with the hemlock. If this is really what I want to do, anyway...*");
@@ -87,16 +98,17 @@ public class InventoryButton : MonoBehaviour
             {
                 // Remove the item from the inventory.
                 invui.inv.RemoveOne(food);
-                --quantity;
                 // If there are no items of this type left, destroy this button.
-                if (quantity == 0)
-                {
-                    Destroy(gameObject);
-                }
-                else
-                {
-                    UpdateText();
-                }
+				for (int i = 0; i < invui.foods.Length; ++i)
+				{
+					//Debug.Log("InventoryUI.cs: "+foods[i].obj.transform.name);
+					if (invui.foods [i].obj.name == food.name) {
+						invui.foods [i].quantity -= 1;
+					}
+				}
+
+
+                UpdateText();
             }
 		}
         // If the character IS holding something...
@@ -127,15 +139,20 @@ public class InventoryButton : MonoBehaviour
 
     public void UpdateText()
     {
-        Text txt = GetComponentInChildren<Text>();
-        // If the number of an ingredient is -2, the supply of that ingredient is infinite.
-        if (quantity == -2)
-        {
-            txt.text = "Inf";
-        }
-        else
-        {
-            txt.text = quantity.ToString();
-        }
+		if (invui == null) {
+			invui = GetComponentInParent<InventoryUI> ();
+		}
+		for (int i = 0; i < invui.foods.Length; ++i) {
+			//Debug.Log("InventoryUI.cs: "+foods[i].obj.transform.name);
+			if (invui.foods [i].obj.name == item.name) {
+				Text txt = GetComponentInChildren<Text> ();
+				// If the number of an ingredient is -2, the supply of that ingredient is infinite.
+				if (quantity == -2) {
+					txt.text = "Inf";
+				} else {
+					txt.text = invui.foods[i].quantity.ToString ();
+				}
+			}
+		}
     }
 }

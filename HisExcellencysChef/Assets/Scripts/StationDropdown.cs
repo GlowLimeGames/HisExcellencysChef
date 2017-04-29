@@ -67,7 +67,7 @@ public class StationDropdown : MonoBehaviour {
 			}
 			if (station.GetComponent<Station> ().dish != null) {
 				if (!GameController.Instance.tutorial0Part1) {
-					if (!GameController.Instance.tutorial1Part1 && !GameController.Instance.tutorial1Part5 &&!GameController.Instance.tutorial1Part2 && !GameController.Instance.tutorial1Part3 && station.GetComponent<Station> ().dish.GetComponent<Ingredients> ().primaryIngredientName != "Spinach") {
+					if (!GameController.Instance.tutorial1Part1 && !GameController.Instance.tutorial1Part5 &&!GameController.Instance.tutorial1Part2) {
 						process = "AddTo";
 						GameObject aButton = (GameObject)Instantiate (functionButton, transform.position, Quaternion.identity);
 						aButton.transform.SetParent (transform);
@@ -302,7 +302,7 @@ public class StationDropdown : MonoBehaviour {
 		//"Something in this was badly overdone"
 		//"Oh no, we did not finish something in this."
 
-		if (GameController.Instance.time > 30f) {
+		if (!food.isCooking && (GameController.Instance.time > 30f || GameController.Instance.Level != 5)) {
 			ProcessDescriptor process;
 			if (food.actionDone != "") {
 				process = CookingController.Instance.GetProcess (food.actionDone);
@@ -311,13 +311,13 @@ public class StationDropdown : MonoBehaviour {
 			}
 
 			if (food.howCooked.Count == 0) {
-				food.howCooked.Add("URed");
+				food.howCooked.Add ("URed");
 			}
 
 			if (tasteClass == null) {
-				tasteClass = new TasteTesting (food.flavor.x, food.flavor.y, food.howCooked[food.howCooked.Count - 1], process.IdealTimeMin, process.IdealTimeMax, food.howRaw);
+				tasteClass = new TasteTesting (food.flavor.x, food.flavor.y, food.howCooked [food.howCooked.Count - 1], process.IdealTimeMin, process.IdealTimeMax, food.howRaw);
 			} else {
-				tasteClass.updateAll (food.flavor.x, food.flavor.y, food.howCooked[food.howCooked.Count - 1], process.IdealTimeMin, process.IdealTimeMax, food.howRaw);
+				tasteClass.updateAll (food.flavor.x, food.flavor.y, food.howCooked [food.howCooked.Count - 1], process.IdealTimeMin, process.IdealTimeMax, food.howRaw);
 			}
 
 
@@ -326,19 +326,33 @@ public class StationDropdown : MonoBehaviour {
 			} else if (food.actionDone == "") {
 				response = tasteClass.tasteHeat ();
 			}
-		} else {
+		} else if (food.isCooking) {
+			string howDone = food.SortBoundaries (food.actionDone, food.howRaw);
+			if (howDone == "URed") {
+				response = "Not at all ready yet. Best let it be for now.";
+			} else if (howDone == "UYellow") {
+				response = "Needs a little more time.";
+			} else if (howDone == "Green") {
+				response = "This is well done. I should take it off.";
+			} else if (howDone == "DarkGreen") {
+				response = "It's perfect! Take it off now!";
+			} else if (howDone == "OYellow") {
+				response = "This is overdone. We should take it off.";
+			} else if (howDone == "ORed") {
+				response = "Disastrously overdone!";
+			}
+		}else {
 			response = "We don't have much time to waste!";
 		}
 
 		if (GameController.Instance.tutorial1Part1) {
-			GameController.Instance.MakeTutorialeBox ("Indeed. Aemilia will stop on her own when she thinks the Almonds are done, but if you feel a mixture is well-cooked before an Underling has finished, you can stop them by Picking it Up before they finish.");
-			GameController.Instance.NextTutorialStep ();
+			GameController.Instance.Invoke("NextTutorialStep", GameController.Instance.dialogueTime);
 		}
 
 		if (GameController.Instance.tutorial1Part3) {
 			if (food.name == "Spinach") {
 				GameController.Instance.spinachTasted = true;
-				GameController.Instance.NextTutorialStep ();
+				GameController.Instance.Invoke("NextTutorialStep", GameController.Instance.dialogueTime);
 			} 
 		}
 
@@ -352,14 +366,16 @@ public class StationDropdown : MonoBehaviour {
 		GameController.Instance.MakeDialogueBox (response);
 	}
 
+	bool tut0p3 = false;
 	public void Do(Button clickedButton){
 		if (GameController.Instance.tutorial0Part22 && !GameController.Instance.timerOn) {
 			GameController.Instance.MakeTutorialeBox ("My lord will be here soon! I’ve hung a bell in the window to indicate when you can serve him. When the sun reaches it, it will be time. Try adding some more ingredients or mixtures to the chicken, and don’t forget to fry it.");
 			GameController.Instance.time = GameController.Instance.course1time * .5f;
 			GameController.Instance.timerOn = true;
 		} 
-		if (GameController.Instance.tutorial0Part3) {
-			GameController.Instance.MakeTutorialeBox ("What kind of dish you are making is determined by its first ingredient and the first process used. So for example, our Pounded Chicken mixture from before became Boulettes. When you add a mixture to another, the new mixture is treated as an ingredient added to the base mixture.");
+		if (GameController.Instance.tutorial0Part3 && !tut0p3) {
+			GameController.Instance.MakeTutorialeBox ("What kind of dish you are making is determined by its first ingredient and the first process used. So for example, our Pounded Chicken mixture from before became Boulettes. When you add a mixture to another, the new mixture is treated as an ingredient added to the base mixture. Remember: you cannot serve a dish without having processed it in some way at least once.");
+			tut0p3 = true;
 		}
 
 		if (GameController.Instance.tutorial1Part1) {
@@ -367,7 +383,7 @@ public class StationDropdown : MonoBehaviour {
 				GameController.Instance.MakeTutorialeBox ("Because you are not Aemilia yourself, you cannot directly control how well she cooks or see how well-done the mixture seems to her. You can, however, taste test her Almonds yourself by clicking on them, even as she cooks.");
 			}
 		}
-		if (GameController.Instance.tutorial1Part2) {
+		if (GameController.Instance.tutorial1Part3) {
 			if (clickedButton.name == "Seethe") {
 				GameController.Instance.MakeTutorialeBox ("Notice that seething does not trigger a timer. As a Passive process, it does not need your attention, so you can do other things while it cooks. Just don’t forget to Taste Test it and Pick it Up, or it will burn. For now, though feel free to cut up the Spinach for the Salad and add some other ingredients to it.");
 			}
@@ -410,8 +426,10 @@ public class StationDropdown : MonoBehaviour {
 				} else {
 				}
 			} else if (station.GetComponent<Station>().dish != null){
-				if (CookingController.Instance.GetProcess(clickedButton.name).SupportsIngredient (station.GetComponent<Station> ().dish.GetComponent<Ingredients> ().primaryIngredient)) {
-					station.GetComponent<Station> ().Cook (clickedButton.name);
+				if (GameObject.Find ("ClickHandler").GetComponent<ClickHandler> ().currentCharacter.GetComponent<CharacterProperties> ().heldDish == null) {
+					if (CookingController.Instance.GetProcess (clickedButton.name).SupportsIngredient (station.GetComponent<Station> ().dish.GetComponent<Ingredients> ().primaryIngredient)) {
+						station.GetComponent<Station> ().Cook (clickedButton.name);
+					}
 				}
 			}
 		}else if (clickedButton.name == "PickUp") {

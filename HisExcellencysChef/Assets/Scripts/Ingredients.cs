@@ -117,6 +117,7 @@ public class Ingredients : MannBehaviour {
 	public void RefreshFlavor(){
 		flavor.x = primaryIngredient.TasteHeat;
 		flavor.y = primaryIngredient.TasteMoisture;
+		flavor = new Vector2 (Mathf.Clamp (flavor.x, -4.5f, 4.5f), Mathf.Clamp (flavor.y, -4.5f, 4.5f));
 	}
 
 	public string actionDone;
@@ -129,7 +130,7 @@ public class Ingredients : MannBehaviour {
 		howCooked.Add(SortBoundaries (actionDone, howRaw));
 
 		if (GameController.Instance.tutorial1Part4) {
-			if (primaryIngredientName == "Rice") {
+			if (transform.name == "Rice") {
 				flavor.y = 3.1f;
 				GameController.Instance.tutorial1Part4 = false;
 				GameController.Instance.tutorial1Part5 = true;
@@ -139,6 +140,7 @@ public class Ingredients : MannBehaviour {
 		if (character.GetComponent<CharacterProperties> ().isCook) {
 			GameController.Instance.chefSlider.gameObject.SetActive (false);
 		}
+
 		SpriteRenderer sprite = GetComponent<SpriteRenderer> ();
 		sprite.color = new Color(.7f, .7f, .7f, 1);
 
@@ -219,13 +221,11 @@ public class Ingredients : MannBehaviour {
 		bool tutorialPass = false;
 		while (!done)
 		{
-			if (GameController.Instance.tutorial1Part2 && !tutorialPass && transform.name == "Rice") {
+			if (GameController.Instance.tutorial1Part3 && !tutorialPass && transform.name == "Rice") {
 				float percentCooked = PercentCooked(actionDone, howRaw); 
 				if (SortBoundaries (actionDone, howRaw) == "Green") {
 					tutorialPass = true;
 					GameController.Instance.MakeTutorialeBox ("Have you checked on the Rice recently?");
-					GameController.Instance.tutorial1Part2 = false;
-					GameController.Instance.tutorial1Part3 = true;
 				}
 			}
 			timeIn += Time.deltaTime;
@@ -261,15 +261,7 @@ public class Ingredients : MannBehaviour {
 		bool tutorialPass = false;
 		while (!done)
 		{
-			if (GameController.Instance.tutorial1Part2 && !tutorialPass && transform.name == "Rice") {
-				float percentCooked = PercentCooked(actionDone, howRaw); 
-				if (SortBoundaries (actionDone, howRaw) == "Green") {
-					tutorialPass = true;
-					GameController.Instance.MakeTutorialeBox ("Have you checked on the Rice recently?");
-					GameController.Instance.tutorial1Part2 = false;
-					GameController.Instance.tutorial1Part3 = true;
-				}
-			}
+			
 			timeIn += Time.deltaTime;
 			howRaw = timeIn; 
 //			sprite.color = new Color(1 - howRaw / 50 ,1 - howRaw / 50,1 - howRaw / 50, 1);
@@ -302,7 +294,7 @@ public class Ingredients : MannBehaviour {
 		}
 
 	}
-	string SortBoundaries(string action, float timeCooked){
+	public string SortBoundaries(string action, float timeCooked){
 		ProcessDescriptor process = controller.GetProcess (action);
 		// U under, O over
 		if (timeCooked < process.RedYellow) {
